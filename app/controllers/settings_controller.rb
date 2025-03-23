@@ -5,6 +5,7 @@ class SettingsController < ApplicationController
   def show
     @current_plan = "Free Plan" # This should come from your subscription logic
     @subscription_status = "Gratuito" # This should come from your subscription logic
+    @section = params[:section] || 'billing' # Add this line to track which section to show
   end
 
   private
