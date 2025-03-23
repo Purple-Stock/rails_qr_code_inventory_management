@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_130343) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_232144) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130343) do
     t.bigint "team_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "current_stock", precision: 10, scale: 2, default: "0.0"
+    t.decimal "minimum_stock", precision: 10, scale: 2, default: "0.0"
     t.index ["barcode"], name: "index_items_on_barcode"
     t.index ["sku"], name: "index_items_on_sku"
     t.index ["team_id"], name: "index_items_on_team_id"

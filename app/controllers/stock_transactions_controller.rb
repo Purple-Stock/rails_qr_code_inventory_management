@@ -51,6 +51,25 @@ class StockTransactionsController < ApplicationController
     redirect_to team_stock_transactions_path(@team), notice: 'Transaction was successfully deleted.'
   end
 
+  def report
+    @total_items = @team.items.count
+    @total_stock_value = @team.items.sum('price * current_stock')
+    @low_stock_items = @team.items.where('current_stock <= minimum_stock').count
+    @zero_stock_items = @team.items.where(current_stock: 0).count
+    
+    @recent_transactions = @team.stock_transactions
+                               .includes(:item, :user)
+                               .order(created_at: :desc)
+                               .limit(5)
+    
+    @most_active_items = @team.items
+                              .joins(:stock_transactions)
+                              .select('items.*, COUNT(stock_transactions.id) as transaction_count')
+                              .group('items.id')
+                              .order('transaction_count DESC')
+                              .limit(5)
+  end
+
   private
 
   def set_team

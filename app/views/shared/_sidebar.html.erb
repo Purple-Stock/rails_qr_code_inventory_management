@@ -73,7 +73,7 @@
               <span data-sidebar-target="text" class="sidebar-text">Mover Estoque</span>
             <% end %>
 
-            <%= link_to "#", 
+            <%= link_to report_team_stock_transactions_path(@team), 
                 class: "group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900",
                 data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
               <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@
             <% end %>
           <% end %>
 
-          <%= link_to "#", 
+          <%= link_to team_settings_path(@team), 
               class: "group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900",
               data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
             <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

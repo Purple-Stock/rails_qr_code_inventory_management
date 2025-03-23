@@ -26,8 +26,10 @@ Rails.application.routes.draw do
         get :adjust
         get :move
         get :count
+        get :report
       end
     end
+    resource :settings, only: [:show]
   end
   get 'team_selection', to: 'teams#selection'
   
