@@ -1,0 +1,191 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-lg shadow">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="flex items-center justify-between mb-8">
+          <div class="flex items-center">
+            <%= link_to team_items_path(@team), class: "mr-4 text-gray-400 hover:text-gray-500 transition-colors" do %>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            <% end %>
+            <h1 class="text-2xl font-bold text-gray-900">New Item</h1>
+          </div>
+          <button type="button" class="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">Reset</button>
+        </div>
+
+        <%= form_with(model: [@team, @item], class: "space-y-8", data: { controller: "sku-generator" }) do |f| %>
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-6">Item Information</h2>
+            
+            <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
+              <div>
+                <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.text_field :name, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "Enter item name",
+                      data: { sku_generator_target: "name" } %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative">
+                <div class="flex items-center justify-between mb-2">
+                  <%= f.label :sku, class: "block text-sm font-medium text-gray-700" %>
+                  <button type="button" 
+                          class="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors"
+                          data-action="click->sku-generator#generate">
+                    Generate
+                  </button>
+                </div>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.text_field :sku, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "Enter SKU",
+                      data: { sku_generator_target: "sku" } %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="relative">
+                <div class="flex items-center justify-between mb-2">
+                  <%= f.label :barcode, class: "block text-sm font-medium text-gray-700" %>
+                  <button type="button" class="text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors">
+                    Generate
+                  </button>
+                </div>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.text_field :barcode, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "Enter or generate barcode" %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <%= f.label :cost, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">$</span>
+                  </div>
+                  <%= f.number_field :cost, 
+                      class: "block w-full pl-7 pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "0.00",
+                      step: "0.01" %>
+                </div>
+              </div>
+
+              <div>
+                <%= f.label :price, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">$</span>
+                  </div>
+                  <%= f.number_field :price, 
+                      class: "block w-full pl-7 pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "0.00",
+                      step: "0.01" %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-lg font-semibold text-gray-900">Item Attributes</h2>
+              <%= link_to "Edit attributes", "#", class: "text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors" %>
+            </div>
+
+            <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
+              <div>
+                <%= f.label :type, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.text_field :type, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "Enter item type" %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <%= f.label :brand, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.text_field :brand, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "Enter brand name" %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-6">Initial Quantity</h2>
+            
+            <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
+              <div>
+                <%= f.label :location, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.select :location, 
+                      ["Default Location"], 
+                      {}, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors" %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <%= f.label :initial_quantity, class: "block text-sm font-medium text-gray-700 mb-2" %>
+                <div class="relative rounded-md shadow-sm">
+                  <%= f.number_field :initial_quantity, 
+                      class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors",
+                      placeholder: "Enter initial quantity",
+                      min: 0 %>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-start space-x-3 pt-4">
+            <%= f.submit "Create Item", 
+                class: "inline-flex justify-center py-2.5 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors" %>
+            <%= link_to "Cancel", 
+                team_items_path(@team), 
+                class: "inline-flex justify-center py-2.5 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div> 

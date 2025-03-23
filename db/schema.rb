@@ -33,15 +33,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130340) do
   enable_extension "vault.supabase_vault"
 
   create_table "items", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "sku", null: false
-    t.string "category", null: false
-    t.integer "quantity", default: 0, null: false
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.string "name"
+    t.string "sku"
+    t.string "barcode"
+    t.decimal "cost", precision: 10, scale: 2
+    t.decimal "price", precision: 10, scale: 2
+    t.string "type"
+    t.string "brand"
+    t.string "location"
+    t.integer "initial_quantity", default: 0
     t.bigint "team_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sku", "team_id"], name: "index_items_on_sku_and_team_id", unique: true
+    t.index ["barcode"], name: "index_items_on_barcode"
+    t.index ["sku"], name: "index_items_on_sku"
     t.index ["team_id"], name: "index_items_on_team_id"
   end
 

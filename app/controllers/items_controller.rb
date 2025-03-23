@@ -14,8 +14,9 @@ class ItemsController < ApplicationController
 
   def create
     @item = @team.items.build(item_params)
+
     if @item.save
-      redirect_to team_items_path(@team), notice: 'Item criado com sucesso.'
+      redirect_to team_items_path(@team), notice: 'Item was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -48,6 +49,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :sku, :category, :quantity, :unit_price)
+    params.require(:item).permit(:sku, :name, :barcode, :cost, :price, :type, :brand, :location, :initial_quantity)
   end
 end 

@@ -1,16 +1,21 @@
-class CreateItems < ActiveRecord::Migration[7.1]
+class CreateItems < ActiveRecord::Migration[8.0]
   def change
     create_table :items do |t|
-      t.string :name, null: false
-      t.string :sku, null: false
-      t.string :category, null: false
-      t.integer :quantity, default: 0, null: false
-      t.decimal :unit_price, precision: 10, scale: 2, null: false
+      t.string :name
+      t.string :sku
+      t.string :barcode
+      t.decimal :cost, precision: 10, scale: 2
+      t.decimal :price, precision: 10, scale: 2
+      t.string :type
+      t.string :brand
+      t.string :location
+      t.integer :initial_quantity, default: 0
       t.references :team, null: false, foreign_key: true
 
       t.timestamps
     end
-    
-    add_index :items, [:sku, :team_id], unique: true
+
+    add_index :items, :sku
+    add_index :items, :barcode
   end
 end 
