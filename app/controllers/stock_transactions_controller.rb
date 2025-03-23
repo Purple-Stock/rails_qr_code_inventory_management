@@ -13,18 +13,22 @@ class StockTransactionsController < ApplicationController
 
   def stock_in
     @transaction = @team.stock_transactions.new(transaction_type: :stock_in)
+    @items = @team.items.order(:name)
   end
 
   def stock_out
     @transaction = @team.stock_transactions.new(transaction_type: :stock_out)
+    @items = @team.items.order(:name)
   end
 
   def adjust
     @transaction = @team.stock_transactions.new(transaction_type: :adjust)
+    @items = @team.items.order(:name)
   end
 
   def move
     @transaction = @team.stock_transactions.new(transaction_type: :move)
+    @items = @team.items.order(:name)
   end
 
   def count

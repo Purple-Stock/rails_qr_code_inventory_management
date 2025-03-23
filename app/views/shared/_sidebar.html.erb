@@ -37,7 +37,25 @@
               <span data-sidebar-target="text" class="sidebar-text">Transações</span>
             <% end %>
 
-            <%= link_to "#", 
+            <%= link_to stock_in_team_stock_transactions_path(@team), 
+                class: "group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900",
+                data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
+              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/>
+              </svg>
+              <span data-sidebar-target="text" class="sidebar-text">Entrada</span>
+            <% end %>
+
+            <%= link_to stock_out_team_stock_transactions_path(@team), 
+                class: "group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900",
+                data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
+              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"/>
+              </svg>
+              <span data-sidebar-target="text" class="sidebar-text">Saída</span>
+            <% end %>
+
+            <%= link_to adjust_team_stock_transactions_path(@team), 
                 class: "group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900",
                 data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
               <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +64,7 @@
               <span data-sidebar-target="text" class="sidebar-text">Ajustar Estoque</span>
             <% end %>
 
-            <%= link_to "#", 
+            <%= link_to move_team_stock_transactions_path(@team), 
                 class: "group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900",
                 data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
               <svg class="text-gray-400 group-hover:text-gray-500 mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
