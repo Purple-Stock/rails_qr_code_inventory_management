@@ -1,0 +1,25 @@
+@layer components {
+  .sidebar-icon {
+    @apply flex-shrink-0 transition-all duration-300;
+  }
+
+  .sidebar-text {
+    @apply ml-3 whitespace-nowrap transition-all duration-300;
+  }
+
+  [data-sidebar-expanded-value="true"] [data-sidebar-expanded-class="justify-start"] {
+    @apply justify-start;
+  }
+
+  [data-sidebar-expanded-value="false"] [data-sidebar-collapsed-class="justify-center"] {
+    @apply justify-center;
+  }
+
+  [data-sidebar-expanded-value="true"] .sidebar-icon {
+    @apply mr-3;
+  }
+
+  [data-sidebar-expanded-value="false"] .sidebar-icon {
+    @apply mr-0;
+  }
+} 

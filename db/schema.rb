@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_130338) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_130340) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -32,6 +32,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130338) do
   enable_extension "pgsodium.pgsodium"
   enable_extension "vault.supabase_vault"
 
+  create_table "items", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "sku", null: false
+    t.string "category", null: false
+    t.integer "quantity", default: 0, null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sku", "team_id"], name: "index_items_on_sku_and_team_id", unique: true
+    t.index ["team_id"], name: "index_items_on_team_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "notes"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_teams_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -43,4 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130338) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "items", "teams"
+  add_foreign_key "teams", "users"
 end
