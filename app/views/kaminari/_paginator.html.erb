@@ -1,0 +1,17 @@
+<%= paginator.render do %>
+  <nav role="navigation" aria-label="pager" class="flex items-center justify-between px-4 py-3 sm:px-6">
+    <div class="flex flex-1 justify-between sm:justify-end space-x-3">
+      <%= first_page_tag unless current_page.first? %>
+      <%= prev_page_tag unless current_page.first? %>
+      <% each_page do |page| %>
+        <% if page.display_tag? %>
+          <%= page_tag page %>
+        <% elsif page.gap? %>
+          <%= gap_tag %>
+        <% end %>
+      <% end %>
+      <%= next_page_tag unless current_page.last? %>
+      <%= last_page_tag unless current_page.last? %>
+    </div>
+  </nav>
+<% end %> 

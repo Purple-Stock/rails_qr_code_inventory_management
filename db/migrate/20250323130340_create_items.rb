@@ -6,7 +6,7 @@ class CreateItems < ActiveRecord::Migration[8.0]
       t.string :barcode
       t.decimal :cost, precision: 10, scale: 2
       t.decimal :price, precision: 10, scale: 2
-      t.string :type
+      t.string :item_type
       t.string :brand
       t.string :location
       t.integer :initial_quantity, default: 0

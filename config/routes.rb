@@ -19,6 +19,15 @@ Rails.application.routes.draw do
 
   resources :teams do
     resources :items
+    resources :stock_transactions, path: 'transactions' do
+      collection do
+        get :stock_in
+        get :stock_out
+        get :adjust
+        get :move
+        get :count
+      end
+    end
   end
   get 'team_selection', to: 'teams#selection'
   

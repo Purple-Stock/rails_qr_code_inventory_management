@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
 
   def index
     @items = @team.items
-    @categories = @team.items.pluck(:category).uniq
+    @categories = @team.items.pluck(:item_type).uniq
   end
 
   def new
@@ -13,13 +13,27 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = @team.items.build(item_params)
+    ActiveRecord::Base.transaction do
+      @item = @team.items.build(item_params.except(:initial_quantity))
 
-    if @item.save
-      redirect_to team_items_path(@team), notice: 'Item was successfully created.'
-    else
-      render :new, status: :unprocessable_entity
+      if @item.save
+        # Create stock_in transaction
+        @team.stock_transactions.create!(
+          item: @item,
+          transaction_type: 'stock_in',
+          quantity: item_params[:initial_quantity],
+          destination_location: item_params[:location],
+          user: current_user,
+          notes: "Initial stock for item creation"
+        )
+
+        redirect_to team_items_path(@team), notice: 'Item was successfully created.'
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
+  rescue ActiveRecord::RecordInvalid
+    render :new, status: :unprocessable_entity
   end
 
   def edit
@@ -49,6 +63,6 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:sku, :name, :barcode, :cost, :price, :type, :brand, :location, :initial_quantity)
+    params.require(:item).permit(:sku, :name, :barcode, :cost, :price, :item_type, :brand, :location, :initial_quantity)
   end
 end 

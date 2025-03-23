@@ -9,9 +9,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
             <% end %>
-            <h1 class="text-2xl font-bold text-gray-900">New Item</h1>
+            <h1 class="text-2xl font-bold text-gray-900">Edit Item</h1>
           </div>
-          <button type="button" class="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors">Reset</button>
         </div>
 
         <%= form_with(model: [@team, @item], class: "space-y-8", data: { controller: "sku-generator barcode-generator" }) do |f| %>
@@ -181,7 +180,7 @@
           </div>
 
           <div class="flex justify-start space-x-3 pt-4">
-            <%= f.submit "Create Item", 
+            <%= f.submit "Update Item", 
                 class: "inline-flex justify-center py-2.5 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors" %>
             <%= link_to "Cancel", 
                 team_items_path(@team), 

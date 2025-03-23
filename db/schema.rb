@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_130340) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_23_130343) do
   create_schema "auth"
   create_schema "extensions"
   create_schema "graphql"
@@ -32,13 +32,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130340) do
   enable_extension "pgsodium.pgsodium"
   enable_extension "vault.supabase_vault"
 
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "stock_transaction_type", ["stock_in", "stock_out", "adjust", "move", "count"]
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "sku"
     t.string "barcode"
     t.decimal "cost", precision: 10, scale: 2
     t.decimal "price", precision: 10, scale: 2
-    t.string "type"
+    t.string "item_type"
     t.string "brand"
     t.string "location"
     t.integer "initial_quantity", default: 0
@@ -48,6 +52,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130340) do
     t.index ["barcode"], name: "index_items_on_barcode"
     t.index ["sku"], name: "index_items_on_sku"
     t.index ["team_id"], name: "index_items_on_team_id"
+  end
+
+  create_table "stock_transactions", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "team_id", null: false
+    t.enum "transaction_type", null: false, enum_type: "stock_transaction_type"
+    t.decimal "quantity", precision: 10, scale: 2, null: false
+    t.string "source_location"
+    t.string "destination_location"
+    t.text "notes"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id", "created_at"], name: "index_stock_transactions_on_item_id_and_created_at"
+    t.index ["item_id"], name: "index_stock_transactions_on_item_id"
+    t.index ["team_id"], name: "index_stock_transactions_on_team_id"
+    t.index ["transaction_type"], name: "index_stock_transactions_on_transaction_type"
+    t.index ["user_id"], name: "index_stock_transactions_on_user_id"
+    t.check_constraint "\nCASE transaction_type\n    WHEN 'move'::stock_transaction_type THEN source_location IS NOT NULL AND destination_location IS NOT NULL\n    WHEN 'stock_in'::stock_transaction_type THEN destination_location IS NOT NULL AND source_location IS NULL\n    WHEN 'stock_out'::stock_transaction_type THEN source_location IS NOT NULL AND destination_location IS NULL\n    ELSE true\nEND", name: "valid_locations_for_transaction_type"
+    t.check_constraint "\nCASE transaction_type\n    WHEN 'stock_out'::stock_transaction_type THEN quantity <= 0::numeric\n    WHEN 'stock_in'::stock_transaction_type THEN quantity >= 0::numeric\n    ELSE true\nEND", name: "valid_quantity_for_transaction_type"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -72,5 +96,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_130340) do
   end
 
   add_foreign_key "items", "teams"
+  add_foreign_key "stock_transactions", "items"
+  add_foreign_key "stock_transactions", "teams"
+  add_foreign_key "stock_transactions", "users"
   add_foreign_key "teams", "users"
 end
