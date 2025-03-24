@@ -16,6 +16,10 @@ class Item < ApplicationRecord
     stock_transactions.sum(:quantity)
   end
 
+  def low_stock?
+    current_stock <= minimum_stock && current_stock > 0
+  end
+
   private
 
   def generate_sku
