@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :stock_transactions, path: 'transactions' do
       collection do
         get :stock_in
+        post :stock_in
         get :stock_out
         get :adjust
         get :move

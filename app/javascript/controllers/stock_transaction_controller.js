@@ -66,7 +66,7 @@ export default class extends Controller {
       items: items
     }
 
-    fetch(`/teams/${this.teamIdValue}/stock_transactions/stock_in`, {
+    fetch(`/teams/${this.teamIdValue}/transactions/stock_in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,11 +75,17 @@ export default class extends Controller {
       body: JSON.stringify(data)
     })
     .then(response => {
-      if (response.ok) {
-        window.location.href = `/teams/${this.teamIdValue}/stock_transactions`
-      } else {
-        alert("Something went wrong")
+      if (!response.ok) throw new Error('Stock in failed')
+      return response.json()
+    })
+    .then(data => {
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url
       }
+    })
+    .catch(error => {
+      console.error('Error:', error)
+      alert("Something went wrong. Please try again.")
     })
   }
 } 

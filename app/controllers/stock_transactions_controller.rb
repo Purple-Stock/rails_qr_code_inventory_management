@@ -26,9 +26,16 @@ class StockTransactionsController < ApplicationController
           )
         end
         
-        redirect_to team_stock_transactions_path(@team), notice: 'Items successfully added to stock'
+        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
       end
+    else
+      # Handle GET request - show the form
+      @transaction = @team.stock_transactions.new(transaction_type: :stock_in)
     end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: "Item not found" }, status: :not_found
+  rescue => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def stock_out
