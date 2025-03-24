@@ -39,8 +39,35 @@ class StockTransactionsController < ApplicationController
   end
 
   def stock_out
-    @transaction = @team.stock_transactions.new(transaction_type: :stock_out)
-    @items = @team.items.order(:name)
+    if request.post?
+      ActiveRecord::Base.transaction do
+        params[:items].each do |item_data|
+          item = @team.items.find(item_data[:id])
+          
+          # Validate stock availability
+          if item.current_stock < item_data[:quantity].to_i
+            raise StandardError, "Not enough stock for #{item.name}"
+          end
+          
+          @team.stock_transactions.create!(
+            item: item,
+            transaction_type: 'stock_out',
+            quantity: -item_data[:quantity].to_i, # Make quantity negative for stock out
+            source_location: params[:location],
+            notes: params[:notes],
+            user: current_user
+          )
+        end
+        
+        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
+      end
+    else
+      @transaction = @team.stock_transactions.new(transaction_type: :stock_out)
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: "Item not found" }, status: :not_found
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def adjust

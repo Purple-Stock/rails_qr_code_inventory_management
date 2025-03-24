@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         get :stock_in
         post :stock_in
         get :stock_out
+        post :stock_out
         get :adjust
         get :move
         get :count

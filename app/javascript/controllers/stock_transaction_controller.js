@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["itemsList", "itemTemplate", "totalQuantity"]
   static values = {
-    teamId: String
+    teamId: String,
+    type: String
   }
 
   connect() {
@@ -49,9 +50,17 @@ export default class extends Controller {
 
   save() {
     const items = Array.from(this.itemsListTarget.querySelectorAll("tr")).map(row => {
+      const quantity = parseInt(row.querySelector("[data-quantity]").value) || 0
+      const currentStock = parseInt(row.querySelector("[data-current-stock]").textContent)
+      
+      // Validate stock availability for stock out
+      if (this.typeValue === 'stock_out' && quantity > currentStock) {
+        throw new Error(`Not enough stock for item ${row.querySelector("[data-item-name]").textContent}`)
+      }
+      
       return {
         id: row.dataset.itemId,
-        quantity: parseInt(row.querySelector("[data-quantity]").value) || 0
+        quantity: quantity
       }
     }).filter(item => item.quantity > 0)
 
@@ -66,7 +75,7 @@ export default class extends Controller {
       items: items
     }
 
-    fetch(`/teams/${this.teamIdValue}/transactions/stock_in`, {
+    fetch(`/teams/${this.teamIdValue}/transactions/${this.typeValue}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +84,7 @@ export default class extends Controller {
       body: JSON.stringify(data)
     })
     .then(response => {
-      if (!response.ok) throw new Error('Stock in failed')
+      if (!response.ok) throw new Error('Transaction failed')
       return response.json()
     })
     .then(data => {
@@ -85,7 +94,7 @@ export default class extends Controller {
     })
     .catch(error => {
       console.error('Error:', error)
-      alert("Something went wrong. Please try again.")
+      alert(error.message || "Something went wrong. Please try again.")
     })
   }
 } 
