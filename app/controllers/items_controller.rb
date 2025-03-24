@@ -57,6 +57,11 @@ class ItemsController < ApplicationController
     @transactions = @item.stock_transactions.order(created_at: :desc)
   end
 
+  def search
+    @items = @team.items.where("name ILIKE ? OR sku ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    render partial: "stock_transactions/search_results", layout: false
+  end
+
   private
 
   def set_team

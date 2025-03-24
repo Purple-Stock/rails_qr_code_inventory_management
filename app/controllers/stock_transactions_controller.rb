@@ -12,8 +12,23 @@ class StockTransactionsController < ApplicationController
   end
 
   def stock_in
-    @transaction = @team.stock_transactions.new(transaction_type: :stock_in)
-    @items = @team.items.order(:name)
+    if request.post?
+      ActiveRecord::Base.transaction do
+        params[:items].each do |item_data|
+          item = @team.items.find(item_data[:id])
+          @team.stock_transactions.create!(
+            item: item,
+            transaction_type: 'stock_in',
+            quantity: item_data[:quantity],
+            destination_location: params[:location],
+            notes: params[:notes],
+            user: current_user
+          )
+        end
+        
+        redirect_to team_stock_transactions_path(@team), notice: 'Items successfully added to stock'
+      end
+    end
   end
 
   def stock_out
@@ -68,6 +83,11 @@ class StockTransactionsController < ApplicationController
                               .group('items.id')
                               .order('transaction_count DESC')
                               .limit(5)
+  end
+
+  def search
+    @items = @team.items.where("name ILIKE ? OR sku ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    render partial: "search_results", layout: false
   end
 
   private

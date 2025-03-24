@@ -18,7 +18,11 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   resources :teams do
-    resources :items
+    resources :items do
+      collection do
+        get 'search'
+      end
+    end
     resources :stock_transactions, path: 'transactions' do
       collection do
         get :stock_in
