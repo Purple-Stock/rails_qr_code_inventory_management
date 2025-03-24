@@ -26,15 +26,6 @@
               <span data-sidebar-target="text" class="sidebar-text">Lista de Itens</span>
             <% end %>
 
-            <%= link_to team_stock_transactions_path(@team), 
-                class: "group flex items-center px-3 py-2 text-sm font-medium rounded-md #{current_page?(team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}",
-                data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
-              <svg class="sidebar-icon #{current_page?(team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-              </svg>
-              <span data-sidebar-target="text" class="sidebar-text">Transações</span>
-            <% end %>
-
             <%= link_to stock_in_team_stock_transactions_path(@team), 
                 class: "group flex items-center px-3 py-2 text-sm font-medium rounded-md #{current_page?(stock_in_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}",
                 data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
@@ -69,6 +60,15 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
               </svg>
               <span data-sidebar-target="text" class="sidebar-text">Mover</span>
+            <% end %>
+
+            <%= link_to team_stock_transactions_path(@team), 
+                class: "group flex items-center px-3 py-2 text-sm font-medium rounded-md #{current_page?(team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}",
+                data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
+              <svg class="sidebar-icon #{current_page?(team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+              </svg>
+              <span data-sidebar-target="text" class="sidebar-text">Transações</span>
             <% end %>
 
             <%= link_to report_team_stock_transactions_path(@team), 
