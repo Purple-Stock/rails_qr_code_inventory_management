@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         get :stock_out
         post :stock_out
         get :adjust
+        post :adjust
         get :move
         get :count
         get :report

@@ -71,8 +71,32 @@ class StockTransactionsController < ApplicationController
   end
 
   def adjust
-    @transaction = @team.stock_transactions.new(transaction_type: :adjust)
-    @items = @team.items.order(:name)
+    if request.post?
+      ActiveRecord::Base.transaction do
+        params[:items].each do |item_data|
+          item = @team.items.find(item_data[:id])
+          new_quantity = item_data[:quantity].to_i
+          adjustment = new_quantity - item.current_stock
+          
+          @team.stock_transactions.create!(
+            item: item,
+            transaction_type: 'adjust',
+            quantity: adjustment,
+            destination_location: params[:location],
+            notes: params[:notes],
+            user: current_user
+          )
+        end
+        
+        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
+      end
+    else
+      @transaction = @team.stock_transactions.new(transaction_type: :adjust)
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: "Item not found" }, status: :not_found
+  rescue => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def move
