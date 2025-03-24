@@ -54,6 +54,7 @@ class ItemsController < ApplicationController
 
   def show
     @item = @team.items.find(params[:id])
+    @transactions = @item.stock_transactions.order(created_at: :desc)
   end
 
   private

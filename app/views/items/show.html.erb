@@ -54,62 +54,37 @@
           </div>
 
           <div class="px-4 py-5">
-            <div class="grid grid-cols-2 gap-6">
+            <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Informações do Item</h4>
+            <dl class="grid grid-cols-2 gap-4">
               <div>
-                <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Informações do Item</h4>
-                <dl class="space-y-4">
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">SKU</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= @item.sku %></dd>
-                  </div>
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">NOME</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= @item.name %></dd>
-                  </div>
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">CÓDIGO DE BARRAS</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= @item.barcode %></dd>
-                  </div>
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">CUSTO</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.cost) %></dd>
-                  </div>
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">PREÇO</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.price) %></dd>
-                  </div>
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">TIPO</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= @item.item_type %></dd>
-                  </div>
-                  <div>
-                    <dt class="text-sm font-medium text-gray-500">MARCA</dt>
-                    <dd class="mt-1 text-sm text-gray-900"><%= @item.brand %></dd>
-                  </div>
-                </dl>
+                <dt class="text-sm font-medium text-gray-500">SKU</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.sku %></dd>
               </div>
-
               <div>
-                <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Histórico de Localização</h4>
-                <div class="space-y-4">
-                  <% @item.stock_transactions.order(created_at: :desc).limit(5).each do |transaction| %>
-                    <div class="flex items-start">
-                      <div class="flex-shrink-0">
-                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                          <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                          </svg>
-                        </div>
-                      </div>
-                      <div class="ml-3">
-                        <p class="text-sm text-gray-900"><%= transaction.notes %></p>
-                        <p class="text-xs text-gray-500"><%= time_ago_in_words(transaction.created_at) %> atrás</p>
-                      </div>
-                    </div>
-                  <% end %>
-                </div>
+                <dt class="text-sm font-medium text-gray-500">NOME</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.name %></dd>
               </div>
-            </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">CÓDIGO DE BARRAS</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.barcode %></dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">CUSTO</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.cost) %></dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">PREÇO</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.price) %></dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">TIPO</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.item_type %></dd>
+              </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">MARCA</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.brand %></dd>
+              </div>
+            </dl>
           </div>
         </div>
       </div>
@@ -122,11 +97,83 @@
               <p class="text-5xl font-bold text-purple-600 mb-2"><%= @item.current_stock %></p>
               <p class="text-sm text-gray-500">Estoque total</p>
             </div>
-            <div class="mt-6 flex justify-center space-x-4">
-              <button class="text-sm text-gray-600 hover:text-gray-900">Entrada</button>
-              <button class="text-sm text-gray-600 hover:text-gray-900">Saída</button>
-              <button class="text-sm text-gray-600 hover:text-gray-900">Ajuste</button>
-              <button class="text-sm text-gray-600 hover:text-gray-900">Mover</button>
+            
+            <div class="mt-6" data-controller="transaction-filter">
+              <div class="flex items-center space-x-2 mb-4">
+                <%= link_to "Todos", "#",
+                    class: "filter-button px-3 py-1 rounded-full text-sm bg-black text-white",
+                    data: { 
+                      action: "transaction-filter#filter",
+                      type: "all"
+                    } %>
+                
+                <% [
+                  ['stock_in', 'Entrada'],
+                  ['stock_out', 'Saída'],
+                  ['adjust', 'Ajuste'],
+                  ['move', 'Mover']
+                ].each do |type, label| %>
+                  <%= link_to label, "#",
+                      class: "filter-button px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200",
+                      data: { 
+                        action: "transaction-filter#filter",
+                        type: type
+                      } %>
+                <% end %>
+              </div>
+
+              <div class="space-y-3 max-h-96 overflow-y-auto">
+                <% @transactions.each do |transaction| %>
+                  <div class="flex items-start space-x-3 py-3 border-b border-gray-100 last:border-0"
+                       data-transaction-filter-target="transaction"
+                       data-transaction-type="<%= transaction.transaction_type %>">
+                    <div class="flex-shrink-0">
+                      <% icon_class = case transaction.transaction_type 
+                        when 'stock_in' then 'rotate-180 text-green-500'
+                        when 'stock_out' then 'text-red-500'
+                        when 'adjust' then 'text-blue-500'
+                        when 'move' then 'text-yellow-500'
+                        end %>
+                      
+                      <svg class="w-5 h-5 <%= icon_class %>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <% case transaction.transaction_type 
+                          when 'stock_in', 'stock_out' %>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/>
+                        <% when 'adjust' %>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                        <% when 'move' %>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                        <% end %>
+                      </svg>
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <p class="text-sm font-medium text-gray-900">
+                            <%= transaction.transaction_type.upcase %>
+                          </p>
+                          <p class="text-xs text-gray-500">
+                            <%= l transaction.created_at, format: :short %>
+                          </p>
+                        </div>
+                        <span class="text-sm font-medium <%= transaction.quantity.positive? ? 'text-green-600' : 'text-red-600' %>">
+                          <%= transaction.quantity.positive? ? "+#{transaction.quantity}" : transaction.quantity %>
+                        </span>
+                      </div>
+                      <% if transaction.notes.present? %>
+                        <p class="text-xs text-gray-600 mt-1"><%= transaction.notes %></p>
+                      <% end %>
+                      <% if transaction.destination_location.present? %>
+                        <p class="text-xs text-gray-500">At: <%= transaction.destination_location %></p>
+                      <% end %>
+                      <% if transaction.source_location.present? %>
+                        <p class="text-xs text-gray-500">From: <%= transaction.source_location %></p>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
