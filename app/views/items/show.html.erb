@@ -1,0 +1,145 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center">
+        <%= link_to team_items_path(@team), class: "flex items-center text-gray-500 hover:text-gray-700" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          <span>Lista de Items</span>
+        <% end %>
+        <span class="mx-2 text-gray-400">/</span>
+        <h1 class="text-xl font-medium text-gray-900"><%= @item.name %></h1>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-500">all_locations</span>
+        <%= link_to edit_team_item_path(@team, @item), class: "text-gray-500 hover:text-gray-700 px-3 py-2" do %>
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+            <span>Editar</span>
+          </div>
+        <% end %>
+        <%= link_to move_team_stock_transactions_path(@team), class: "text-gray-500 hover:text-gray-700 px-3 py-2" do %>
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+            <span>Mover</span>
+          </div>
+        <% end %>
+        <button class="text-gray-500 hover:text-gray-700 p-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+      <div class="col-span-2">
+        <div class="bg-white rounded-lg shadow">
+          <div class="px-4 py-5 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                Visão Geral
+              </h3>
+            </div>
+          </div>
+
+          <div class="px-4 py-5">
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Informações do Item</h4>
+                <dl class="space-y-4">
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">SKU</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= @item.sku %></dd>
+                  </div>
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">NOME</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= @item.name %></dd>
+                  </div>
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">CÓDIGO DE BARRAS</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= @item.barcode %></dd>
+                  </div>
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">CUSTO</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.cost) %></dd>
+                  </div>
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">PREÇO</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.price) %></dd>
+                  </div>
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">TIPO</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= @item.item_type %></dd>
+                  </div>
+                  <div>
+                    <dt class="text-sm font-medium text-gray-500">MARCA</dt>
+                    <dd class="mt-1 text-sm text-gray-900"><%= @item.brand %></dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div>
+                <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Histórico de Localização</h4>
+                <div class="space-y-4">
+                  <% @item.stock_transactions.order(created_at: :desc).limit(5).each do |transaction| %>
+                    <div class="flex items-start">
+                      <div class="flex-shrink-0">
+                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                          <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="ml-3">
+                        <p class="text-sm text-gray-900"><%= transaction.notes %></p>
+                        <p class="text-xs text-gray-500"><%= time_ago_in_words(transaction.created_at) %> atrás</p>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="bg-white rounded-lg shadow mb-6">
+          <div class="px-4 py-5">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Status Atual</h3>
+            <div class="text-center">
+              <p class="text-5xl font-bold text-purple-600 mb-2"><%= @item.current_stock %></p>
+              <p class="text-sm text-gray-500">Estoque total</p>
+            </div>
+            <div class="mt-6 flex justify-center space-x-4">
+              <button class="text-sm text-gray-600 hover:text-gray-900">Entrada</button>
+              <button class="text-sm text-gray-600 hover:text-gray-900">Saída</button>
+              <button class="text-sm text-gray-600 hover:text-gray-900">Ajuste</button>
+              <button class="text-sm text-gray-600 hover:text-gray-900">Mover</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow">
+          <div class="px-4 py-5">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Código QR</h3>
+            <div class="flex justify-center">
+              <%= qr_code_tag @item.sku %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

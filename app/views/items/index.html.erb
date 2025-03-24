@@ -55,7 +55,11 @@
           <% if @items.any? %>
             <% @items.each do |item| %>
               <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><%= item.name %></td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <%= link_to team_item_path(@team, item), class: "text-sm font-medium text-gray-900 hover:text-purple-600" do %>
+                    <%= item.name %>
+                  <% end %>
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= item.sku %></td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= item.item_type %></td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><%= item.initial_quantity %></td>

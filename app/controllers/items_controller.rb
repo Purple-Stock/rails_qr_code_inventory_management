@@ -52,6 +52,10 @@ class ItemsController < ApplicationController
     redirect_to team_items_path(@team), notice: 'Item removido com sucesso.'
   end
 
+  def show
+    @item = @team.items.find(params[:id])
+  end
+
   private
 
   def set_team

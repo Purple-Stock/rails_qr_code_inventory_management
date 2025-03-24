@@ -79,3 +79,5 @@ gem "factory_bot", "~> 6.5"
 
 # Pagination
 gem 'kaminari'
+
+gem 'rqrcode'
