@@ -15,6 +15,12 @@ export default class extends Controller {
       this.sidebarTarget.classList.remove("w-16")
       this.sidebarTarget.classList.add("w-64")
       this.toggleIconTarget.classList.remove("rotate-180")
+      
+      document.querySelectorAll('.sidebar-icon').forEach(icon => {
+        icon.classList.remove('h-8', 'w-8')
+        icon.classList.add('h-6', 'w-6')
+      })
+      
       this.textTargets.forEach(text => {
         text.classList.remove("opacity-0", "w-0", "hidden")
         text.classList.add("opacity-100")
@@ -23,6 +29,12 @@ export default class extends Controller {
       this.sidebarTarget.classList.remove("w-64")
       this.sidebarTarget.classList.add("w-16")
       this.toggleIconTarget.classList.add("rotate-180")
+      
+      document.querySelectorAll('.sidebar-icon').forEach(icon => {
+        icon.classList.remove('h-6', 'w-6')
+        icon.classList.add('h-8', 'w-8')
+      })
+      
       this.textTargets.forEach(text => {
         text.classList.remove("opacity-100")
         text.classList.add("opacity-0", "w-0", "hidden")
