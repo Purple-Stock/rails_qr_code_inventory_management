@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resources :items do
       collection do
         get 'search'
+        get :find_by_barcode
       end
     end
     resources :stock_transactions, path: 'transactions' do

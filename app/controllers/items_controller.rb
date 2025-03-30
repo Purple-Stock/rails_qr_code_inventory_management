@@ -62,6 +62,30 @@ class ItemsController < ApplicationController
     render partial: "stock_transactions/search_results", layout: false
   end
 
+  # New action to find item by barcode and return JSON
+  def find_by_barcode
+    barcode = params[:barcode]
+    
+    @item = @team.items.find_by(barcode: barcode) || 
+            @team.items.find_by(sku: barcode) || 
+            @team.items.where("barcode LIKE ? OR sku LIKE ?", "%#{barcode}%", "%#{barcode}%").first
+    
+    if @item
+      render json: {
+        success: true,
+        item: {
+          id: @item.id,
+          name: @item.name,
+          sku: @item.sku,
+          barcode: @item.barcode,
+          current_stock: @item.current_stock
+        }
+      }
+    else
+      render json: { success: false, message: "No item found with barcode: #{barcode}" }, status: :not_found
+    end
+  end
+
   private
 
   def set_team
