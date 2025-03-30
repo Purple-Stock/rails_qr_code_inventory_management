@@ -43,8 +43,8 @@
                 <%= label_tag :label_type, "Label Type", class: "block text-sm font-medium text-gray-700" %>
                 <%= select_tag :label_type, 
                     options_for_select([
-                      ['Barcode', 'barcode'],
                       ['QR Code', 'qr'],
+                      ['Barcode', 'barcode'],
                       ['Hybrid (QR + Barcode)', 'hybrid']
                     ]),
                     class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md",
@@ -62,42 +62,56 @@
       <div class="lg:col-span-2">
         <div class="bg-white rounded-lg shadow">
           <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900">Select Items</h2>
-            <p class="mt-1 text-sm text-gray-500">Choose the items you want to generate labels for</p>
-            <div class="mt-6">
-              <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-                <table class="min-w-full divide-y divide-gray-300">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Select</th>
-                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Item</th>
-                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">SKU</th>
-                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Copies</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-gray-200 bg-white">
-                    <% @items.each do |item| %>
-                      <tr>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm">
-                          <%= check_box_tag "item_ids[]", 
-                              item.id, 
-                              false, 
-                              class: "h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500",
-                              onchange: "updatePreview(this)" %>
-                        </td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900"><%= item.name %></td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= item.sku %></td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm">
-                          <%= number_field_tag "copies[#{item.id}]",
-                              1,
-                              min: 1,
-                              class: "block w-20 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm" %>
-                        </td>
-                      </tr>
-                    <% end %>
-                  </tbody>
-                </table>
+            <div class="flex justify-between items-center mb-6">
+              <div>
+                <h2 class="text-lg font-medium text-gray-900">Select Items</h2>
+                <p class="mt-1 text-sm text-gray-500">Choose the items you want to generate labels for</p>
               </div>
+              <div class="relative">
+                <input type="text" 
+                       id="item-search" 
+                       placeholder="Search items..." 
+                       class="block w-64 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm pl-10"
+                       oninput="filterItems(this.value)">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+              <table class="min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Select</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Item</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">SKU</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Copies</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white" id="items-table-body">
+                  <% @items.each do |item| %>
+                    <tr class="item-row" data-name="<%= item.name.downcase %>" data-sku="<%= item.sku.to_s.downcase %>">
+                      <td class="whitespace-nowrap px-3 py-4 text-sm">
+                        <%= check_box_tag "item_ids[]", 
+                            item.id, 
+                            false, 
+                            class: "h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500",
+                            onchange: "updatePreview(this)" %>
+                      </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900"><%= item.name %></td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= item.sku %></td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm">
+                        <%= number_field_tag "copies[#{item.id}]",
+                            1,
+                            min: 1,
+                            class: "block w-20 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -162,4 +176,55 @@ function updateAndSubmit(formId) {
   // Submit the form
   form.submit();
 }
+
+function filterItems(searchTerm) {
+  searchTerm = searchTerm.toLowerCase();
+  const rows = document.querySelectorAll('.item-row');
+  let hasVisibleRows = false;
+
+  rows.forEach(row => {
+    const name = row.dataset.name;
+    const sku = row.dataset.sku;
+    const matches = name.includes(searchTerm) || sku.includes(searchTerm);
+    
+    row.style.display = matches ? '' : 'none';
+    if (matches) hasVisibleRows = true;
+  });
+
+  // Show or hide "no results" message
+  let noResultsRow = document.getElementById('no-results-row');
+  if (!hasVisibleRows) {
+    if (!noResultsRow) {
+      noResultsRow = document.createElement('tr');
+      noResultsRow.id = 'no-results-row';
+      noResultsRow.innerHTML = `
+        <td colspan="4" class="px-3 py-8 text-center text-gray-500">
+          <p>No items found matching your search.</p>
+        </td>
+      `;
+      document.getElementById('items-table-body').appendChild(noResultsRow);
+    }
+    noResultsRow.style.display = '';
+  } else if (noResultsRow) {
+    noResultsRow.style.display = 'none';
+  }
+}
+
+// Add debounce function to improve performance
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Use debounced version of filterItems for the search input
+document.getElementById('item-search').addEventListener('input', 
+  debounce(e => filterItems(e.target.value), 300)
+);
 </script> 
