@@ -5,8 +5,25 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:edit, :update, :destroy]
 
   def index
-    @items = @team.items
     @categories = @team.items.pluck(:item_type).uniq
+    @items = @team.items
+    
+    if params[:query].present?
+      query = "%#{params[:query]}%"
+      @items = @items.where("LOWER(name) ILIKE :query OR 
+                            LOWER(sku) ILIKE :query OR 
+                            LOWER(barcode) ILIKE :query", 
+                            query: query)
+    end
+    
+    if params[:category].present? && params[:category] != "Todas as Categorias"
+      @items = @items.where(item_type: params[:category])
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def new
