@@ -1,9 +1,23 @@
 <div class="min-h-screen w-full flex items-center justify-center bg-purple-50 absolute inset-0">
   <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 m-4">
     <div class="text-center mb-8">
-      <%= image_tag "purple-box-logo.svg", class: "w-16 h-16 mx-auto mb-4", alt: "Purple Stock Logo" %>
-      <h1 class="text-2xl font-bold mb-2">Purple Stock</h1>
-      <p class="text-gray-600 text-base">Sistema de Gestão de Estoque</p>
+      <div class="h-32 w-96 flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="350" height="200" viewBox="0 0 350 200" class="w-full h-full">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#8E44AD;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#5B2C6F;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="#7D3C98" rx="20" ry="20"/>
+          <g fill="none" fill-rule="evenodd">
+            <path fill="#FFF" d="M175 50l23 14v28l-23 14-23-14V64z"/>
+            <path fill="#7D3C98" d="M173 62l-9 16h12l-5 14 14-18h-12z"/>
+            <text font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#FFF" text-anchor="middle" x="175" y="130">PURPLE STOCK</text>
+            <text font-family="Arial, sans-serif" font-size="14" fill="#FFF" text-anchor="middle" x="175" y="155">Your Inventory Simplified</text>
+          </g>
+        </svg>
+      </div>
     </div>
 
     <div class="w-full">
