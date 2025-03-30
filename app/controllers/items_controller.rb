@@ -86,6 +86,30 @@ class ItemsController < ApplicationController
     end
   end
 
+  def duplicate
+    @original_item = @team.items.find(params[:id])
+    
+    # Create a new item with attributes from the original
+    @new_item = @team.items.build(
+      name: "#{@original_item.name} (Copy)",
+      sku: generate_unique_sku(@original_item.sku),
+      barcode: generate_unique_barcode(@original_item.barcode),
+      cost: @original_item.cost,
+      price: @original_item.price,
+      item_type: @original_item.item_type,
+      brand: @original_item.brand,
+      location: @original_item.location,
+      current_stock: 0.0,  # Start with zero stock
+      minimum_stock: @original_item.minimum_stock
+    )
+    
+    if @new_item.save
+      redirect_to edit_team_item_path(@team, @new_item), notice: "Item duplicated successfully! Please review the details."
+    else
+      redirect_to team_items_path(@team), alert: "Failed to duplicate item: #{@new_item.errors.full_messages.join(', ')}"
+    end
+  end
+
   private
 
   def set_team
@@ -98,5 +122,35 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:sku, :name, :barcode, :cost, :price, :item_type, :brand, :location, :initial_quantity)
+  end
+
+  # Helper methods for generating unique SKUs and barcodes
+  def generate_unique_sku(original_sku)
+    base_sku = original_sku.gsub(/-COPY\d*$/, '')
+    counter = 1
+    new_sku = "#{base_sku}-COPY"
+    
+    while @team.items.exists?(sku: new_sku)
+      counter += 1
+      new_sku = "#{base_sku}-COPY#{counter}"
+    end
+    
+    new_sku
+  end
+
+  def generate_unique_barcode(original_barcode)
+    return SecureRandom.uuid if original_barcode.blank?
+    
+    # Try to create a unique barcode based on the original
+    base_barcode = original_barcode.gsub(/COPY\d*$/, '')
+    counter = 1
+    new_barcode = "#{base_barcode}COPY"
+    
+    while @team.items.exists?(barcode: new_barcode)
+      counter += 1
+      new_barcode = "#{base_barcode}COPY#{counter}"
+    end
+    
+    new_barcode
   end
 end 

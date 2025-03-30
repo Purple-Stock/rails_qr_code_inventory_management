@@ -23,6 +23,10 @@ Rails.application.routes.draw do
         get 'search'
         get :find_by_barcode
       end
+      
+      member do
+        post :duplicate
+      end
     end
     resources :stock_transactions, path: 'transactions' do
       collection do

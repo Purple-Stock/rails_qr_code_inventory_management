@@ -109,13 +109,60 @@ class StockTransactionsController < ApplicationController
   end
 
   def create
-    @transaction = @team.stock_transactions.new(transaction_params)
-    @transaction.user = current_user
-
-    if @transaction.save
-      redirect_to team_stock_transactions_path(@team), notice: 'Transaction was successfully created.'
-    else
-      render action_for_transaction_type, status: :unprocessable_entity
+    @transaction_type = params[:transaction_type] || 'stock_in'
+    @location = params[:location]
+    @notes = params[:notes]
+    items_params = params[:items] || []
+    
+    begin
+      ActiveRecord::Base.transaction do
+        # Process each item as its own transaction record
+        items_params.each do |item_data|
+          item_id = item_data[:id]
+          quantity = item_data[:quantity].to_f
+          
+          item = @team.items.find(item_id)
+          
+          # Create a separate transaction for each item
+          if @transaction_type == 'adjust'
+            # For adjust, calculate the difference
+            difference = quantity - item.current_stock
+            @team.stock_transactions.create!(
+              item: item,
+              transaction_type: 'adjust',
+              quantity: difference,
+              destination_location: @location,
+              notes: @notes,
+              user: current_user
+            )
+          elsif @transaction_type == 'stock_out'
+            # For stock out
+            @team.stock_transactions.create!(
+              item: item,
+              transaction_type: 'stock_out',
+              quantity: quantity * -1, # Make negative for stock out
+              source_location: @location,
+              notes: @notes,
+              user: current_user
+            )
+          else
+            # For stock in
+            @team.stock_transactions.create!(
+              item: item,
+              transaction_type: 'stock_in',
+              quantity: quantity,
+              destination_location: @location,
+              notes: @notes,
+              user: current_user
+            )
+          end
+        end
+        
+        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
+      end
+    rescue => e
+      Rails.logger.error("Error creating transaction: #{e.message}")
+      render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
     end
   end
 
