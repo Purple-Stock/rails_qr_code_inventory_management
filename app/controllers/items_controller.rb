@@ -66,8 +66,13 @@ class ItemsController < ApplicationController
   end
 
   def destroy
+    @item = @team.items.find(params[:id])
     @item.destroy
-    redirect_to team_items_path(@team), notice: 'Item removido com sucesso.'
+
+    respond_to do |format|
+      format.html { redirect_to team_items_path(@team), notice: 'Item was successfully deleted.' }
+      format.turbo_stream { redirect_to team_items_path(@team), notice: 'Item was successfully deleted.' }
+    end
   end
 
   def show
