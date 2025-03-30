@@ -81,3 +81,8 @@ gem "factory_bot", "~> 6.5"
 gem 'kaminari'
 
 gem 'rqrcode'
+
+# For label generation
+gem 'prawn'  # For PDF generation
+gem 'barby'  # For barcode generation
+gem 'chunky_png' # For rendering QR codes

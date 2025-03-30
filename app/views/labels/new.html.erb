@@ -1,0 +1,107 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex flex-col space-y-6">
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Label Generator</h1>
+      <div class="flex space-x-4">
+        <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, target: '_blank', class: 'inline', id: 'print-form' do %>
+          <%= hidden_field_tag :label_type %>
+          <%= hidden_field_tag :item_ids %>
+          <%= submit_tag "Print", class: "btn btn-primary", onclick: "updateAndSubmit('print-form'); return false;" %>
+        <% end %>
+
+        <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, class: 'inline', id: 'download-form' do %>
+          <%= hidden_field_tag :label_type %>
+          <%= hidden_field_tag :item_ids %>
+          <%= submit_tag "Download", class: "btn btn-secondary", onclick: "updateAndSubmit('download-form'); return false;" %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= form_tag preview_team_labels_path(@team), method: :post, data: { turbo_frame: "preview" }, id: 'preview-form' do %>
+      <div class="grid grid-cols-3 gap-6">
+        <div class="col-span-1 bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-4">Design</h2>
+          <div class="space-y-4">
+            <div>
+              <%= label_tag :label_type, "Label Type", class: "block text-sm font-medium" %>
+              <%= select_tag :label_type, 
+                  options_for_select([
+                    ['Barcode', 'barcode'],
+                    ['QR Code', 'qr'],
+                    ['Hybrid', 'hybrid']
+                  ]),
+                  class: "select select-bordered w-full",
+                  onchange: "document.getElementById('preview-form').requestSubmit()" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-2">
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-xl font-semibold mb-4">Select Items</h2>
+            <div class="overflow-x-auto">
+              <table class="table w-full">
+                <thead>
+                  <tr>
+                    <th>Select</th>
+                    <th>Item</th>
+                    <th>SKU</th>
+                    <th>Copies</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @items.each do |item| %>
+                    <tr>
+                      <td>
+                        <%= check_box_tag "item_ids[]", 
+                            item.id, 
+                            false, 
+                            class: "checkbox",
+                            data: { action: "change->form#submit change->form#updateFormValues" } %>
+                      </td>
+                      <td><%= item.name %></td>
+                      <td><%= item.sku %></td>
+                      <td>
+                        <%= number_field_tag "copies[#{item.id}]",
+                            1,
+                            min: 1,
+                            class: "input input-bordered w-20",
+                            data: { action: "change->form#submit" } %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Preview</h2>
+      <%= turbo_frame_tag "preview" do %>
+        <div class="p-8 bg-gray-100 rounded flex items-center justify-center min-h-[200px]">
+          <p class="text-gray-500">Select items to preview labels</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  function updateAndSubmit(formId) {
+    // Get values from the preview form
+    const labelType = document.querySelector('#preview-form select[name="label_type"]').value;
+    const selectedItems = Array.from(document.querySelectorAll('#preview-form input[name="item_ids[]"]:checked'))
+      .map(checkbox => checkbox.value);
+
+    // Update the target form
+    const form = document.getElementById(formId);
+    form.querySelector('input[name="label_type"]').value = labelType;
+    form.querySelector('input[name="item_ids"]').value = selectedItems.join(',');
+
+    // Submit the form
+    form.submit();
+  }
+</script> 

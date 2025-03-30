@@ -28,6 +28,13 @@ Rails.application.routes.draw do
         post :duplicate
       end
     end
+    resources :labels do
+      collection do
+        get :new
+        post :preview
+        post :generate
+      end
+    end
     resources :stock_transactions, path: 'transactions' do
       collection do
         get :stock_in

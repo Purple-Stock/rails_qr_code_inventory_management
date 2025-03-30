@@ -1,0 +1,14 @@
+<div class="grid grid-cols-3 gap-4">
+  <% @selected_items.each do |item| %>
+    <div class="p-4 border rounded-lg bg-white">
+      <% case @label_type %>
+      <% when 'barcode' %>
+        <%= render 'barcode', item: item %>
+      <% when 'qr' %>
+        <%= render 'qr_code', item: item %>
+      <% when 'hybrid' %>
+        <%= render 'hybrid', item: item %>
+      <% end %>
+    </div>
+  <% end %>
+</div> 
