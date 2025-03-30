@@ -312,7 +312,6 @@
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
       script.onload = function() {
-        // Script loaded, now we can use the global Html5Qrcode constructor
         initializeScanner(startButton);
       };
       script.onerror = function() {
@@ -322,14 +321,12 @@
       };
       document.head.appendChild(script);
     } else {
-      // Library already loaded, initialize scanner
       initializeScanner(startButton);
     }
   }
   
   function initializeScanner(startButton) {
     try {
-      // Create scanner instance - now using the global Html5Qrcode constructor
       const html5QrCode = new Html5Qrcode("qr-reader");
       const config = {
         fps: 10,
@@ -481,6 +478,7 @@
           // For stock out, validate if there's enough stock
           if (item.current_stock <= 0) {
             alert(`Item ${item.name} is out of stock!`);
+            closeBarcodeModal(); // Close the modal after showing the alert
             return;
           }
           
@@ -544,6 +542,7 @@
         } else {
           // Show not found message
           alert(`No items found with barcode: ${barcode}`);
+          closeBarcodeModal();
         }
       })
       .catch(error => {
@@ -554,6 +553,7 @@
         searchButton.innerHTML = originalText;
         
         alert('Error searching for this barcode');
+        closeBarcodeModal();
       });
   }
   

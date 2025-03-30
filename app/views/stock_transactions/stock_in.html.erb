@@ -323,14 +323,26 @@
     startButton.textContent = 'Starting...';
     startButton.disabled = true;
 
-    loadHtml5QrcodeScript(() => {
+    // Load the html5-qrcode script directly from CDN
+    if (!window.Html5Qrcode) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
+      script.onload = function() {
+        initializeScanner(startButton);
+      };
+      script.onerror = function() {
+        console.error('Failed to load HTML5-QRCode library');
+        startButton.textContent = 'Camera Not Available';
+        startButton.disabled = true;
+      };
+      document.head.appendChild(script);
+    } else {
       initializeScanner(startButton);
-    });
+    }
   }
-  
+
   function initializeScanner(startButton) {
     try {
-      // Create scanner instance - now using the global Html5Qrcode constructor
       const html5QrCode = new Html5Qrcode("qr-reader");
       const config = {
         fps: 10,
@@ -345,10 +357,7 @@
         onScanFailure
       ).then(() => {
         html5QrCodeScanner = html5QrCode;
-        startButton.textContent = 'Stop Camera';
-        startButton.disabled = false;
-        startButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
-        startButton.classList.add('bg-red-600', 'hover:bg-red-700');
+        updateScannerButtonState(true);
       }).catch((err) => {
         console.error(`Unable to start scanning: ${err}`);
         startButton.textContent = 'Start Camera';

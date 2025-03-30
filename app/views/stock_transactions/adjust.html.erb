@@ -333,7 +333,6 @@
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
       script.onload = function() {
-        // Script loaded, now we can use the global Html5Qrcode constructor
         initializeAdjustScanner(startButton);
       };
       script.onerror = function() {
@@ -343,14 +342,12 @@
       };
       document.head.appendChild(script);
     } else {
-      // Library already loaded, initialize scanner
       initializeAdjustScanner(startButton);
     }
   }
   
   function initializeAdjustScanner(startButton) {
     try {
-      // Create scanner instance - now using the global Html5Qrcode constructor
       const html5QrCode = new Html5Qrcode("adjust-qr-reader");
       const config = {
         fps: 10,
@@ -365,18 +362,16 @@
         onAdjustScanFailure
       ).then(() => {
         adjustQrCodeScanner = html5QrCode;
-        startButton.textContent = 'Stop Camera';
+        updateAdjustScannerButtonState(true);
+      }).catch((err) => {
+        console.error(`Unable to start scanning: ${err}`);
+        startButton.textContent = 'Start Camera';
         startButton.disabled = false;
-        startButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
-        startButton.classList.add('bg-red-600', 'hover:bg-red-700');
-      }).catch(err => {
-        console.error('Error starting scanner:', err);
-        startButton.textContent = 'Camera Error';
-        startButton.disabled = false;
+        alert('Could not access camera. Please ensure you\'ve granted camera permissions or try entering the barcode manually.');
       });
     } catch (err) {
-      console.error('Error initializing scanner:', err);
-      startButton.textContent = 'Camera Not Available';
+      console.error(err);
+      startButton.textContent = 'Start Camera';
       startButton.disabled = false;
     }
   }
