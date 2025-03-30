@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  require 'csv'
   before_action :authenticate_user!
   before_action :set_team
   before_action :set_item, only: [:edit, :update, :destroy]
@@ -107,6 +108,39 @@ class ItemsController < ApplicationController
       redirect_to edit_team_item_path(@team, @new_item), notice: "Item duplicated successfully! Please review the details."
     else
       redirect_to team_items_path(@team), alert: "Failed to duplicate item: #{@new_item.errors.full_messages.join(', ')}"
+    end
+  end
+
+  def export
+    @items = @team.items
+    
+    respond_to do |format|
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"items-#{Date.today}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+        
+        csv_data = CSV.generate do |csv|
+          # Header row
+          csv << ['Name', 'SKU', 'Barcode', 'Type', 'Current Stock', 'Price', 'Cost', 'Brand', 'Location']
+          
+          # Data rows
+          @items.each do |item|
+            csv << [
+              item.name,
+              item.sku,
+              item.barcode,
+              item.item_type,
+              item.current_stock,
+              item.price,
+              item.cost,
+              item.brand,
+              item.location
+            ]
+          end
+        end
+        
+        render plain: csv_data
+      end
     end
   end
 
