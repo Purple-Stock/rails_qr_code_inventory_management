@@ -408,7 +408,12 @@
   }
 
   function onScanSuccess(decodedText, decodedResult) {
-    // Handle the scanned code
+    // Prevent multiple rapid scans
+    if (window.lastScanTime && Date.now() - window.lastScanTime < 2000) {
+        return;
+    }
+    window.lastScanTime = Date.now();
+    
     console.log(`Code scanned: ${decodedText}`, decodedResult);
     
     // Set the input value
@@ -417,8 +422,10 @@
     // Stop the scanner
     stopScanner();
     
-    // Process the scanned item
-    addScannedItem();
+    // Process the scanned item after a small delay to ensure scanner is stopped
+    setTimeout(() => {
+        addScannedItem();
+    }, 100);
   }
 
   function onScanFailure(error) {
@@ -429,22 +436,39 @@
   function closeBarcodeModal() {
     console.log('Closing barcode modal');
     
+    // Add a flag to prevent double processing
+    if (window.isClosing) {
+        return;
+    }
+    window.isClosing = true;
+    
     try {
-      // Try to stop the scanner if it's running
-      if (html5QrCodeScanner) {
-        stopScanner();
-      }
+        // Try to stop the scanner if it's running
+        if (html5QrCodeScanner) {
+            stopScanner();
+        }
     } catch (e) {
-      console.error("Error while stopping scanner:", e);
-      // Reset scanner variable even if stopping fails
-      html5QrCodeScanner = null;
+        console.error("Error while stopping scanner:", e);
+        // Reset scanner variable even if stopping fails
+        html5QrCodeScanner = null;
     }
     
     document.getElementById('barcodeModal').classList.add('hidden');
     document.getElementById('barcodeInput').value = '';
+    
+    // Reset the closing flag after a short delay
+    setTimeout(() => {
+        window.isClosing = false;
+    }, 100);
   }
 
   function addScannedItem() {
+    // Prevent multiple rapid calls
+    if (window.isProcessingItem) {
+        return;
+    }
+    window.isProcessingItem = true;
+    
     const barcodeInput = document.getElementById('barcodeInput');
     const barcode = barcodeInput.value.trim();
     
@@ -469,13 +493,10 @@
       Searching...
     `;
     
-    console.log('Searching for barcode:', barcode);
-    
     // Get the team ID from the data attribute
     const teamId = document.querySelector('[data-stock-transaction-team-id-value]')
       .getAttribute('data-stock-transaction-team-id-value');
     
-    // Use the new API endpoint to find the item by barcode
     fetch(`/teams/${teamId}/items/find_by_barcode?barcode=${encodeURIComponent(barcode)}`)
       .then(response => {
         if (!response.ok) {
@@ -496,11 +517,14 @@
           if (existingRow) {
             // If item already exists, increment quantity by 1
             const quantityInput = existingRow.querySelector('[data-quantity]');
-            quantityInput.value = (parseInt(quantityInput.value) || 0) + 1;
+            const currentValue = parseInt(quantityInput.value) || 0;
+            quantityInput.value = currentValue + 1;
             
-            // Trigger input event to update totals
-            const event = new Event('input', { bubbles: true });
-            quantityInput.dispatchEvent(event);
+            // Manually trigger the update total calculation
+            const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+            if (stockTransactionController) {
+              stockTransactionController.updateTotal();
+            }
             
             // Show success notification
             showToast(`Added 1 more ${item.name}`);
@@ -528,15 +552,17 @@
             
             itemsList.appendChild(row);
             
-            // Trigger input event to update totals
-            const event = new Event('input', { bubbles: true });
-            quantityInput.dispatchEvent(event);
+            // Manually trigger the update total calculation
+            const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+            if (stockTransactionController) {
+              stockTransactionController.updateTotal();
+            }
             
             // Show success notification
             showToast(`Added ${item.name} to list`);
           }
           
-          // Close the modal
+          // Close the modal before processing the item
           closeBarcodeModal();
         } else {
           // Show not found message
@@ -551,6 +577,10 @@
         searchButton.innerHTML = originalText;
         
         alert('Error searching for this barcode');
+      })
+      .finally(() => {
+        // Reset the processing flag
+        window.isProcessingItem = false;
       });
   }
   

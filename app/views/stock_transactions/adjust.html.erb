@@ -234,33 +234,12 @@
 
 <!-- Add the JavaScript for barcode scanning -->
 <script>
-  let adjustQrCodeScanner = null;  // Renamed variable to be specific to this page
-
-  // Wait for the document to be fully loaded
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add keyboard event listener to the barcode input
-    const adjustBarcodeInput = document.getElementById('adjustBarcodeInput');
-    
-    if (adjustBarcodeInput) {
-      adjustBarcodeInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          addAdjustScannedItem();
-        }
-      });
-    }
-
-    // Set up the start scanner button
-    const startScannerButton = document.getElementById('adjust-start-scanner');
-    if (startScannerButton) {
-      startScannerButton.addEventListener('click', toggleAdjustScanner);
-    }
-  });
+  let adjustQrCodeScanner = null;
 
   function openAdjustBarcodeModal() {
     console.log('Opening adjust barcode modal');
     document.getElementById('adjustBarcodeModal').classList.remove('hidden');
     
-    // Focus the input field after a small delay to allow the modal to display
     setTimeout(() => {
       const input = document.getElementById('adjustBarcodeInput');
       if (input) {
@@ -268,7 +247,6 @@
       }
     }, 100);
 
-    // Initialize the scanner area if not already done
     initAdjustScanner();
   }
 
@@ -454,59 +432,31 @@
     const barcode = barcodeInput.value.trim();
     
     if (!barcode) {
-      // Add a visual feedback for empty input
-      barcodeInput.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+      barcodeInput.classList.add('border-red-500');
       setTimeout(() => {
-        barcodeInput.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        barcodeInput.classList.remove('border-red-500');
       }, 2000);
       return;
     }
     
-    // Show loading state
-    const searchButton = document.querySelector('[onclick="addAdjustScannedItem()"]');
-    const originalText = searchButton.innerHTML;
-    searchButton.disabled = true;
-    searchButton.innerHTML = `
-      <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-      </svg>
-      Searching...
-    `;
-    
-    console.log('Searching for barcode:', barcode);
-    
-    // Get the team ID from the data attribute
     const teamId = document.querySelector('[data-stock-transaction-team-id-value]')
       .getAttribute('data-stock-transaction-team-id-value');
     
-    // Use the API endpoint to find the item by barcode
     fetch(`/teams/${teamId}/items/find_by_barcode?barcode=${encodeURIComponent(barcode)}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Item not found');
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        // Reset button state
-        searchButton.disabled = false;
-        searchButton.innerHTML = originalText;
-        
         if (data.success && data.item) {
           const item = data.item;
           
           // Check if item is already in the list
           const existingRow = document.querySelector(`tr[data-item-id="${item.id}"]`);
           if (existingRow) {
-            // For adjust, we don't increment - just show a message that it's already in the list
-            showToast(`${item.name} is already in the list`);
-            
+            showToast(`${item.name} is already in the list`, "blue");
             closeAdjustBarcodeModal();
             return;
           }
           
-          // Add the item to the table
+          // Add new item to the list
           const template = document.querySelector('[data-stock-transaction-target="itemTemplate"]');
           const itemsList = document.querySelector('[data-stock-transaction-target="itemsList"]');
           
@@ -519,35 +469,29 @@
             row.querySelector('[data-item-sku]').textContent = item.sku;
             row.querySelector('[data-current-stock]').textContent = item.current_stock;
             
-            // Set default quantity to current stock for adjustment
+            // Set default quantity to 1 instead of current stock
             const quantityInput = row.querySelector('[data-quantity]');
-            quantityInput.value = item.current_stock;
+            quantityInput.value = 1;
             
             itemsList.appendChild(row);
             
-            // Trigger input event to update any other UI
-            const event = new Event('input', { bubbles: true });
-            quantityInput.dispatchEvent(event);
+            // Update total if needed
+            const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+            if (stockTransactionController) {
+              stockTransactionController.updateTotal();
+            }
             
-            // Show success notification
-            showToast(`Added ${item.name} to list`);
+            showToast(`Added ${item.name} to list`, "green");
           }
           
-          // Close the modal
           closeAdjustBarcodeModal();
         } else {
-          // Show not found message
-          alert(`No items found with barcode: ${barcode}`);
+          showToast("Item not found", "red");
         }
       })
       .catch(error => {
-        console.error('Error searching for barcode:', error);
-        
-        // Reset button state
-        searchButton.disabled = false;
-        searchButton.innerHTML = originalText;
-        
-        alert('Error searching for this barcode');
+        console.error('Error:', error);
+        showToast("Error searching for item", "red");
       });
   }
   

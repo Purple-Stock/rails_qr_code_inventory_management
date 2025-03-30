@@ -135,7 +135,7 @@
     </div>
 
     <!-- Add Barcode Scanner Modal -->
-    <div id="barcodeModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+    <div id="stockOutBarcodeModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
       <div class="flex items-center justify-center min-h-screen p-4 text-center sm:p-0">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
           <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -148,7 +148,7 @@
               Barcode Scanner
             </h3>
             <button type="button" 
-                    onclick="closeBarcodeModal()" 
+                    onclick="closeStockOutBarcodeModal()" 
                     class="text-white hover:text-gray-200 focus:outline-none">
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -170,17 +170,17 @@
                 
                 <!-- Camera preview for scanning -->
                 <div class="mt-4 mb-4">
-                  <div id="scanner-container" class="relative w-full bg-gray-100 rounded-md overflow-hidden flex flex-col items-center justify-center p-4">
-                    <div id="qr-reader" style="width: 100%; min-height: 300px;"></div>
+                  <div id="stockout-scanner-container" class="relative w-full bg-gray-100 rounded-md overflow-hidden flex flex-col items-center justify-center p-4">
+                    <div id="stockout-qr-reader" style="width: 100%; min-height: 300px;"></div>
                     <div class="text-center mt-4 flex flex-col sm:flex-row gap-2 w-full">
-                      <button id="start-scanner" 
+                      <button id="stockout-start-scanner" 
                               class="w-full sm:w-auto bg-red-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-red-700 focus:outline-none">
                         Start Camera
                       </button>
                       
                       <div class="relative w-full sm:w-auto">
                         <input type="file" 
-                               id="qr-input-file" 
+                               id="stockout-qr-input-file" 
                                accept="image/*" 
                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                onchange="handleFileSelect(this)">
@@ -197,7 +197,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Barcode/QR Code</label>
                     <div class="relative rounded-md shadow-sm">
                       <input type="text" 
-                             id="barcodeInput"
+                             id="stockOutBarcodeInput"
                              class="block w-full pr-10 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm border-gray-300 rounded-md"
                              placeholder="Enter barcode or scan">
                       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -218,12 +218,12 @@
           
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button type="button" 
-                    onclick="addScannedItem()"
+                    onclick="addStockOutScannedItem()"
                     class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
               Search
             </button>
             <button type="button" 
-                    onclick="closeBarcodeModal()"
+                    onclick="closeStockOutBarcodeModal()"
                     class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
               Cancel
             </button>
@@ -236,69 +236,69 @@
 
 <!-- Add the JavaScript for barcode scanning -->
 <script>
-  let html5QrCodeScanner = null;
+  let stockOutQrCodeScanner = null;
 
   // Wait for the document to be fully loaded
   document.addEventListener('DOMContentLoaded', function() {
     // Add keyboard event listener to the barcode input
-    const barcodeInput = document.getElementById('barcodeInput');
+    const stockOutBarcodeInput = document.getElementById('stockOutBarcodeInput');
     
-    if (barcodeInput) {
-      barcodeInput.addEventListener('keypress', function(e) {
+    if (stockOutBarcodeInput) {
+      stockOutBarcodeInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
-          addScannedItem();
+          addStockOutScannedItem();
         }
       });
     }
 
     // Set up the start scanner button
-    const startScannerButton = document.getElementById('start-scanner');
+    const startScannerButton = document.getElementById('stockout-start-scanner');
     if (startScannerButton) {
-      startScannerButton.addEventListener('click', toggleScanner);
+      startScannerButton.addEventListener('click', toggleStockOutScanner);
     }
   });
 
   function openBarcodeModal() {
-    console.log('Opening barcode modal');
-    document.getElementById('barcodeModal').classList.remove('hidden');
+    console.log('Opening stock out barcode modal');
+    document.getElementById('stockOutBarcodeModal').classList.remove('hidden');
     
     // Focus the input field after a small delay to allow the modal to display
     setTimeout(() => {
-      const input = document.getElementById('barcodeInput');
+      const input = document.getElementById('stockOutBarcodeInput');
       if (input) {
         input.focus();
       }
     }, 100);
 
     // Initialize the scanner area if not already done
-    initScanner();
+    initStockOutScanner();
   }
 
-  function initScanner() {
+  function initStockOutScanner() {
     // Only initialize once
-    if (window.scannerInitialized) return;
+    if (window.stockOutScannerInitialized) return;
     
-    const scannerContainer = document.getElementById('scanner-container');
+    const scannerContainer = document.getElementById('stockout-scanner-container');
     
     // Keep the existing structure but make sure the file upload button exists
-    if (!document.getElementById('qr-input-file')) {
+    if (!document.getElementById('stockout-qr-input-file')) {
       loadHtml5QrcodeScript();
     }
     
-    window.scannerInitialized = true;
+    window.stockOutScannerInitialized = true;
   }
 
-  function toggleScanner() {
-    if (html5QrCodeScanner) {
-      stopScanner();
+  function toggleStockOutScanner() {
+    if (stockOutQrCodeScanner) {
+      stopStockOutScanner();
       return;
     }
 
-    startScanner();
+    startStockOutScanner();
   }
 
-  function startScanner() {
-    const startButton = document.getElementById('start-scanner');
+  function startStockOutScanner() {
+    const startButton = document.getElementById('stockout-start-scanner');
     if (!startButton) {
       console.error('Start scanner button not found');
       return;
@@ -312,7 +312,7 @@
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';
       script.onload = function() {
-        initializeScanner(startButton);
+        initializeStockOutScanner(startButton);
       };
       script.onerror = function() {
         console.error('Failed to load HTML5-QRCode library');
@@ -321,13 +321,13 @@
       };
       document.head.appendChild(script);
     } else {
-      initializeScanner(startButton);
+      initializeStockOutScanner(startButton);
     }
   }
   
-  function initializeScanner(startButton) {
+  function initializeStockOutScanner(startButton) {
     try {
-      const html5QrCode = new Html5Qrcode("qr-reader");
+      const html5QrCode = new Html5Qrcode("stockout-qr-reader");
       const config = {
         fps: 10,
         qrbox: { width: 240, height: 240 },
@@ -337,11 +337,11 @@
       html5QrCode.start(
         { facingMode: "environment" }, 
         config,
-        onScanSuccess,
-        onScanFailure
+        onStockOutScanSuccess,
+        onStockOutScanFailure
       ).then(() => {
-        html5QrCodeScanner = html5QrCode;
-        updateScannerButtonState(true);
+        stockOutQrCodeScanner = html5QrCode;
+        updateStockOutScannerButtonState(true);
       }).catch((err) => {
         console.error(`Unable to start scanning: ${err}`);
         startButton.textContent = 'Start Camera';
@@ -355,29 +355,29 @@
     }
   }
 
-  function stopScanner() {
-    if (html5QrCodeScanner) {
+  function stopStockOutScanner() {
+    if (stockOutQrCodeScanner) {
       // Check if the scanner is actually running before trying to stop it
-      if (html5QrCodeScanner._isScanning) {
-        html5QrCodeScanner.stop().then(() => {
-          html5QrCodeScanner = null;
-          updateScannerButtonState(false);
+      if (stockOutQrCodeScanner._isScanning) {
+        stockOutQrCodeScanner.stop().then(() => {
+          stockOutQrCodeScanner = null;
+          updateStockOutScannerButtonState(false);
         }).catch((err) => {
           console.error("Error stopping scanner:", err);
-          html5QrCodeScanner = null;
-          updateScannerButtonState(false);
+          stockOutQrCodeScanner = null;
+          updateStockOutScannerButtonState(false);
         });
       } else {
         // Scanner was initialized but not running
-        html5QrCodeScanner = null;
-        updateScannerButtonState(false);
+        stockOutQrCodeScanner = null;
+        updateStockOutScannerButtonState(false);
       }
     }
   }
 
   // Helper function to update button state
-  function updateScannerButtonState(isScanning) {
-    const startButton = document.getElementById('start-scanner');
+  function updateStockOutScannerButtonState(isScanning) {
+    const startButton = document.getElementById('stockout-start-scanner');
     if (startButton) {
       startButton.textContent = isScanning ? 'Stop Camera' : 'Start Camera';
       startButton.disabled = false;
@@ -391,45 +391,148 @@
     }
   }
 
-  function onScanSuccess(decodedText, decodedResult) {
-    // Handle the scanned code
-    console.log(`Code scanned: ${decodedText}`, decodedResult);
+  function onStockOutScanSuccess(decodedText, decodedResult) {
+    // Prevent multiple rapid scans
+    if (window.lastScanTime && Date.now() - window.lastScanTime < 2000) {
+        return;
+    }
+    window.lastScanTime = Date.now();
+    
+    console.log(`Code scanned: ${decodedText}`);
     
     // Set the input value
-    document.getElementById('barcodeInput').value = decodedText;
+    document.getElementById('stockOutBarcodeInput').value = decodedText;
     
     // Stop the scanner
-    stopScanner();
+    stopStockOutScanner();
     
-    // Process the scanned item
-    addScannedItem();
+    // Process the scanned item after a small delay to ensure scanner is stopped
+    setTimeout(() => {
+        processStockOutScannedItem(decodedText);
+    }, 100);
   }
 
-  function onScanFailure(error) {
+  // New function to process scanned items
+  function processStockOutScannedItem(barcode) {
+    const teamId = document.querySelector('[data-stock-transaction-team-id-value]')
+        .getAttribute('data-stock-transaction-team-id-value');
+    
+    fetch(`/teams/${teamId}/items/find_by_barcode?barcode=${encodeURIComponent(barcode)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.item) {
+                const item = data.item;
+                
+                // For stock out, validate if there's enough stock
+                if (item.current_stock <= 0) {
+                    showToast(`${item.name} is out of stock!`, "red");
+                    closeStockOutBarcodeModal(); // Close modal after showing error
+                    return;
+                }
+                
+                // Check if item is already in the list
+                const existingRow = document.querySelector(`tr[data-item-id="${item.id}"]`);
+                if (existingRow) {
+                    const quantityInput = existingRow.querySelector('[data-quantity]');
+                    const currentQuantity = parseInt(quantityInput.value) || 0;
+                    const currentStock = parseInt(existingRow.querySelector('[data-current-stock]').textContent);
+                    
+                    if (currentQuantity >= currentStock) {
+                        showToast(`Maximum stock limit reached for ${item.name}`, "red");
+                        closeStockOutBarcodeModal(); // Close modal after showing error
+                        return;
+                    }
+                    
+                    // Increment quantity by 1
+                    quantityInput.value = currentQuantity + 1;
+                    
+                    // Update total
+                    const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+                    if (stockTransactionController) {
+                        stockTransactionController.updateTotal();
+                    }
+                    
+                    showToast(`Added 1 more ${item.name}`, "green");
+                    closeStockOutBarcodeModal(); // Close modal after success
+                } else {
+                    // Add new item to the list
+                    addNewItemToList(item);
+                    closeStockOutBarcodeModal(); // Close modal after adding new item
+                }
+            } else {
+                showToast("Item not found", "red");
+                closeStockOutBarcodeModal(); // Close modal after showing error
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast("Error processing item", "red");
+            closeStockOutBarcodeModal(); // Close modal after error
+        });
+  }
+
+  // Helper function to add new item to the list
+  function addNewItemToList(item) {
+    const template = document.querySelector('[data-stock-transaction-target="itemTemplate"]');
+    const itemsList = document.querySelector('[data-stock-transaction-target="itemsList"]');
+    
+    if (template && itemsList) {
+        const clone = template.content.cloneNode(true);
+        const row = clone.querySelector('tr');
+        
+        row.dataset.itemId = item.id;
+        row.querySelector('[data-item-name]').textContent = item.name;
+        row.querySelector('[data-item-sku]').textContent = item.sku;
+        row.querySelector('[data-current-stock]').textContent = item.current_stock;
+        
+        // Set default quantity to 1 and max to current stock
+        const quantityInput = row.querySelector('[data-quantity]');
+        quantityInput.value = 1;
+        quantityInput.max = item.current_stock;
+        
+        itemsList.appendChild(row);
+        
+        // Update total
+        const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+        if (stockTransactionController) {
+            stockTransactionController.updateTotal();
+        }
+        
+        showToast(`Added ${item.name} to list`, "green");
+    }
+  }
+
+  function onStockOutScanFailure(error) {
     // Handle scan failure, ignore frequent failures as they're normal during scanning
     // console.debug(`Scan error: ${error}`);
   }
 
-  function closeBarcodeModal() {
-    console.log('Closing barcode modal');
+  function closeStockOutBarcodeModal() {
+    console.log('Closing stock out barcode modal');
     
     try {
-      // Try to stop the scanner if it's running
-      if (html5QrCodeScanner) {
-        stopScanner();
-      }
+        // Try to stop the scanner if it's running
+        if (stockOutQrCodeScanner) {
+            stopStockOutScanner();
+        }
     } catch (e) {
-      console.error("Error while stopping scanner:", e);
-      // Reset scanner variable even if stopping fails
-      html5QrCodeScanner = null;
+        console.error("Error while stopping scanner:", e);
+        // Reset scanner variable even if stopping fails
+        stockOutQrCodeScanner = null;
     }
     
-    document.getElementById('barcodeModal').classList.add('hidden');
-    document.getElementById('barcodeInput').value = '';
+    document.getElementById('stockOutBarcodeModal').classList.add('hidden');
+    document.getElementById('stockOutBarcodeInput').value = '';
   }
 
-  function addScannedItem() {
-    const barcodeInput = document.getElementById('barcodeInput');
+  function addStockOutScannedItem() {
+    // Prevent multiple rapid calls
+    if (window.isProcessingStockOutItem) {
+        return;
+    }
+    window.isProcessingStockOutItem = true;
+
+    const barcodeInput = document.getElementById('stockOutBarcodeInput');
     const barcode = barcodeInput.value.trim();
     
     if (!barcode) {
@@ -438,11 +541,12 @@
       setTimeout(() => {
         barcodeInput.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
       }, 2000);
+      window.isProcessingStockOutItem = false;
       return;
     }
     
     // Show loading state
-    const searchButton = document.querySelector('[onclick="addScannedItem()"]');
+    const searchButton = document.querySelector('[onclick="addStockOutScannedItem()"]');
     const originalText = searchButton.innerHTML;
     searchButton.disabled = true;
     searchButton.innerHTML = `
@@ -453,13 +557,10 @@
       Searching...
     `;
     
-    console.log('Searching for barcode:', barcode);
-    
     // Get the team ID from the data attribute
     const teamId = document.querySelector('[data-stock-transaction-team-id-value]')
       .getAttribute('data-stock-transaction-team-id-value');
     
-    // Use the new API endpoint to find the item by barcode
     fetch(`/teams/${teamId}/items/find_by_barcode?barcode=${encodeURIComponent(barcode)}`)
       .then(response => {
         if (!response.ok) {
@@ -478,7 +579,7 @@
           // For stock out, validate if there's enough stock
           if (item.current_stock <= 0) {
             alert(`Item ${item.name} is out of stock!`);
-            closeBarcodeModal(); // Close the modal after showing the alert
+            closeStockOutBarcodeModal(); // Close the modal after showing the alert
             return;
           }
           
@@ -492,20 +593,22 @@
             
             if (currentQuantity + 1 > currentStock) {
               alert(`Cannot add more than ${currentStock} of this item!`);
-              closeBarcodeModal();
+              closeStockOutBarcodeModal();
               return;
             }
             
             quantityInput.value = currentQuantity + 1;
             
-            // Trigger input event to update totals
-            const event = new Event('input', { bubbles: true });
-            quantityInput.dispatchEvent(event);
+            // Manually trigger the update total calculation
+            const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+            if (stockTransactionController) {
+              stockTransactionController.updateTotal();
+            }
             
             // Show success notification
             showToast(`Added 1 more ${item.name}`);
             
-            closeBarcodeModal();
+            closeStockOutBarcodeModal();
             return;
           }
           
@@ -522,27 +625,28 @@
             row.querySelector('[data-item-sku]').textContent = item.sku;
             row.querySelector('[data-current-stock]').textContent = item.current_stock;
             
-            // Set default quantity to 1
+            // Set default quantity to 1 and max to current stock
             const quantityInput = row.querySelector('[data-quantity]');
             quantityInput.value = 1;
-            quantityInput.max = item.current_stock; // Set max to current stock
+            quantityInput.max = item.current_stock;
             
             itemsList.appendChild(row);
             
-            // Trigger input event to update totals
-            const event = new Event('input', { bubbles: true });
-            quantityInput.dispatchEvent(event);
+            // Manually trigger the update total calculation
+            const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+            if (stockTransactionController) {
+              stockTransactionController.updateTotal();
+            }
             
             // Show success notification
             showToast(`Added ${item.name} to list`);
           }
           
           // Close the modal
-          closeBarcodeModal();
+          closeStockOutBarcodeModal();
         } else {
           // Show not found message
           alert(`No items found with barcode: ${barcode}`);
-          closeBarcodeModal();
         }
       })
       .catch(error => {
@@ -553,7 +657,10 @@
         searchButton.innerHTML = originalText;
         
         alert('Error searching for this barcode');
-        closeBarcodeModal();
+      })
+      .finally(() => {
+        // Reset the processing flag
+        window.isProcessingStockOutItem = false;
       });
   }
   
@@ -570,8 +677,8 @@
     showToast("Processing image...", "blue");
     
     // Create a new Html5Qrcode instance if needed
-    if (!html5QrCodeScanner) {
-      initScanner();
+    if (!stockOutQrCodeScanner) {
+      initStockOutScanner();
       
       // Need to wait for the scanner initialization
       setTimeout(() => {
@@ -595,20 +702,20 @@
     try {
       // Create a new Html5Qrcode instance just for file scanning
       // This avoids conflicts with the camera scanner
-      const fileScanner = new Html5Qrcode("qr-reader");
+      const fileScanner = new Html5Qrcode("stockout-qr-reader");
       
       fileScanner.scanFile(file, true)
         .then(decodedText => {
           console.log(`Code scanned from file: ${decodedText}`);
           
           // Set the input value
-          document.getElementById('barcodeInput').value = decodedText;
+          document.getElementById('stockOutBarcodeInput').value = decodedText;
           
           // Clean up the file scanner before processing the item
           fileScanner.clear();
           
           // Process the scanned item
-          addScannedItem();
+          addStockOutScannedItem();
         })
         .catch(error => {
           console.error("Error scanning file:", error);
@@ -672,20 +779,20 @@
 
 <style>
   /* Styles for the HTML5 QR scanner */
-  #qr-reader {
+  #stockout-qr-reader {
     width: 100%;
     min-height: 300px;
   }
   
-  #qr-reader img {
+  #stockout-qr-reader img {
     display: none; /* Hide the library's default logo */
   }
   
-  #qr-reader__scan_region {
+  #stockout-qr-reader__scan_region {
     position: relative;
   }
   
-  #qr-reader__scan_region::before {
+  #stockout-qr-reader__scan_region::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -698,7 +805,7 @@
     z-index: 10;
   }
   
-  #qr-reader__status_span {
+  #stockout-qr-reader__status_span {
     background-color: #8b5cf6 !important;
     color: white !important;
   }
