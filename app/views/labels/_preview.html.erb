@@ -1,14 +1,42 @@
-<div class="grid grid-cols-3 gap-4">
-  <% @selected_items.each do |item| %>
-    <div class="p-4 border rounded-lg bg-white">
-      <% case @label_type %>
-      <% when 'barcode' %>
-        <%= render 'barcode', item: item %>
-      <% when 'qr' %>
-        <%= render 'qr_code', item: item %>
-      <% when 'hybrid' %>
-        <%= render 'hybrid', item: item %>
-      <% end %>
+<% if @selected_items.present? %>
+  <div class="grid grid-cols-2 gap-6 p-6 bg-gray-50 rounded-lg">
+    <% @selected_items.each do |item| %>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <div class="text-center">
+          <p class="text-sm font-medium text-gray-900 mb-2"><%= item.name %></p>
+          
+          <% case @label_type %>
+          <% when 'barcode' %>
+            <%= tag.div class: "flex justify-center" do %>
+              <%= image_tag barcode_data_url(item.sku), class: "h-16" %>
+            <% end %>
+          <% when 'qr' %>
+            <%= tag.div class: "flex justify-center" do %>
+              <%= image_tag qr_code_data_url(item.sku), class: "h-24 w-24" %>
+            <% end %>
+          <% when 'hybrid' %>
+            <div class="space-y-3">
+              <%= tag.div class: "flex justify-center" do %>
+                <%= image_tag qr_code_data_url(item.sku), class: "h-20 w-20" %>
+              <% end %>
+              <%= tag.div class: "flex justify-center" do %>
+                <%= image_tag barcode_data_url(item.sku), class: "h-12" %>
+              <% end %>
+            </div>
+          <% end %>
+          
+          <p class="text-sm text-gray-500 mt-2">SKU: <%= item.sku %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="p-8 bg-gray-50 rounded-lg flex items-center justify-center min-h-[200px] border-2 border-dashed border-gray-300">
+    <div class="text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      <p class="mt-2 text-sm text-gray-500">Select items to preview labels</p>
     </div>
-  <% end %>
-</div> 
+  </div>
+<% end %> 

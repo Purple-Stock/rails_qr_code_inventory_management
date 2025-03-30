@@ -11,8 +11,12 @@ class LabelsController < ApplicationController
     @layout = params[:layout]
 
     respond_to do |format|
-      format.turbo_stream
-      format.html { render partial: 'preview' }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("preview", 
+          partial: "labels/preview",
+          locals: { selected_items: @selected_items, label_type: @label_type }
+        )
+      end
     end
   end
 

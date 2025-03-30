@@ -1,107 +1,165 @@
 <div class="container mx-auto px-4 py-8">
-  <div class="flex flex-col space-y-6">
-    <div class="flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Label Generator</h1>
-      <div class="flex space-x-4">
+  <div class="flex flex-col space-y-8">
+    <%# Header Section %>
+    <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Label Generator</h1>
+        <p class="mt-1 text-sm text-gray-500">Generate QR codes and barcodes for your inventory items</p>
+      </div>
+      <div class="flex space-x-3">
         <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, target: '_blank', class: 'inline', id: 'print-form' do %>
           <%= hidden_field_tag :label_type %>
           <%= hidden_field_tag :item_ids %>
-          <%= submit_tag "Print", class: "btn btn-primary", onclick: "updateAndSubmit('print-form'); return false;" %>
+          <%= button_tag type: 'submit', class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500", onclick: "updateAndSubmit('print-form'); return false;" do %>
+            <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            Print Labels
+          <% end %>
         <% end %>
 
         <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, class: 'inline', id: 'download-form' do %>
           <%= hidden_field_tag :label_type %>
           <%= hidden_field_tag :item_ids %>
-          <%= submit_tag "Download", class: "btn btn-secondary", onclick: "updateAndSubmit('download-form'); return false;" %>
+          <%= button_tag type: 'submit', class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500", onclick: "updateAndSubmit('download-form'); return false;" do %>
+            <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            Download PDF
+          <% end %>
         <% end %>
       </div>
     </div>
 
-    <%= form_tag preview_team_labels_path(@team), method: :post, data: { turbo_frame: "preview" }, id: 'preview-form' do %>
-      <div class="grid grid-cols-3 gap-6">
-        <div class="col-span-1 bg-white p-6 rounded-lg shadow">
-          <h2 class="text-xl font-semibold mb-4">Design</h2>
-          <div class="space-y-4">
-            <div>
-              <%= label_tag :label_type, "Label Type", class: "block text-sm font-medium" %>
-              <%= select_tag :label_type, 
-                  options_for_select([
-                    ['Barcode', 'barcode'],
-                    ['QR Code', 'qr'],
-                    ['Hybrid', 'hybrid']
-                  ]),
-                  class: "select select-bordered w-full",
-                  onchange: "document.getElementById('preview-form').requestSubmit()" %>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-span-2">
-          <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-xl font-semibold mb-4">Select Items</h2>
-            <div class="overflow-x-auto">
-              <table class="table w-full">
-                <thead>
-                  <tr>
-                    <th>Select</th>
-                    <th>Item</th>
-                    <th>SKU</th>
-                    <th>Copies</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @items.each do |item| %>
-                    <tr>
-                      <td>
-                        <%= check_box_tag "item_ids[]", 
-                            item.id, 
-                            false, 
-                            class: "checkbox",
-                            data: { action: "change->form#submit change->form#updateFormValues" } %>
-                      </td>
-                      <td><%= item.name %></td>
-                      <td><%= item.sku %></td>
-                      <td>
-                        <%= number_field_tag "copies[#{item.id}]",
-                            1,
-                            min: 1,
-                            class: "input input-bordered w-20",
-                            data: { action: "change->form#submit" } %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <%# Label Design Options %>
+      <div class="bg-white rounded-lg shadow divide-y divide-gray-200">
+        <div class="p-6">
+          <h2 class="text-lg font-medium text-gray-900">Label Design</h2>
+          <p class="mt-1 text-sm text-gray-500">Choose your preferred label format</p>
+          <div class="mt-6 space-y-6">
+            <div class="space-y-2">
+              <%= form_tag preview_team_labels_path(@team), method: :post, data: { turbo_frame: "preview" } do %>
+                <%= label_tag :label_type, "Label Type", class: "block text-sm font-medium text-gray-700" %>
+                <%= select_tag :label_type, 
+                    options_for_select([
+                      ['Barcode', 'barcode'],
+                      ['QR Code', 'qr'],
+                      ['Hybrid (QR + Barcode)', 'hybrid']
+                    ]),
+                    class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md",
+                    onchange: "this.form.requestSubmit()" %>
+                
+                <%# Hidden checkboxes state %>
+                <div id="selected-items-container"></div>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
-    <% end %>
 
-    <div class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Preview</h2>
-      <%= turbo_frame_tag "preview" do %>
-        <div class="p-8 bg-gray-100 rounded flex items-center justify-center min-h-[200px]">
-          <p class="text-gray-500">Select items to preview labels</p>
+      <%# Item Selection %>
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow">
+          <div class="p-6">
+            <h2 class="text-lg font-medium text-gray-900">Select Items</h2>
+            <p class="mt-1 text-sm text-gray-500">Choose the items you want to generate labels for</p>
+            <div class="mt-6">
+              <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Select</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Item</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">SKU</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Copies</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 bg-white">
+                    <% @items.each do |item| %>
+                      <tr>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm">
+                          <%= check_box_tag "item_ids[]", 
+                              item.id, 
+                              false, 
+                              class: "h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500",
+                              onchange: "updatePreview(this)" %>
+                        </td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900"><%= item.name %></td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= item.sku %></td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm">
+                          <%= number_field_tag "copies[#{item.id}]",
+                              1,
+                              min: 1,
+                              class: "block w-20 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm" %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-      <% end %>
+      </div>
+    </div>
+
+    <%# Preview Section %>
+    <div class="bg-white rounded-lg shadow">
+      <div class="p-6">
+        <h2 class="text-lg font-medium text-gray-900">Preview</h2>
+        <p class="mt-1 text-sm text-gray-500">See how your labels will look</p>
+        <%= turbo_frame_tag "preview", class: "mt-6" do %>
+          <%= render "preview" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-  function updateAndSubmit(formId) {
-    // Get values from the preview form
-    const labelType = document.querySelector('#preview-form select[name="label_type"]').value;
-    const selectedItems = Array.from(document.querySelectorAll('#preview-form input[name="item_ids[]"]:checked'))
-      .map(checkbox => checkbox.value);
+function updatePreview(checkbox) {
+  // Get all selected items
+  const selectedItems = Array.from(document.querySelectorAll('input[name="item_ids[]"]:checked'))
+    .map(cb => cb.value);
+  
+  // Get the current label type
+  const labelType = document.querySelector('select[name="label_type"]').value;
+  
+  // Get the form
+  const form = document.querySelector('form[data-turbo-frame="preview"]');
+  
+  // Clear existing hidden inputs
+  const container = document.getElementById('selected-items-container');
+  container.innerHTML = '';
+  
+  // Add hidden inputs for each selected item
+  selectedItems.forEach(itemId => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'item_ids[]';
+    input.value = itemId;
+    container.appendChild(input);
+  });
+  
+  // Submit the form
+  form.requestSubmit();
+}
 
-    // Update the target form
-    const form = document.getElementById(formId);
-    form.querySelector('input[name="label_type"]').value = labelType;
-    form.querySelector('input[name="item_ids"]').value = selectedItems.join(',');
-
-    // Submit the form
-    form.submit();
-  }
+function updateAndSubmit(formId) {
+  // Get values from checkboxes
+  const selectedItems = Array.from(document.querySelectorAll('input[name="item_ids[]"]:checked'))
+    .map(checkbox => checkbox.value);
+  
+  // Get the label type
+  const labelType = document.querySelector('select[name="label_type"]').value;
+  
+  // Update the target form
+  const form = document.getElementById(formId);
+  form.querySelector('input[name="label_type"]').value = labelType;
+  form.querySelector('input[name="item_ids"]').value = selectedItems.join(',');
+  
+  // Submit the form
+  form.submit();
+}
 </script> 
