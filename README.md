@@ -59,7 +59,6 @@ Purple Stock is a comprehensive inventory management system designed for busines
 ## Technologies Used
 - Ruby on Rails
 - PostgreSQL
-- React
 - Tailwind CSS
 - Chart.js
 - QR Code Generator
