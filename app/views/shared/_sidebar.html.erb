@@ -16,7 +16,7 @@
         </button>
 
         <nav class="mt-5 flex-1 px-2 space-y-1">
-          <% if @team.present? %>
+          <% if @team.present? && @team.persisted? %>
             <%= link_to team_items_path(@team), 
                 class: "group flex items-center px-3 py-2 text-sm font-medium rounded-md #{current_page?(team_items_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}",
                 data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>

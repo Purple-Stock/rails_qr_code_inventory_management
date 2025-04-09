@@ -15,10 +15,12 @@ class TeamsController < ApplicationController
 
   def new
     @team = current_user.teams.build
+    @hide_team_settings = true
   end
 
   def create
     @team = current_user.teams.build(team_params)
+    @hide_team_settings = true
     
     if @team.save
       redirect_to team_selection_path, notice: 'Time criado com sucesso.'
@@ -28,9 +30,11 @@ class TeamsController < ApplicationController
   end
 
   def edit
+    @hide_team_settings = true
   end
 
   def update
+    @hide_team_settings = true
     if @team.update(team_params)
       redirect_to team_selection_path, notice: 'Time atualizado com sucesso.'
     else

@@ -26,7 +26,7 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <% if @team.present? %>
+        <% if @team.present? && @team.persisted? && !@hide_team_settings %>
           <%= link_to team_settings_path(@team, section: 'billing'), 
               class: "text-gray-600 hover:text-gray-900" do %>
             <div class="flex items-center">
