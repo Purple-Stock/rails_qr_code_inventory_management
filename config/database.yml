@@ -89,10 +89,14 @@ test:
 # https://github:com/bensheldon/good_job#production-setup
 production:
   <<: *default
-  database: inventory-control_production
-  username: inventory-control
-  password: <%= ENV['INVENTORY-CONTROL_DATABASE_PASSWORD'] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 20).to_i + 1 + 2 + ENV.fetch("GOOD_JOB_MAX_THREADS", 20).to_i %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+
+  # Add cable configuration for Action Cable
+  cable:
+    adapter: postgresql
+    url: <%= ENV['DATABASE_URL'] %>
+    channel_prefix: rails_qr_code_inventory_management_production
 
 # check best practices for good job https://github.com/bensheldon/good_job#database-connections
 staging:
