@@ -54,7 +54,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem 'dotenv-rails'
-  gem 'rspec-rails', '~> 7.0.0'
+  gem 'rspec-rails', '~> 7.1.1'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'shoulda-matchers'
@@ -71,7 +71,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "tailwindcss-ruby", "~> 4.0"
+gem "tailwindcss-ruby", "~> 4.1"
 
 gem "tailwindcss-rails", "~> 4.2"
 
