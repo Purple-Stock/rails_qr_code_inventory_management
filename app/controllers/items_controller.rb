@@ -28,39 +28,52 @@ class ItemsController < ApplicationController
 
   def new
     @item = @team.items.build
+    @locations = @team.locations.ordered
+    puts "Debug: Found #{@locations.count} locations"
   end
 
   def create
     ActiveRecord::Base.transaction do
       @item = @team.items.build(item_params.except(:initial_quantity))
+      @locations = @team.locations.ordered
 
       if @item.save
-        # Create stock_in transaction
-        @team.stock_transactions.create!(
+        # Create stock_in transaction with explicit destination_location_id
+        stock_transaction = @team.stock_transactions.new(
           item: @item,
           transaction_type: 'stock_in',
           quantity: item_params[:initial_quantity],
-          destination_location: item_params[:location],
+          destination_location_id: item_params[:location_id],
           user: current_user,
           notes: "Initial stock for item creation"
         )
 
-        redirect_to team_items_path(@team), notice: 'Item was successfully created.'
+        if stock_transaction.save
+          redirect_to team_items_path(@team), notice: 'Item was successfully created.'
+        else
+          raise ActiveRecord::Rollback
+          @item.errors.add(:base, "Failed to create stock transaction: #{stock_transaction.errors.full_messages.join(', ')}")
+          render :new, status: :unprocessable_entity
+        end
       else
         render :new, status: :unprocessable_entity
       end
     end
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid => e
+    @locations = @team.locations.ordered
+    @item.errors.add(:base, "Transaction failed: #{e.message}")
     render :new, status: :unprocessable_entity
   end
 
   def edit
+    @locations = @team.locations.ordered
   end
 
   def update
     if @item.update(item_params)
       redirect_to team_items_path(@team), notice: 'Item atualizado com sucesso.'
     else
+      @locations = @team.locations.ordered
       render :edit, status: :unprocessable_entity
     end
   end
@@ -177,7 +190,8 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:sku, :name, :barcode, :cost, :price, :item_type, :brand, :location, :initial_quantity)
+    params.require(:item).permit(:sku, :name, :barcode, :cost, :price, 
+                               :item_type, :brand, :location_id, :initial_quantity)
   end
 
   # Helper methods for generating unique SKUs and barcodes

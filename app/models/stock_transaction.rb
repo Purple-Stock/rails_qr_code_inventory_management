@@ -4,6 +4,8 @@ class StockTransaction < ApplicationRecord
   belongs_to :item
   belongs_to :team
   belongs_to :user
+  belongs_to :source_location, class_name: 'Location', optional: true
+  belongs_to :destination_location, class_name: 'Location', optional: true
 
   validates :quantity, presence: true, numericality: true
   validates :transaction_type, presence: true

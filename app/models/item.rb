@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :team
+  belongs_to :location, optional: true
   has_many :stock_transactions, dependent: :destroy
 
   validates :name, presence: true
