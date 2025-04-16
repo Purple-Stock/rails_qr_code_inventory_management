@@ -44,6 +44,9 @@ class StockTransactionsController < ApplicationController
   def stock_out
     if request.post?
       ActiveRecord::Base.transaction do
+        # Find the location first
+        source_location = @team.locations.find(params[:location])
+        
         params[:items].each do |item_data|
           item = @team.items.find(item_data[:id])
           
@@ -56,7 +59,7 @@ class StockTransactionsController < ApplicationController
             item: item,
             transaction_type: 'stock_out',
             quantity: -item_data[:quantity].to_i, # Make quantity negative for stock out
-            source_location: params[:location],
+            source_location: source_location,
             notes: params[:notes],
             user: current_user
           )
@@ -68,7 +71,7 @@ class StockTransactionsController < ApplicationController
       @transaction = @team.stock_transactions.new(transaction_type: :stock_out)
     end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Item not found" }, status: :not_found
+    render json: { error: "Location or item not found" }, status: :not_found
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
