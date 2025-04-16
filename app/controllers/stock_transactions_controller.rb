@@ -44,6 +44,9 @@ class StockTransactionsController < ApplicationController
   def stock_out
     if request.post?
       ActiveRecord::Base.transaction do
+        # Find the location first
+        source_location = @team.locations.find(params[:location])
+        
         params[:items].each do |item_data|
           item = @team.items.find(item_data[:id])
           
@@ -56,7 +59,7 @@ class StockTransactionsController < ApplicationController
             item: item,
             transaction_type: 'stock_out',
             quantity: -item_data[:quantity].to_i, # Make quantity negative for stock out
-            source_location: params[:location],
+            source_location: source_location,
             notes: params[:notes],
             user: current_user
           )
@@ -68,7 +71,7 @@ class StockTransactionsController < ApplicationController
       @transaction = @team.stock_transactions.new(transaction_type: :stock_out)
     end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Item not found" }, status: :not_found
+    render json: { error: "Location or item not found" }, status: :not_found
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
@@ -76,6 +79,9 @@ class StockTransactionsController < ApplicationController
   def adjust
     if request.post?
       ActiveRecord::Base.transaction do
+        # Find the location first
+        destination_location = @team.locations.find(params[:location])
+        
         params[:items].each do |item_data|
           item = @team.items.find(item_data[:id])
           new_quantity = item_data[:quantity].to_i
@@ -85,7 +91,7 @@ class StockTransactionsController < ApplicationController
             item: item,
             transaction_type: 'adjust',
             quantity: adjustment,
-            destination_location: params[:location],
+            destination_location: destination_location,
             notes: params[:notes],
             user: current_user
           )
@@ -97,14 +103,52 @@ class StockTransactionsController < ApplicationController
       @transaction = @team.stock_transactions.new(transaction_type: :adjust)
     end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Item not found" }, status: :not_found
+    render json: { error: "Location or item not found" }, status: :not_found
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def move
-    @transaction = @team.stock_transactions.new(transaction_type: :move)
-    @items = @team.items.order(:name)
+    if request.post?
+      ActiveRecord::Base.transaction do
+        # Find both locations
+        source_location = @team.locations.find(params[:source_location_id])
+        destination_location = @team.locations.find(params[:destination_location_id])
+        
+        params[:items].each do |item_id, item_data|
+          next if item_data[:quantity].to_i <= 0
+          
+          item = @team.items.find(item_id)
+          quantity = item_data[:quantity].to_i
+          
+          # Validate stock availability at source location
+          if item.current_stock < quantity
+            raise StandardError, "Not enough stock for #{item.name} at #{source_location.name}"
+          end
+          
+          @team.stock_transactions.create!(
+            item: item,
+            transaction_type: 'move',
+            quantity: quantity,
+            source_location: source_location,
+            destination_location: destination_location,
+            notes: params[:notes],
+            user: current_user
+          )
+        end
+        
+        redirect_to team_stock_transactions_path(@team), notice: 'Stock moved successfully'
+      end
+    else
+      @transaction = @team.stock_transactions.new(transaction_type: :move)
+      @items = @team.items.order(:name)
+    end
+  rescue ActiveRecord::RecordNotFound => e
+    flash[:error] = "Location or item not found"
+    redirect_to move_team_stock_transactions_path(@team)
+  rescue StandardError => e
+    flash[:error] = e.message
+    redirect_to move_team_stock_transactions_path(@team)
   end
 
   def count
