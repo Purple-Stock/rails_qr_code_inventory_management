@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["itemsList", "itemTemplate", "totalQuantity"]
   static values = {
     teamId: String,
-    type: String
+    type: { type: String, default: 'stock_in' }
   }
 
   connect() {
@@ -49,6 +49,15 @@ export default class extends Controller {
   }
 
   save() {
+    const locationSelect = document.querySelector("select[name='location']")
+    const locationId = locationSelect.value
+
+    if (!locationId) {
+      alert("Please select a location")
+      locationSelect.focus()
+      return
+    }
+
     const items = Array.from(this.itemsListTarget.querySelectorAll("tr")).map(row => {
       const quantity = parseInt(row.querySelector("[data-quantity]").value) || 0
       const currentStock = parseInt(row.querySelector("[data-current-stock]").textContent)
@@ -70,12 +79,16 @@ export default class extends Controller {
     }
 
     const data = {
-      location: document.querySelector("select").value,
+      location: locationId,
       notes: document.querySelector("textarea").value,
-      items: items
+      items: items,
+      transaction_type: this.typeValue
     }
 
-    fetch(`/teams/${this.teamIdValue}/transactions/${this.typeValue}`, {
+    // Use the correct URL pattern
+    const url = `/teams/${this.teamIdValue}/transactions`
+
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +97,11 @@ export default class extends Controller {
       body: JSON.stringify(data)
     })
     .then(response => {
-      if (!response.ok) throw new Error('Transaction failed')
+      if (!response.ok) {
+        return response.json().then(data => {
+          throw new Error(data.error || 'Transaction failed')
+        })
+      }
       return response.json()
     })
     .then(data => {

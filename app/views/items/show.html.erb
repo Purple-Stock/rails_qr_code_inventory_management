@@ -84,6 +84,10 @@
                 <dt class="text-sm font-medium text-gray-500">MARCA</dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= @item.brand %></dd>
               </div>
+              <div>
+                <dt class="text-sm font-medium text-gray-500">Location</dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.location&.name || 'No location assigned' %></dd>
+              </div>
             </dl>
           </div>
         </div>

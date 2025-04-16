@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/drwl/annotaterb
+  revision: df91a4e53836cd9569d3984c4170f5e4b6614dd5
+  specs:
+    annotaterb (4.14.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -440,6 +446,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  annotaterb!
   barby
   bootsnap
   brakeman
