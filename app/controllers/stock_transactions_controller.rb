@@ -14,13 +14,16 @@ class StockTransactionsController < ApplicationController
   def stock_in
     if request.post?
       ActiveRecord::Base.transaction do
+        # Find the location first
+        destination_location = @team.locations.find(params[:location])
+        
         params[:items].each do |item_data|
           item = @team.items.find(item_data[:id])
           @team.stock_transactions.create!(
             item: item,
             transaction_type: 'stock_in',
             quantity: item_data[:quantity],
-            destination_location: params[:location],
+            destination_location: destination_location, # Use the found location object
             notes: params[:notes],
             user: current_user
           )
@@ -33,7 +36,7 @@ class StockTransactionsController < ApplicationController
       @transaction = @team.stock_transactions.new(transaction_type: :stock_in)
     end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Item not found" }, status: :not_found
+    render json: { error: "Location or item not found" }, status: :not_found
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
@@ -110,12 +113,14 @@ class StockTransactionsController < ApplicationController
 
   def create
     @transaction_type = params[:transaction_type] || 'stock_in'
-    @location = params[:location]
     @notes = params[:notes]
     items_params = params[:items] || []
     
     begin
       ActiveRecord::Base.transaction do
+        # Find the location first
+        location = @team.locations.find(params[:location])
+        
         # Process each item as its own transaction record
         items_params.each do |item_data|
           item_id = item_data[:id]
@@ -131,7 +136,7 @@ class StockTransactionsController < ApplicationController
               item: item,
               transaction_type: 'adjust',
               quantity: difference,
-              destination_location: @location,
+              destination_location: location,
               notes: @notes,
               user: current_user
             )
@@ -141,7 +146,7 @@ class StockTransactionsController < ApplicationController
               item: item,
               transaction_type: 'stock_out',
               quantity: quantity * -1, # Make negative for stock out
-              source_location: @location,
+              source_location: location,
               notes: @notes,
               user: current_user
             )
@@ -151,7 +156,7 @@ class StockTransactionsController < ApplicationController
               item: item,
               transaction_type: 'stock_in',
               quantity: quantity,
-              destination_location: @location,
+              destination_location: location,
               notes: @notes,
               user: current_user
             )
@@ -160,9 +165,12 @@ class StockTransactionsController < ApplicationController
         
         render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
       end
+    rescue ActiveRecord::RecordNotFound => e
+      Rails.logger.error("Error creating transaction: #{e.message}")
+      render json: { error: "Location or item not found" }, status: :not_found
     rescue => e
       Rails.logger.error("Error creating transaction: #{e.message}")
-      render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   end
 
