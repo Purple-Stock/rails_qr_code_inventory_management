@@ -79,6 +79,9 @@ class StockTransactionsController < ApplicationController
   def adjust
     if request.post?
       ActiveRecord::Base.transaction do
+        # Find the location first
+        destination_location = @team.locations.find(params[:location])
+        
         params[:items].each do |item_data|
           item = @team.items.find(item_data[:id])
           new_quantity = item_data[:quantity].to_i
@@ -88,7 +91,7 @@ class StockTransactionsController < ApplicationController
             item: item,
             transaction_type: 'adjust',
             quantity: adjustment,
-            destination_location: params[:location],
+            destination_location: destination_location,
             notes: params[:notes],
             user: current_user
           )
@@ -100,7 +103,7 @@ class StockTransactionsController < ApplicationController
       @transaction = @team.stock_transactions.new(transaction_type: :adjust)
     end
   rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Item not found" }, status: :not_found
+    render json: { error: "Location or item not found" }, status: :not_found
   rescue => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
