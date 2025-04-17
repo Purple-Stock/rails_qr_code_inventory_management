@@ -78,9 +78,9 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <% if transaction.transaction_type_move? %>
-                  <%= "#{transaction.source_location} → #{transaction.destination_location}" %>
+                  <%= "#{transaction.source_location&.name} → #{transaction.destination_location&.name}" %>
                 <% else %>
-                  <%= transaction.source_location || transaction.destination_location %>
+                  <%= transaction.source_location&.name || transaction.destination_location&.name %>
                 <% end %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
