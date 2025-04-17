@@ -46,11 +46,11 @@ class StockTransaction < ApplicationRecord
   
   # Define enum with proper PostgreSQL ENUM mapping
   enum :transaction_type, {
-    stock_in: 'stock_in',
-    stock_out: 'stock_out',
-    adjust: 'adjust',
-    move: 'move',
-    count: 'count'
+    'stock_in' => 'stock_in',
+    'stock_out' => 'stock_out',
+    'move' => 'move',
+    'adjust' => 'adjust',
+    'count' => 'count'
   }, prefix: true
 
   # Validate locations based on transaction type

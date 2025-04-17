@@ -45,6 +45,7 @@ Rails.application.routes.draw do
         get :adjust
         post :adjust
         get :move
+        post :move
         get :count
         get :report
       end

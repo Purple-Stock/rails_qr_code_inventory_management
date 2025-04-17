@@ -58,21 +58,26 @@ export default class extends Controller {
   }
 
   selectItem(event) {
-    event.preventDefault()
     const button = event.currentTarget
     const item = {
       id: button.dataset.itemId,
       name: button.dataset.itemName,
       sku: button.dataset.itemSku,
-      currentStock: button.dataset.currentStock
+      currentStock: button.dataset.itemCurrentStock
     }
 
-    const stockTransactionController = this.element.closest("[data-controller='stock-transaction']")
-    if (stockTransactionController) {
-      const event = new CustomEvent("item-selected", { detail: item })
-      stockTransactionController.dispatchEvent(event)
-    }
+    // Find the parent form with the stock-transaction controller
+    const form = this.element.closest('form[data-controller="stock-transaction"]')
+    const eventName = form?.dataset.stockTransactionTypeValue === 'move' ? 
+      "move-item-selected" : "item-selected"
+    
+    // Dispatch event on the form element
+    form?.dispatchEvent(new CustomEvent(eventName, {
+      bubbles: true,
+      detail: item
+    }))
 
+    // Clear the search input and hide results
     this.inputTarget.value = ""
     this.resultsTarget.classList.add("hidden")
   }
