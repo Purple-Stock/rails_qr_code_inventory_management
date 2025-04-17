@@ -110,45 +110,75 @@ class StockTransactionsController < ApplicationController
 
   def move
     if request.post?
-      ActiveRecord::Base.transaction do
-        # Find both locations
-        source_location = @team.locations.find(params[:source_location_id])
-        destination_location = @team.locations.find(params[:destination_location_id])
+      begin
+        Rails.logger.info "=== Starting Move Transaction ==="
+        Rails.logger.info "Raw params: #{params.inspect}"
         
-        params[:items].each do |item_id, item_data|
-          next if item_data[:quantity].to_i <= 0
-          
-          item = @team.items.find(item_id)
-          quantity = item_data[:quantity].to_i
-          
-          # Validate stock availability at source location
-          if item.current_stock < quantity
-            raise StandardError, "Not enough stock for #{item.name} at #{source_location.name}"
+        ActiveRecord::Base.transaction do
+          # Find both locations - handle both formats
+          source_location = if params[:source_location_id]
+            @team.locations.find(params[:source_location_id])
+          else
+            @team.locations.find(params[:location])
           end
           
-          @team.stock_transactions.create!(
-            item: item,
-            transaction_type: 'move',
-            quantity: quantity,
-            source_location: source_location,
-            destination_location: destination_location,
-            notes: params[:notes],
-            user: current_user
-          )
+          destination_location = if params[:destination_location_id]
+            @team.locations.find(params[:destination_location_id])
+          else
+            # If no destination_location_id, use the next location in sequence
+            next_location = @team.locations.where.not(id: params[:location]).first
+            raise StandardError, "No destination location available" unless next_location
+            next_location
+          end
+          
+          Rails.logger.info "Processing move with: source=#{source_location.id}, dest=#{destination_location.id}"
+          Rails.logger.info "Items to process: #{params[:items].inspect}"
+          
+          params[:items].each do |item_data|
+            Rails.logger.info "Processing item: #{item_data.inspect}"
+            
+            item = @team.items.find(item_data[:id])
+            Rails.logger.info "Found item: #{item.inspect}"
+            
+            quantity = item_data[:quantity].to_i
+            Rails.logger.info "Quantity to move: #{quantity}"
+            
+            if item.current_stock < quantity
+              error_message = "Not enough stock for #{item.name} at #{source_location.name}"
+              Rails.logger.error error_message
+              raise StandardError, error_message
+            end
+            
+            transaction = @team.stock_transactions.create!(
+              item: item,
+              transaction_type: 'move',
+              quantity: quantity,
+              source_location: source_location,
+              destination_location: destination_location,
+              notes: params[:notes],
+              user: current_user
+            )
+            Rails.logger.info "Created transaction: #{transaction.inspect}"
+          end
+          
+          Rails.logger.info "Move transaction completed successfully"
+          render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
         end
-        
-        redirect_to team_stock_transactions_path(@team), notice: 'Stock moved successfully'
+      rescue ActiveRecord::RecordNotFound => e
+        Rails.logger.error "Record not found error: #{e.message}"
+        Rails.logger.error "Backtrace: #{e.backtrace.join("\n")}"
+        Rails.logger.error "Params that caused error: #{params.inspect}"
+        render json: { error: "Location or item not found" }, status: :not_found
+      rescue StandardError => e
+        Rails.logger.error "Standard error: #{e.message}"
+        Rails.logger.error "Backtrace: #{e.backtrace.join("\n")}"
+        Rails.logger.error "Params that caused error: #{params.inspect}"
+        render json: { error: e.message }, status: :unprocessable_entity
       end
     else
       @transaction = @team.stock_transactions.new(transaction_type: :move)
-      @items = @team.items.order(:name)
+      Rails.logger.info "Rendering move form for new transaction"
     end
-  rescue ActiveRecord::RecordNotFound => e
-    flash[:error] = "Location or item not found"
-    redirect_to move_team_stock_transactions_path(@team)
-  rescue StandardError => e
-    flash[:error] = e.message
-    redirect_to move_team_stock_transactions_path(@team)
   end
 
   def count
@@ -277,5 +307,14 @@ class StockTransactionsController < ApplicationController
     when 'count' then :count
     else :new
     end
+  end
+
+  def move_params
+    params.require(:stock_transaction).permit(
+      :source_location_id,
+      :destination_location_id,
+      :notes,
+      items: [:id, :quantity]
+    )
   end
 end 
