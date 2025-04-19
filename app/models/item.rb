@@ -46,7 +46,21 @@ class Item < ApplicationRecord
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
 
   def current_stock
-    stock_transactions.sum(:quantity)
+    total = 0
+    stock_transactions.each do |transaction|
+      case transaction.transaction_type
+      when 'stock_in'
+        total += transaction.quantity
+      when 'stock_out'
+        total += transaction.quantity  # quantity is already negative for stock_out
+      when 'move'
+        # Move transactions don't affect total stock
+        next
+      when 'adjust'
+        total += transaction.quantity
+      end
+    end
+    total
   end
 
   def stock_at_location(location_id)
