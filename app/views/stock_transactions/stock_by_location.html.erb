@@ -45,13 +45,14 @@
               <% @locations.each do |location| %>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <% stock = @stock_levels[item.id][location.id] %>
-                  <span class="<%= stock == 0 ? 'text-red-500' : '' %>">
+                  <span class="<%= stock.to_f == 0 ? 'text-red-500' : '' %>">
                     <%= number_with_precision(stock, precision: 2, strip_insignificant_zeros: true) %>
                   </span>
                 </td>
               <% end %>
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <%= number_with_precision(@stock_levels[item.id].values.sum, precision: 2, strip_insignificant_zeros: true) %>
+                <% total = @stock_levels[item.id].values.sum { |v| v.to_f } %>
+                <%= number_with_precision(total, precision: 2, strip_insignificant_zeros: true) %>
               </td>
             </tr>
           <% end %>

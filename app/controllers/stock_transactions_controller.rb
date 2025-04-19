@@ -5,10 +5,19 @@ class StockTransactionsController < ApplicationController
 
   def index
     @transactions = @team.stock_transactions
-                        .includes(:item, :user)
+                        .includes(:item, :user, :source_location, :destination_location)
                         .order(created_at: :desc)
                         .page(params[:page])
                         .per(25)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data generate_csv, 
+                  filename: "transactions-#{Time.current.strftime('%Y%m%d%H%M%S')}.csv",
+                  type: 'text/csv'
+      end
+    end
   end
 
   def stock_in
@@ -278,28 +287,16 @@ class StockTransactionsController < ApplicationController
   end
 
   def stock_by_location
-    @locations = @team.locations.includes(:items_as_source, :items_as_destination).ordered
+    @locations = @team.locations.ordered
+    @items = @team.items.includes(:stock_transactions)
     
-    # Get all items and their stock levels per location
     @stock_levels = {}
-    
-    @team.items.each do |item|
+    @items.each do |item|
       @stock_levels[item.id] = {}
-      
       @locations.each do |location|
-        stock_in = item.stock_transactions
-                      .where(destination_location: location)
-                      .sum(:quantity)
-        
-        stock_out = item.stock_transactions
-                       .where(source_location: location)
-                       .sum(:quantity)
-        
-        @stock_levels[item.id][location.id] = stock_in + stock_out
+        @stock_levels[item.id][location.id] = item.stock_at_location(location.id)
       end
     end
-
-    @items = @team.items.order(:name)
   end
 
   private
@@ -341,5 +338,44 @@ class StockTransactionsController < ApplicationController
       :notes,
       items: [:id, :quantity]
     )
+  end
+
+  def generate_csv
+    require 'csv'
+
+    headers = ['Date', 'Type', 'Item', 'SKU', 'Quantity', 'Location', 'User', 'Notes']
+
+    CSV.generate(headers: true) do |csv|
+      csv << headers
+
+      @team.stock_transactions
+           .includes(:item, :user, :source_location, :destination_location)
+           .order(created_at: :desc)
+           .each do |transaction|
+        csv << [
+          transaction.created_at.strftime("%Y-%m-%d %H:%M"),
+          transaction.transaction_type.titleize,
+          transaction.item.name,
+          transaction.item.sku,
+          number_with_sign(transaction.quantity),
+          format_location(transaction),
+          transaction.user.email,
+          transaction.notes
+        ]
+      end
+    end
+  end
+
+  def format_location(transaction)
+    if transaction.transaction_type_move?
+      "#{transaction.source_location&.name} → #{transaction.destination_location&.name}"
+    else
+      transaction.source_location&.name || transaction.destination_location&.name
+    end
+  end
+
+  def number_with_sign(number)
+    return number if number.nil?
+    number.positive? ? "+#{number}" : number.to_s
   end
 end 

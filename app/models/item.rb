@@ -49,6 +49,29 @@ class Item < ApplicationRecord
     stock_transactions.sum(:quantity)
   end
 
+  def stock_at_location(location_id)
+    total = 0
+    
+    stock_transactions.each do |transaction|
+      case transaction.transaction_type
+      when 'stock_in'
+        total += transaction.quantity if transaction.destination_location_id == location_id
+      when 'stock_out'  
+        total += transaction.quantity if transaction.source_location_id == location_id
+      when 'move'
+        if transaction.source_location_id == location_id
+          total -= transaction.quantity.abs # Subtract from source
+        elsif transaction.destination_location_id == location_id
+          total += transaction.quantity.abs # Add to destination
+        end
+      when 'adjust'
+        total += transaction.quantity if transaction.destination_location_id == location_id
+      end
+    end
+    
+    total
+  end
+
   def low_stock?
     current_stock <= minimum_stock && current_stock > 0
   end
