@@ -2,7 +2,7 @@
 
 Purple Stock is a comprehensive inventory management system designed for businesses of all sizes. It provides a robust set of features for tracking inventory across multiple locations, managing stock movements, and generating detailed reports.
 
-<img width="1689" alt="Screenshot 2025-04-07 at 07 05 19" src="https://github.com/user-attachments/assets/375fe185-d039-4c83-8c45-be6e577947c9" />
+<img width="1691" alt="Screenshot 2025-04-19 at 13 48 05" src="https://github.com/user-attachments/assets/f9a040e4-f3af-456b-8b3c-d6b4ca59afcd" />
 
 ## Core Features
 
