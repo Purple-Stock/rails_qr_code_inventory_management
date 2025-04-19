@@ -155,10 +155,10 @@ class ItemsController < ApplicationController
         headers['Content-Type'] ||= 'text/csv'
         
         csv_data = CSV.generate do |csv|
-          # Header row
-          csv << ['Name', 'SKU', 'Barcode', 'Type', 'Current Stock', 'Price', 'Cost', 'Brand', 'Location']
+          # Header row - removed Location
+          csv << ['Name', 'SKU', 'Barcode', 'Type', 'Current Stock', 'Price', 'Cost', 'Brand']
           
-          # Data rows
+          # Data rows - removed location
           @items.each do |item|
             csv << [
               item.name,
@@ -168,8 +168,7 @@ class ItemsController < ApplicationController
               item.current_stock,
               item.price,
               item.cost,
-              item.brand,
-              item.location
+              item.brand
             ]
           end
         end
