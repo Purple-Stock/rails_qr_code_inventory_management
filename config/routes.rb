@@ -48,6 +48,7 @@ Rails.application.routes.draw do
         post :move
         get :count
         get :report
+        get :stock_by_location
       end
     end
     resource :settings, only: [:show]

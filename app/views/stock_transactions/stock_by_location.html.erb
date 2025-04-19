@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Stock by Location</h1>
+        <p class="mt-1 text-sm text-gray-500">View current stock levels across all locations</p>
+      </div>
+      
+      <div class="flex space-x-4">
+        <button onclick="window.print()" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Print
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-white shadow overflow-x-auto rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead>
+          <tr>
+            <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sticky left-0 bg-white">
+              Item
+            </th>
+            <% @locations.each do |location| %>
+              <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <%= location.name %>
+              </th>
+            <% end %>
+            <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Total
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @items.each do |item| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 sticky left-0 bg-white">
+                <div>
+                  <%= item.name %>
+                  <div class="text-xs text-gray-500"><%= item.sku %></div>
+                </div>
+              </td>
+              <% @locations.each do |location| %>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <% stock = @stock_levels[item.id][location.id] %>
+                  <span class="<%= stock == 0 ? 'text-red-500' : '' %>">
+                    <%= number_with_precision(stock, precision: 2, strip_insignificant_zeros: true) %>
+                  </span>
+                </td>
+              <% end %>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <%= number_with_precision(@stock_levels[item.id].values.sum, precision: 2, strip_insignificant_zeros: true) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> 
