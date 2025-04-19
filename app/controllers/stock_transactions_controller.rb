@@ -277,6 +277,31 @@ class StockTransactionsController < ApplicationController
     render partial: "search_results", layout: false
   end
 
+  def stock_by_location
+    @locations = @team.locations.includes(:items_as_source, :items_as_destination).ordered
+    
+    # Get all items and their stock levels per location
+    @stock_levels = {}
+    
+    @team.items.each do |item|
+      @stock_levels[item.id] = {}
+      
+      @locations.each do |location|
+        stock_in = item.stock_transactions
+                      .where(destination_location: location)
+                      .sum(:quantity)
+        
+        stock_out = item.stock_transactions
+                       .where(source_location: location)
+                       .sum(:quantity)
+        
+        @stock_levels[item.id][location.id] = stock_in + stock_out
+      end
+    end
+
+    @items = @team.items.order(:name)
+  end
+
   private
 
   def set_team
