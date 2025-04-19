@@ -169,10 +169,10 @@
                         <p class="text-xs text-gray-600 mt-1"><%= transaction.notes %></p>
                       <% end %>
                       <% if transaction.destination_location.present? %>
-                        <p class="text-xs text-gray-500">At: <%= transaction.destination_location %></p>
+                        <p class="text-xs text-gray-500">At: <%= transaction.destination_location.name %></p>
                       <% end %>
                       <% if transaction.source_location.present? %>
-                        <p class="text-xs text-gray-500">From: <%= transaction.source_location %></p>
+                        <p class="text-xs text-gray-500">From: <%= transaction.source_location.name %></p>
                       <% end %>
                     </div>
                   </div>
