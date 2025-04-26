@@ -1,0 +1,9 @@
+<div class="language-switcher flex items-center space-x-2">
+  <% I18n.available_locales.each do |locale| %>
+    <% if locale == I18n.locale %>
+      <span class="current-locale px-2 py-1 bg-gray-100 rounded text-sm font-medium"><%= t("header.language.#{locale.to_s.downcase}") %></span>
+    <% else %>
+      <%= link_to t("header.language.#{locale.to_s.downcase}"), { locale: locale }, class: "locale-link px-2 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded" %>
+    <% end %>
+  <% end %>
+</div> 

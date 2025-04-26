@@ -1,0 +1,183 @@
+fr:
+  sidebar:
+    item_list: "Liste d'Articles"
+    locations: "Emplacements"
+    stock_in: "Entrée"
+    stock_out: "Sortie"
+    adjust: "Ajuster"
+    move: "Déplacer"
+    transactions: "Transactions"
+    stock_by_location: "Stock par Emplacement"
+    labels: "Étiquettes"
+    reports: "Rapports"
+    settings: "Paramètres"
+    change_team: "Changer d'Équipe"
+    select_team: "Sélectionner une Équipe"
+    choose_team: "Choisissez une équipe"
+  header:
+    subscribe: "S'abonner"
+    user_guide: "Guide Utilisateur"
+    theme:
+      light: "Thème Clair"
+      dark: "Thème Sombre"
+    language:
+      en: "EN"
+      "pt-br": "PT"
+      fr: "FR"
+  teams:
+    selection:
+      title: "Sélectionnez une Équipe"
+      subtitle: "Gérez vos équipes ou créez-en une nouvelle pour commencer"
+      create_team: "Créer une Équipe"
+      sign_out: "Se Déconnecter"
+      no_teams: "Aucune équipe trouvée"
+      no_teams_subtitle: "Commencez par créer votre première équipe pour gérer votre inventaire."
+      create_first_team: "Créer la Première Équipe"
+      no_notes: "Pas de notes."
+      total_items: "Nombre Total d'Articles"
+      total_transactions: "Nombre Total de Transactions"
+      edit_team: "Modifier l'Équipe"
+      delete_team: "Supprimer l'Équipe"
+      delete_confirmation: "Êtes-vous sûr de vouloir supprimer cette équipe ?"
+    form:
+      errors:
+        one: "une erreur a empêché l'enregistrement de cette équipe"
+        other: "des erreurs ont empêché l'enregistrement de cette équipe"
+      name: "Nom"
+      notes: "Notes"
+      cancel: "Annuler"
+      save: "Enregistrer"
+  items:
+    index:
+      search_placeholder: "Rechercher des articles..."
+      all_categories: "Toutes les Catégories"
+      export_csv: "Exporter CSV"
+      add_item: "Ajouter un Article"
+      qr_code: "QR Code"
+      item: "Article"
+      sku: "SKU"
+      type: "Type"
+      current_stock: "Stock Actuel"
+      price: "Prix"
+      actions: "Actions"
+      low_stock: "Stock Faible"
+      duplicate_confirm: "Êtes-vous sûr de vouloir dupliquer cet article ?"
+      delete_confirm: "Êtes-vous sûr ?"
+    form:
+      title:
+        new: "Nouvel Article"
+        edit: "Modifier l'Article"
+      sections:
+        item_information: "Informations sur l'Article"
+        item_attributes: "Attributs de l'Article"
+        initial_quantity: "Quantité Initiale"
+      fields:
+        name: "Nom"
+        sku: "SKU"
+        barcode: "Code-barres"
+        item_type: "Type"
+        brand: "Marque"
+        cost: "Coût"
+        price: "Prix"
+        location: "Emplacement"
+        initial_quantity: "Quantité initiale"
+      placeholders:
+        name: "Entrez le nom de l'article"
+        sku: "Entrez le SKU"
+        barcode: "Entrez ou générez le code-barres"
+        item_type: "Entrez le type d'article"
+        brand: "Entrez la marque"
+        cost: "0,00"
+        price: "0,00"
+      buttons:
+        generate: "Générer"
+        edit_attributes: "Modifier les attributs"
+        create: "Créer l'Article"
+        update: "Mettre à Jour l'Article"
+        cancel: "Annuler"
+        reset: "Réinitialiser"
+      location:
+        select: "Sélectionnez un emplacement"
+        available: "Emplacements disponibles : %{count}"
+        none: "Aucun emplacement disponible"
+      errors:
+        one: "une erreur a empêché l'enregistrement de cet article"
+        other: "des erreurs ont empêché l'enregistrement de cet article"
+    show:
+      back_to_list: "Retour à la Liste"
+      overview: "Aperçu"
+      item_information: "Informations sur l'Article"
+      current_status: "État Actuel"
+      total_stock: "Stock Total"
+      transaction_filters:
+        all: "Tous"
+        stock_in: "Entrée"
+        stock_out: "Sortie"
+        adjust: "Ajuster"
+        move: "Déplacer"
+      qr_code: "Code QR"
+      fields:
+        sku: "SKU"
+        name: "NOM"
+        barcode: "CODE-BARRES"
+        cost: "COÛT"
+        price: "PRIX"
+        type: "TYPE"
+        brand: "MARQUE"
+        location: "EMPLACEMENT"
+      no_location: "Aucun emplacement assigné"
+      transaction:
+        notes: "Notes"
+        at: "À"
+        from: "De"
+  locations:
+    index:
+      title: "Emplacements"
+      new_location: "Nouvel Emplacement"
+      table:
+        name: "Nom"
+        description: "Description"
+        actions: "Actions"
+        edit: "Modifier"
+        delete: "Supprimer"
+        delete_confirm: "Êtes-vous sûr ?"
+    form:
+      title:
+        new: "Nouvel Emplacement"
+        edit: "Modifier l'Emplacement"
+      fields:
+        name: "Nom"
+        description: "Description"
+      buttons:
+        cancel: "Annuler"
+        save: "Enregistrer"
+      errors:
+        one: "une erreur a empêché l'enregistrement de cet emplacement"
+        other: "des erreurs ont empêché l'enregistrement de cet emplacement"
+  stock_transactions:
+    index:
+      title: "Transactions"
+      search_placeholder: "Rechercher des transactions..."
+      table:
+        date: "Date"
+        type: "Type"
+        item: "Article"
+        quantity: "Quantité"
+        location: "Emplacement"
+        user: "Utilisateur"
+    stock_in:
+      title: "Entrée"
+      subtitle: "Ajouter des articles à votre inventaire"
+      location: "Emplacement"
+      location_placeholder: "Sélectionnez un emplacement"
+      items: "Articles"
+      search_placeholder: "Rechercher un article"
+      table:
+        item: "Article"
+        current_stock: "Stock Actuel"
+        quantity: "Quantité à Ajouter"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Entrez une note. Astuce) Utilisez '#' pour faciliter la recherche (ex : #PurpleStock)."
+      total_items: "Nombre Total d'Articles à Ajouter"
+      save_button: "Ajouter au Stock"

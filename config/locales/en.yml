@@ -28,4 +28,429 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  hello: "Hello"
+  # Add your English translations here
+  sidebar:
+    item_list: "Item List"
+    locations: "Locations"
+    stock_in: "Stock In"
+    stock_out: "Stock Out"
+    adjust: "Adjust"
+    move: "Move"
+    transactions: "Transactions"
+    stock_by_location: "Stock by Location"
+    labels: "Labels"
+    reports: "Reports"
+    settings: "Settings"
+    change_team: "Change Team"
+    select_team: "Select Team"
+    choose_team: "Choose a team"
+  teams:
+    selection:
+      title: "Select a Team"
+      subtitle: "Manage your teams or create a new one to get started"
+      create_team: "Create Team"
+      sign_out: "Sign Out"
+      no_teams: "No teams found"
+      no_teams_subtitle: "Start by creating your first team to manage your inventory."
+      create_first_team: "Create First Team"
+      no_notes: "No notes."
+      total_items: "Total Items"
+      total_transactions: "Total Transactions"
+      edit_team: "Edit Team"
+      delete_team: "Delete Team"
+      delete_confirmation: "Are you sure you want to delete this team?"
+    form:
+      errors:
+        one: "error prohibited this team from being saved"
+        other: "errors prohibited this team from being saved"
+      name: "Name"
+      notes: "Notes"
+      cancel: "Cancel"
+      save: "Save"
+  items:
+    index:
+      search_placeholder: "Search items..."
+      all_categories: "All Categories"
+      export_csv: "Export CSV"
+      add_item: "Add Item"
+      qr_code: "QR Code"
+      item: "Item"
+      sku: "SKU"
+      type: "Type"
+      current_stock: "Current Stock"
+      price: "Price"
+      actions: "Actions"
+      low_stock: "Low Stock"
+      duplicate_confirm: "Are you sure you want to duplicate this item?"
+      delete_confirm: "Are you sure?"
+    form:
+      title:
+        new: "New Item"
+        edit: "Edit Item"
+      sections:
+        item_information: "Item Information"
+        item_attributes: "Item Attributes"
+        initial_quantity: "Initial Quantity"
+      fields:
+        name: "Name"
+        sku: "SKU"
+        barcode: "Barcode"
+        item_type: "Type"
+        brand: "Brand"
+        cost: "Cost"
+        price: "Price"
+        location: "Location"
+        initial_quantity: "Initial quantity"
+      placeholders:
+        name: "Enter item name"
+        sku: "Enter SKU"
+        barcode: "Enter or generate barcode"
+        item_type: "Enter item type"
+        brand: "Enter brand name"
+        cost: "0.00"
+        price: "0.00"
+      buttons:
+        generate: "Generate"
+        edit_attributes: "Edit attributes"
+        create: "Create Item"
+        update: "Update Item"
+        cancel: "Cancel"
+        reset: "Reset"
+      location:
+        select: "Select a location"
+        available: "Available locations: %{count}"
+        none: "No locations available"
+      errors:
+        one: "error prohibited this item from being saved"
+        other: "errors prohibited this item from being saved"
+    show:
+      back_to_list: "Back to List"
+      overview: "Overview"
+      item_information: "Item Information"
+      current_status: "Current Status"
+      total_stock: "Total stock"
+      transaction_filters:
+        all: "All"
+        stock_in: "Stock In"
+        stock_out: "Stock Out"
+        adjust: "Adjust"
+        move: "Move"
+      qr_code: "QR Code"
+      fields:
+        sku: "SKU"
+        name: "NAME"
+        barcode: "BARCODE"
+        cost: "COST"
+        price: "PRICE"
+        type: "TYPE"
+        brand: "BRAND"
+        location: "LOCATION"
+      no_location: "No location assigned"
+      transaction:
+        notes: "Notes"
+        at: "At"
+        from: "From"
+  locations:
+    index:
+      title: "Locations"
+      new_location: "New Location"
+      table:
+        name: "Name"
+        description: "Description"
+        actions: "Actions"
+        edit: "Edit"
+        delete: "Delete"
+        delete_confirm: "Are you sure?"
+    form:
+      title:
+        new: "New Location"
+        edit: "Edit Location"
+      fields:
+        name: "Name"
+        description: "Description"
+      buttons:
+        cancel: "Cancel"
+        save: "Save"
+      errors:
+        one: "error prohibited this location from being saved"
+        other: "errors prohibited this location from being saved"
+  stock_transactions:
+    index:
+      title: "Transactions"
+      search_placeholder: "Search transactions..."
+      table:
+        date: "Date"
+        type: "Type"
+        item: "Item"
+        quantity: "Quantity"
+        location: "Location"
+        user: "User"
+    stock_in:
+      title: "Stock In"
+      subtitle: "Add items to your inventory"
+      location: "Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Add"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Add"
+      save_button: "Add Stock"
+    stock_out:
+      title: "Stock Out"
+      subtitle: "Remove items from your inventory"
+      location: "Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Remove"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Remove"
+      save_button: "Remove Stock"
+    move:
+      title: "Move Stock"
+      subtitle: "Move items between locations"
+      from_location: "From Location"
+      to_location: "To Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Move"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Move"
+      save_button: "Move Stock"
+    stock_by_location:
+      title: "Stock by Location"
+      subtitle: "View current stock levels across all locations"
+      print: "Print"
+      table:
+        item: "Item"
+        total: "Total"
+    adjust:
+      title: "Adjust Stock"
+      subtitle: "Adjust stock levels for items"
+      location: "Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Adjust"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Adjust"
+      save_button: "Adjust Stock"
+    report:
+      title: "Summary"
+      export_report: "Export Report"
+      cards:
+        total_items: "Total Items"
+        stock_value: "Stock Value"
+        low_stock: "Low Stock Items"
+        zero_stock: "No Stock"
+      recent_activity:
+        title: "Recent Activity"
+        subtitle: "Last 24 hours of movement"
+      stock_alerts:
+        title: "Stock Alerts"
+        subtitle: "Items that need attention"
+      most_active:
+        title: "Most Active Items"
+        subtitle: "Most active items in your inventory"
+        table:
+          item: "Item"
+          sku: "SKU"
+          movements: "Movements"
+          trend: "Trend"
+  settings:
+    title: "Settings"
+    sections:
+      billing: "Billing"
+      account: "Account"
+    billing:
+      current_plan:
+        title: "Current Plan"
+        name: "Free Plan"
+        description: "You are currently on the Free plan with limited features."
+        upgrade_button: "Upgrade to Pro"
+        cancel_notice: "Cancel anytime. No questions asked."
+      plans:
+        free:
+          title: "Free"
+          features:
+            items: "Up to 100 items"
+            analytics: "Basic analytics"
+            support: "Email support"
+          current_button: "Current Plan"
+        pro:
+          popular: "Popular"
+          title: "Pro"
+          features:
+            items: "Unlimited items"
+            analytics: "Advanced analytics"
+            support: "Priority support"
+            reports: "Custom reports"
+            api: "API access"
+          upgrade_button: "Upgrade Now"
+        enterprise:
+          title: "Enterprise"
+          price: "Custom Pricing"
+          features:
+            pro: "Everything in Pro"
+            support: "Dedicated support"
+            integration: "Custom integration"
+            sla: "SLA guarantee"
+          contact_button: "Contact Sales"
+      payment_history:
+        title: "Payment History"
+        empty: "No payment history available"
+    account:
+      profile:
+        title: "Account Information"
+        description: "Update your personal information and preferences"
+        fields:
+          name: "Name"
+          email: "Email"
+          password: "New Password"
+          password_confirmation: "Confirm New Password"
+          current_password: "Current Password"
+          password_placeholder: "Leave blank if you don't want to change it"
+          current_password_placeholder: "Required to confirm changes"
+        buttons:
+          update: "Update Account"
+      team:
+        title: "Team"
+        description: "Manage your team members"
+        fields:
+          name: "Team Name"
+          description: "Team Description"
+        buttons:
+          update: "Update Team"
+          cancel: "Cancel"
+      notifications:
+        title: "Notifications"
+        description: "Manage your notification preferences"
+        fields:
+          email: "Email Notifications"
+          push: "Push Notifications"
+          sms: "SMS Notifications"
+        buttons:
+          update: "Update Preferences"
+          cancel: "Cancel"
+      security:
+        title: "Security"
+        description: "Manage your security settings"
+        fields:
+          two_factor: "Two-Factor Authentication"
+          password: "Change Password"
+          sessions: "Active Sessions"
+        buttons:
+          update: "Update Security"
+          cancel: "Cancel"
+      billing:
+        title: "Billing"
+        description: "Manage your billing information"
+        fields:
+          card: "Credit Card"
+          address: "Billing Address"
+          history: "Payment History"
+        buttons:
+          update: "Update Billing"
+          cancel: "Cancel"
+      api:
+        title: "API"
+        description: "Manage your API settings"
+        fields:
+          key: "API Key"
+          usage: "API Usage"
+          limits: "API Limits"
+        buttons:
+          update: "Update API"
+          cancel: "Cancel"
+      integrations:
+        title: "Integrations"
+        description: "Manage your integrations"
+        fields:
+          shopify: "Shopify"
+          woocommerce: "WooCommerce"
+          magento: "Magento"
+        buttons:
+          update: "Update Integrations"
+          cancel: "Cancel"
+      export:
+        title: "Export"
+        description: "Export your data"
+        fields:
+          format: "Export Format"
+          date_range: "Date Range"
+          items: "Items to Export"
+        buttons:
+          export: "Export Data"
+          cancel: "Cancel"
+      import:
+        title: "Import"
+        description: "Import your data"
+        fields:
+          format: "Import Format"
+          file: "File to Import"
+          mapping: "Field Mapping"
+        buttons:
+          import: "Import Data"
+          cancel: "Cancel"
+      backup:
+        title: "Backup"
+        description: "Manage your backups"
+        fields:
+          schedule: "Backup Schedule"
+          location: "Backup Location"
+          retention: "Retention Period"
+        buttons:
+          update: "Update Backup"
+          cancel: "Cancel"
+      restore:
+        title: "Restore"
+        description: "Restore your data"
+        fields:
+          backup: "Select Backup"
+          date: "Backup Date"
+          items: "Items to Restore"
+        buttons:
+          restore: "Restore Data"
+          cancel: "Cancel"
+      delete:
+        title: "Danger Zone"
+        description: "Delete your account"
+        fields:
+          confirm: "Are you sure? This action cannot be undone."
+        buttons:
+          delete: "Delete Account"
+          cancel: "Cancel"
+  header:
+    subscribe: "Subscribe"
+    user_guide: "User Guide"
+    theme:
+      light: "Light Theme"
+      dark: "Dark Theme"
+    language:
+      en: "EN"
+      "pt-br": "PT"
+      fr: "FR"
+    sign_out: "Sign Out"

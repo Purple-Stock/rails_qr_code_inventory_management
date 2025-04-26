@@ -1,0 +1,426 @@
+pt-BR:
+  sidebar:
+    item_list: "Lista de Itens"
+    locations: "Locais"
+    stock_in: "Entrada"
+    stock_out: "Saída"
+    adjust: "Ajustar"
+    move: "Mover"
+    transactions: "Transações"
+    stock_by_location: "Estoque por Local"
+    labels: "Etiquetas"
+    reports: "Relatórios"
+    settings: "Configurações"
+    change_team: "Mudar Time"
+    select_team: "Selecionar Time"
+    choose_team: "Escolha um time"
+  teams:
+    selection:
+      title: "Selecione um Time"
+      subtitle: "Gerencie seus times ou crie um novo para começar"
+      create_team: "Criar Time"
+      sign_out: "Sair"
+      no_teams: "Nenhum time encontrado"
+      no_teams_subtitle: "Comece criando seu primeiro time para gerenciar seu inventário."
+      create_first_team: "Criar Primeiro Time"
+      no_notes: "Sem anotações."
+      total_items: "Total de Itens"
+      total_transactions: "Total de Transações"
+      edit_team: "Editar Time"
+      delete_team: "Excluir Time"
+      delete_confirmation: "Tem certeza que deseja excluir este time?"
+    form:
+      errors:
+        one: "erro impediu este time de ser salvo"
+        other: "erros impediram este time de ser salvo"
+      name: "Nome"
+      notes: "Anotações"
+      cancel: "Cancelar"
+      save: "Salvar"
+  items:
+    index:
+      search_placeholder: "Buscar itens..."
+      all_categories: "Todas as Categorias"
+      export_csv: "Exportar CSV"
+      add_item: "Adicionar Item"
+      qr_code: "QR Code"
+      item: "Item"
+      sku: "SKU"
+      type: "Tipo"
+      current_stock: "Estoque Atual"
+      price: "Preço"
+      actions: "Ações"
+      low_stock: "Estoque Baixo"
+      duplicate_confirm: "Tem certeza que deseja duplicar este item?"
+      delete_confirm: "Tem certeza?"
+    form:
+      title:
+        new: "Novo Item"
+        edit: "Editar Item"
+      sections:
+        item_information: "Informações do Item"
+        item_attributes: "Atributos do Item"
+        initial_quantity: "Quantidade Inicial"
+      fields:
+        name: "Nome"
+        sku: "SKU"
+        barcode: "Código de Barras"
+        item_type: "Tipo"
+        brand: "Marca"
+        cost: "Custo"
+        price: "Preço"
+        location: "Localização"
+        initial_quantity: "Quantidade inicial"
+      placeholders:
+        name: "Digite o nome do item"
+        sku: "Digite o SKU"
+        barcode: "Digite ou gere o código de barras"
+        item_type: "Digite o tipo do item"
+        brand: "Digite o nome da marca"
+        cost: "0,00"
+        price: "0,00"
+      buttons:
+        generate: "Gerar"
+        edit_attributes: "Editar atributos"
+        create: "Criar Item"
+        update: "Atualizar Item"
+        cancel: "Cancelar"
+        reset: "Reiniciar"
+      location:
+        select: "Selecione um local"
+        available: "Locais disponíveis: %{count}"
+        none: "Nenhum local disponível"
+      errors:
+        one: "erro impediu este item de ser salvo"
+        other: "erros impediram este item de ser salvo"
+    show:
+      back_to_list: "Voltar para Lista"
+      overview: "Visão Geral"
+      item_information: "Informações do Item"
+      current_status: "Status Atual"
+      total_stock: "Estoque total"
+      transaction_filters:
+        all: "Todos"
+        stock_in: "Entrada"
+        stock_out: "Saída"
+        adjust: "Ajuste"
+        move: "Mover"
+      qr_code: "Código QR"
+      fields:
+        sku: "SKU"
+        name: "NOME"
+        barcode: "CÓDIGO DE BARRAS"
+        cost: "CUSTO"
+        price: "PREÇO"
+        type: "TIPO"
+        brand: "MARCA"
+        location: "LOCALIZAÇÃO"
+      no_location: "Nenhuma localização atribuída"
+      transaction:
+        notes: "Notas"
+        at: "Em"
+        from: "De"
+  locations:
+    index:
+      title: "Locais"
+      new_location: "Novo Local"
+      table:
+        name: "Nome"
+        description: "Descrição"
+        actions: "Ações"
+        edit: "Editar"
+        delete: "Excluir"
+        delete_confirm: "Tem certeza?"
+    form:
+      title:
+        new: "Novo Local"
+        edit: "Editar Local"
+      fields:
+        name: "Nome"
+        description: "Descrição"
+      buttons:
+        cancel: "Cancelar"
+        save: "Salvar"
+      errors:
+        one: "erro impediu este local de ser salvo"
+        other: "erros impediram este local de ser salvo"
+  stock_transactions:
+    index:
+      title: "Transações"
+      search_placeholder: "Buscar transações..."
+      table:
+        date: "Data"
+        type: "Tipo"
+        item: "Item"
+        quantity: "Quantidade"
+        location: "Local"
+        user: "Usuário"
+    stock_in:
+      title: "Entrada"
+      subtitle: "Adicionar itens ao seu inventário"
+      location: "Local"
+      location_placeholder: "Selecione um local"
+      items: "Itens"
+      search_placeholder: "Buscar um item"
+      table:
+        item: "Item"
+        current_stock: "Estoque Atual"
+        quantity: "Quantidade a Adicionar"
+        actions: "Ações"
+      notes: "Notas"
+      notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
+      total_items: "Total de Itens a Adicionar"
+      save_button: "Adicionar Estoque"
+    stock_out:
+      title: "Saída"
+      subtitle: "Remover itens do seu inventário"
+      location: "Local"
+      location_placeholder: "Selecione um local"
+      items: "Itens"
+      search_placeholder: "Buscar um item"
+      table:
+        item: "Item"
+        current_stock: "Estoque Atual"
+        quantity: "Quantidade a Remover"
+        actions: "Ações"
+      notes: "Notas"
+      notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
+      total_items: "Total de Itens a Remover"
+      save_button: "Remover Estoque"
+    move:
+      title: "Mover Estoque"
+      subtitle: "Mover itens entre locais"
+      from_location: "Local de Origem"
+      to_location: "Local de Destino"
+      location_placeholder: "Selecione um local"
+      items: "Itens"
+      search_placeholder: "Buscar um item"
+      table:
+        item: "Item"
+        current_stock: "Estoque Atual"
+        quantity: "Quantidade a Mover"
+        actions: "Ações"
+      notes: "Notas"
+      notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
+      total_items: "Total de Itens a Mover"
+      save_button: "Mover Estoque"
+    stock_by_location:
+      title: "Estoque por Local"
+      subtitle: "Visualizar níveis de estoque em todos os locais"
+      print: "Imprimir"
+      table:
+        item: "Item"
+        total: "Total"
+    adjust:
+      title: "Ajustar Estoque"
+      subtitle: "Ajuste os níveis de estoque dos itens"
+      location: "Localização"
+      location_placeholder: "Selecione uma localização"
+      items: "Itens"
+      search_placeholder: "Pesquisar por um item"
+      table:
+        item: "Item"
+        current_stock: "Estoque Atual"
+        quantity: "Quantidade para Ajustar"
+        actions: "Ações"
+      notes: "Observações"
+      notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
+      total_items: "Total de Itens para Ajustar"
+      save_button: "Ajustar Estoque"
+    report:
+      title: "Resumo"
+      export_report: "Exportar Relatório"
+      cards:
+        total_items: "Total de Itens"
+        stock_value: "Valor do Estoque"
+        low_stock: "Itens com Estoque Baixo"
+        zero_stock: "Sem Estoque"
+      recent_activity:
+        title: "Atividade Recente"
+        subtitle: "Últimas 24 horas de movimentação"
+      stock_alerts:
+        title: "Alertas de Estoque"
+        subtitle: "Itens que precisam de atenção"
+      most_active:
+        title: "Itens Mais Movimentados"
+        subtitle: "Itens mais ativos no seu inventário"
+        table:
+          item: "Item"
+          sku: "SKU"
+          movements: "Movimentações"
+          trend: "Tendência"
+  settings:
+    title: "Configurações"
+    sections:
+      billing: "Faturamento"
+      account: "Conta"
+    billing:
+      current_plan:
+        title: "Plano Atual"
+        name: "Plano Gratuito"
+        description: "Você está atualmente no plano Gratuito com recursos limitados."
+        upgrade_button: "Atualizar para Pro"
+        cancel_notice: "Cancele a qualquer momento. Sem perguntas."
+      plans:
+        free:
+          title: "Gratuito"
+          features:
+            items: "Até 100 itens"
+            analytics: "Análises básicas"
+            support: "Suporte por email"
+          current_button: "Plano Atual"
+        pro:
+          popular: "Popular"
+          title: "Pro"
+          features:
+            items: "Itens ilimitados"
+            analytics: "Análises avançadas"
+            support: "Suporte prioritário"
+            reports: "Relatórios personalizados"
+            api: "Acesso à API"
+          upgrade_button: "Atualizar Agora"
+        enterprise:
+          title: "Empresarial"
+          price: "Preço Personalizado"
+          features:
+            pro: "Tudo do Pro"
+            support: "Suporte dedicado"
+            integration: "Integração personalizada"
+            sla: "Garantia de SLA"
+          contact_button: "Fale com Vendas"
+      payment_history:
+        title: "Histórico de Pagamentos"
+        empty: "Nenhum histórico de pagamento disponível"
+    account:
+      profile:
+        title: "Informações da Conta"
+        description: "Atualize suas informações pessoais e preferências"
+        fields:
+          name: "Nome"
+          email: "Email"
+          password: "Nova Senha"
+          password_confirmation: "Confirmar Nova Senha"
+          current_password: "Senha Atual"
+          password_placeholder: "Deixe em branco se não quiser alterar"
+          current_password_placeholder: "Necessário para confirmar as alterações"
+        buttons:
+          update: "Atualizar Conta"
+          cancel: "Cancelar"
+      team:
+        title: "Equipe"
+        description: "Gerencie os membros da sua equipe"
+        fields:
+          name: "Nome da Equipe"
+          description: "Descrição da Equipe"
+        buttons:
+          update: "Atualizar Equipe"
+          cancel: "Cancelar"
+      notifications:
+        title: "Notificações"
+        description: "Gerencie suas preferências de notificação"
+        fields:
+          email: "Notificações por Email"
+          push: "Notificações Push"
+          sms: "Notificações SMS"
+        buttons:
+          update: "Atualizar Preferências"
+          cancel: "Cancelar"
+      security:
+        title: "Segurança"
+        description: "Gerencie suas configurações de segurança"
+        fields:
+          two_factor: "Autenticação de Dois Fatores"
+          password: "Alterar Senha"
+          sessions: "Sessões Ativas"
+        buttons:
+          update: "Atualizar Segurança"
+          cancel: "Cancelar"
+      billing:
+        title: "Faturamento"
+        description: "Gerencie suas informações de faturamento"
+        fields:
+          card: "Cartão de Crédito"
+          address: "Endereço de Cobrança"
+          history: "Histórico de Pagamentos"
+        buttons:
+          update: "Atualizar Faturamento"
+          cancel: "Cancelar"
+      api:
+        title: "API"
+        description: "Gerencie suas configurações de API"
+        fields:
+          key: "Chave da API"
+          usage: "Uso da API"
+          limits: "Limites da API"
+        buttons:
+          update: "Atualizar API"
+          cancel: "Cancelar"
+      integrations:
+        title: "Integrações"
+        description: "Gerencie suas integrações"
+        fields:
+          shopify: "Shopify"
+          woocommerce: "WooCommerce"
+          magento: "Magento"
+        buttons:
+          update: "Atualizar Integrações"
+          cancel: "Cancelar"
+      export:
+        title: "Exportar"
+        description: "Exporte seus dados"
+        fields:
+          format: "Formato de Exportação"
+          date_range: "Período"
+          items: "Itens para Exportar"
+        buttons:
+          export: "Exportar Dados"
+          cancel: "Cancelar"
+      import:
+        title: "Importar"
+        description: "Importe seus dados"
+        fields:
+          format: "Formato de Importação"
+          file: "Arquivo para Importar"
+          mapping: "Mapeamento de Campos"
+        buttons:
+          import: "Importar Dados"
+          cancel: "Cancelar"
+      backup:
+        title: "Backup"
+        description: "Gerencie seus backups"
+        fields:
+          schedule: "Agendamento de Backup"
+          location: "Local do Backup"
+          retention: "Período de Retenção"
+        buttons:
+          update: "Atualizar Backup"
+          cancel: "Cancelar"
+      restore:
+        title: "Restaurar"
+        description: "Restaure seus dados"
+        fields:
+          backup: "Selecionar Backup"
+          date: "Data do Backup"
+          items: "Itens para Restaurar"
+        buttons:
+          restore: "Restaurar Dados"
+          cancel: "Cancelar"
+      delete:
+        title: "Zona de Perigo"
+        description: "Exclua sua conta"
+        fields:
+          confirm: "Tem certeza? Esta ação não pode ser desfeita."
+        buttons:
+          delete: "Excluir Conta"
+          cancel: "Cancelar"
+  header:
+    subscribe: "Assinar"
+    user_guide: "Guia do Usuário"
+    theme:
+      light: "Tema Claro"
+      dark: "Tema Escuro"
+    language:
+      en: "EN"
+      "pt-br": "PT"
+      fr: "FR"
+    sign_out: "Sair" 

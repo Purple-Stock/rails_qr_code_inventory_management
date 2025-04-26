@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   # Require authentication for all pages
   before_action :authenticate_user!
 
+  before_action :set_locale
+
   layout :determine_layout
 
   def after_sign_in_path_for(resource)
@@ -19,5 +21,38 @@ class ApplicationController < ActionController::Base
     else
       'application'
     end
+  end
+
+  def set_locale
+    I18n.locale = extract_locale || I18n.default_locale
+  end
+
+  def extract_locale
+    # Priority: 1. URL parameter, 2. User preference, 3. Accept-Language header, 4. Default locale
+    locale = params[:locale] || cookies[:locale] || extract_locale_from_header
+    
+    if locale && I18n.available_locales.map(&:to_s).include?(locale)
+      cookies[:locale] = locale unless cookies[:locale] == locale
+      locale.to_sym
+    end
+  end
+
+  def extract_locale_from_header
+    accept_language = request.env['HTTP_ACCEPT_LANGUAGE']
+    return unless accept_language
+    
+    locale = accept_language.scan(/^[a-z]{2}/).first
+    
+    # Special case for Brazilian Portuguese
+    if locale == 'pt' && accept_language.include?('pt-BR')
+      'pt-BR'
+    else
+      locale
+    end
+  end
+
+  # Store current locale in URL
+  def default_url_options
+    { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
   end
 end

@@ -6,7 +6,7 @@
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
-          <span>Lista de Items</span>
+          <span><%= t('items.show.back_to_list') %></span>
         <% end %>
         <span class="mx-2 text-gray-400">/</span>
         <h1 class="text-xl font-medium text-gray-900"><%= @item.name %></h1>
@@ -17,35 +17,35 @@
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
           </svg>
-          Stock In
+          <%= t('items.show.transaction_filters.stock_in') %>
         <% end %>
 
         <%= link_to stock_out_team_stock_transactions_path(@team), class: "inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
           </svg>
-          Stock Out
+          <%= t('items.show.transaction_filters.stock_out') %>
         <% end %>
 
         <%= link_to adjust_team_stock_transactions_path(@team), class: "inline-flex items-center px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-md" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
           </svg>
-          Adjust
+          <%= t('items.show.transaction_filters.adjust') %>
         <% end %>
 
         <%= link_to move_team_stock_transactions_path(@team), class: "inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
           </svg>
-          Move Stock
+          <%= t('items.show.transaction_filters.move') %>
         <% end %>
 
         <%= link_to edit_team_item_path(@team, @item), class: "inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
           </svg>
-          Edit
+          <%= t('items.form.buttons.edit') %>
         <% end %>
       </div>
     </div>
@@ -60,45 +60,45 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                 </svg>
-                Visão Geral
+                <%= t('items.show.overview') %>
               </h3>
             </div>
           </div>
 
           <div class="px-4 py-5">
-            <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">Informações do Item</h4>
+            <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4"><%= t('items.show.item_information') %></h4>
             <dl class="grid grid-cols-2 gap-4">
               <div>
-                <dt class="text-sm font-medium text-gray-500">SKU</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.sku') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= @item.sku %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">NOME</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.name') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= @item.name %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">CÓDIGO DE BARRAS</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.barcode') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= @item.barcode %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">CUSTO</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.cost') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.cost) %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">PREÇO</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.price') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= number_to_currency(@item.price) %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">TIPO</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.type') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= @item.item_type %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">MARCA</dt>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.brand') %></dt>
                 <dd class="mt-1 text-sm text-gray-900"><%= @item.brand %></dd>
               </div>
               <div>
-                <dt class="text-sm font-medium text-gray-500">Location</dt>
-                <dd class="mt-1 text-sm text-gray-900"><%= @item.location&.name || 'No location assigned' %></dd>
+                <dt class="text-sm font-medium text-gray-500"><%= t('items.show.fields.location') %></dt>
+                <dd class="mt-1 text-sm text-gray-900"><%= @item.location&.name || t('items.show.no_location') %></dd>
               </div>
             </dl>
           </div>
@@ -108,15 +108,15 @@
       <div>
         <div class="bg-white rounded-lg shadow mb-6">
           <div class="px-4 py-5">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Status Atual</h3>
+            <h3 class="text-lg font-medium text-gray-900 mb-4"><%= t('items.show.current_status') %></h3>
             <div class="text-center">
               <p class="text-5xl font-bold text-purple-600 mb-2"><%= @item.current_stock %></p>
-              <p class="text-sm text-gray-500">Estoque total</p>
+              <p class="text-sm text-gray-500"><%= t('items.show.total_stock') %></p>
             </div>
             
             <div class="mt-6" data-controller="transaction-filter">
               <div class="flex items-center space-x-2 mb-4">
-                <%= link_to "Todos", "#",
+                <%= link_to t('items.show.transaction_filters.all'), "#",
                     class: "filter-button px-3 py-1 rounded-full text-sm bg-black text-white",
                     data: { 
                       action: "transaction-filter#filter",
@@ -124,10 +124,10 @@
                     } %>
                 
                 <% [
-                  ['stock_in', 'Entrada'],
-                  ['stock_out', 'Saída'],
-                  ['adjust', 'Ajuste'],
-                  ['move', 'Mover']
+                  ['stock_in', t('items.show.transaction_filters.stock_in')],
+                  ['stock_out', t('items.show.transaction_filters.stock_out')],
+                  ['adjust', t('items.show.transaction_filters.adjust')],
+                  ['move', t('items.show.transaction_filters.move')]
                 ].each do |type, label| %>
                   <%= link_to label, "#",
                       class: "filter-button px-3 py-1 rounded-full text-sm text-gray-600 hover:bg-gray-200",
@@ -181,10 +181,10 @@
                         <p class="text-xs text-gray-600 mt-1"><%= transaction.notes %></p>
                       <% end %>
                       <% if transaction.destination_location.present? %>
-                        <p class="text-xs text-gray-500">At: <%= transaction.destination_location.name %></p>
+                        <p class="text-xs text-gray-500"><%= t('items.show.transaction.at') %>: <%= transaction.destination_location.name %></p>
                       <% end %>
                       <% if transaction.source_location.present? %>
-                        <p class="text-xs text-gray-500">From: <%= transaction.source_location.name %></p>
+                        <p class="text-xs text-gray-500"><%= t('items.show.transaction.from') %>: <%= transaction.source_location.name %></p>
                       <% end %>
                     </div>
                   </div>
@@ -196,7 +196,7 @@
 
         <div class="bg-white rounded-lg shadow">
           <div class="px-4 py-5">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Código QR</h3>
+            <h3 class="text-lg font-medium text-gray-900 mb-4"><%= t('items.show.qr_code') %></h3>
             <div class="flex justify-center">
               <%= qr_code_tag @item.sku %>
             </div>
