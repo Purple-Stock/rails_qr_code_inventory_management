@@ -54,4 +54,44 @@ pt-BR:
       actions: "Ações"
       low_stock: "Estoque Baixo"
       duplicate_confirm: "Tem certeza que deseja duplicar este item?"
-      delete_confirm: "Tem certeza?" 
+      delete_confirm: "Tem certeza?"
+    form:
+      title:
+        new: "Novo Item"
+        edit: "Editar Item"
+      sections:
+        item_information: "Informações do Item"
+        item_attributes: "Atributos do Item"
+        initial_quantity: "Quantidade Inicial"
+      fields:
+        name: "Nome"
+        sku: "SKU"
+        barcode: "Código de Barras"
+        item_type: "Tipo"
+        brand: "Marca"
+        cost: "Custo"
+        price: "Preço"
+        location: "Localização"
+        initial_quantity: "Quantidade inicial"
+      placeholders:
+        name: "Digite o nome do item"
+        sku: "Digite o SKU"
+        barcode: "Digite ou gere o código de barras"
+        item_type: "Digite o tipo do item"
+        brand: "Digite o nome da marca"
+        cost: "0,00"
+        price: "0,00"
+      buttons:
+        generate: "Gerar"
+        edit_attributes: "Editar atributos"
+        create: "Criar Item"
+        update: "Atualizar Item"
+        cancel: "Cancelar"
+        reset: "Reiniciar"
+      location:
+        select: "Selecione um local"
+        available: "Locais disponíveis: %{count}"
+        none: "Nenhum local disponível"
+      errors:
+        one: "erro impediu este item de ser salvo"
+        other: "erros impediram este item de ser salvo" 

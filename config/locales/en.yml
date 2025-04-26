@@ -84,3 +84,43 @@ en:
       low_stock: "Low Stock"
       duplicate_confirm: "Are you sure you want to duplicate this item?"
       delete_confirm: "Are you sure?"
+    form:
+      title:
+        new: "New Item"
+        edit: "Edit Item"
+      sections:
+        item_information: "Item Information"
+        item_attributes: "Item Attributes"
+        initial_quantity: "Initial Quantity"
+      fields:
+        name: "Name"
+        sku: "SKU"
+        barcode: "Barcode"
+        item_type: "Type"
+        brand: "Brand"
+        cost: "Cost"
+        price: "Price"
+        location: "Location"
+        initial_quantity: "Initial quantity"
+      placeholders:
+        name: "Enter item name"
+        sku: "Enter SKU"
+        barcode: "Enter or generate barcode"
+        item_type: "Enter item type"
+        brand: "Enter brand name"
+        cost: "0.00"
+        price: "0.00"
+      buttons:
+        generate: "Generate"
+        edit_attributes: "Edit attributes"
+        create: "Create Item"
+        update: "Update Item"
+        cancel: "Cancel"
+        reset: "Reset"
+      location:
+        select: "Select a location"
+        available: "Available locations: %{count}"
+        none: "No locations available"
+      errors:
+        one: "error prohibited this item from being saved"
+        other: "errors prohibited this item from being saved"
