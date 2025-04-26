@@ -25,7 +25,7 @@ module RailsQrCodeInvetoryManagement
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Available locales
-    config.i18n.available_locales = [:en, :"pt-BR"]
+    config.i18n.available_locales = [:en, :"pt-BR", :fr]
     
     # Default locale
     config.i18n.default_locale = :en

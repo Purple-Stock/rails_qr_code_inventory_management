@@ -1,6 +1,4 @@
 pt-BR:
-  hello: "Olá"
-  # Add your Brazilian Portuguese translations here 
   sidebar:
     item_list: "Lista de Itens"
     locations: "Locais"
@@ -423,5 +421,6 @@ pt-BR:
       dark: "Tema Escuro"
     language:
       en: "EN"
-      "pt-BR": "PT"
+      "pt-br": "PT"
+      fr: "FR"
     sign_out: "Sair" 

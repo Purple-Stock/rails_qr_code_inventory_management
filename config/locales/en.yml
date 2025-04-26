@@ -451,5 +451,6 @@ en:
       dark: "Dark Theme"
     language:
       en: "EN"
-      "pt-BR": "PT"
+      "pt-br": "PT"
+      fr: "FR"
     sign_out: "Sign Out"
