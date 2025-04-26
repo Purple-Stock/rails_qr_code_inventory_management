@@ -30,4 +30,12 @@ pt-BR:
       total_transactions: "Total de Transações"
       edit_team: "Editar Time"
       delete_team: "Excluir Time"
-      delete_confirmation: "Tem certeza que deseja excluir este time?" 
+      delete_confirmation: "Tem certeza que deseja excluir este time?"
+    form:
+      errors:
+        one: "erro impediu este time de ser salvo"
+        other: "erros impediram este time de ser salvo"
+      name: "Nome"
+      notes: "Anotações"
+      cancel: "Cancelar"
+      save: "Salvar" 
