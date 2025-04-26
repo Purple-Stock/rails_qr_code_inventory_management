@@ -324,16 +324,18 @@ en:
         empty: "No payment history available"
     account:
       profile:
-        title: "Profile"
-        description: "Update your account information"
+        title: "Account Information"
+        description: "Update your personal information and preferences"
         fields:
           name: "Name"
           email: "Email"
-          password: "Password"
-          password_confirmation: "Confirm Password"
+          password: "New Password"
+          password_confirmation: "Confirm New Password"
+          current_password: "Current Password"
+          password_placeholder: "Leave blank if you don't want to change it"
+          current_password_placeholder: "Required to confirm changes"
         buttons:
-          update: "Update Profile"
-          cancel: "Cancel"
+          update: "Update Account"
       team:
         title: "Team"
         description: "Manage your team members"
@@ -434,12 +436,20 @@ en:
           restore: "Restore Data"
           cancel: "Cancel"
       delete:
-        title: "Delete"
+        title: "Danger Zone"
         description: "Delete your account"
         fields:
-          confirm: "Confirm Deletion"
-          reason: "Reason for Deletion"
-          feedback: "Feedback"
+          confirm: "Are you sure? This action cannot be undone."
         buttons:
           delete: "Delete Account"
           cancel: "Cancel"
+  header:
+    subscribe: "Subscribe"
+    user_guide: "User Guide"
+    theme:
+      light: "Light Theme"
+      dark: "Dark Theme"
+    language:
+      en: "EN"
+      "pt-BR": "PT"
+    sign_out: "Sign Out"
