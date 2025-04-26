@@ -280,3 +280,166 @@ en:
           sku: "SKU"
           movements: "Movements"
           trend: "Trend"
+  settings:
+    title: "Settings"
+    sections:
+      billing: "Billing"
+      account: "Account"
+    billing:
+      current_plan:
+        title: "Current Plan"
+        name: "Free Plan"
+        description: "You are currently on the Free plan with limited features."
+        upgrade_button: "Upgrade to Pro"
+        cancel_notice: "Cancel anytime. No questions asked."
+      plans:
+        free:
+          title: "Free"
+          features:
+            items: "Up to 100 items"
+            analytics: "Basic analytics"
+            support: "Email support"
+          current_button: "Current Plan"
+        pro:
+          popular: "Popular"
+          title: "Pro"
+          features:
+            items: "Unlimited items"
+            analytics: "Advanced analytics"
+            support: "Priority support"
+            reports: "Custom reports"
+            api: "API access"
+          upgrade_button: "Upgrade Now"
+        enterprise:
+          title: "Enterprise"
+          price: "Custom Pricing"
+          features:
+            pro: "Everything in Pro"
+            support: "Dedicated support"
+            integration: "Custom integration"
+            sla: "SLA guarantee"
+          contact_button: "Contact Sales"
+      payment_history:
+        title: "Payment History"
+        empty: "No payment history available"
+    account:
+      profile:
+        title: "Profile"
+        description: "Update your account information"
+        fields:
+          name: "Name"
+          email: "Email"
+          password: "Password"
+          password_confirmation: "Confirm Password"
+        buttons:
+          update: "Update Profile"
+          cancel: "Cancel"
+      team:
+        title: "Team"
+        description: "Manage your team members"
+        fields:
+          name: "Team Name"
+          description: "Team Description"
+        buttons:
+          update: "Update Team"
+          cancel: "Cancel"
+      notifications:
+        title: "Notifications"
+        description: "Manage your notification preferences"
+        fields:
+          email: "Email Notifications"
+          push: "Push Notifications"
+          sms: "SMS Notifications"
+        buttons:
+          update: "Update Preferences"
+          cancel: "Cancel"
+      security:
+        title: "Security"
+        description: "Manage your security settings"
+        fields:
+          two_factor: "Two-Factor Authentication"
+          password: "Change Password"
+          sessions: "Active Sessions"
+        buttons:
+          update: "Update Security"
+          cancel: "Cancel"
+      billing:
+        title: "Billing"
+        description: "Manage your billing information"
+        fields:
+          card: "Credit Card"
+          address: "Billing Address"
+          history: "Payment History"
+        buttons:
+          update: "Update Billing"
+          cancel: "Cancel"
+      api:
+        title: "API"
+        description: "Manage your API settings"
+        fields:
+          key: "API Key"
+          usage: "API Usage"
+          limits: "API Limits"
+        buttons:
+          update: "Update API"
+          cancel: "Cancel"
+      integrations:
+        title: "Integrations"
+        description: "Manage your integrations"
+        fields:
+          shopify: "Shopify"
+          woocommerce: "WooCommerce"
+          magento: "Magento"
+        buttons:
+          update: "Update Integrations"
+          cancel: "Cancel"
+      export:
+        title: "Export"
+        description: "Export your data"
+        fields:
+          format: "Export Format"
+          date_range: "Date Range"
+          items: "Items to Export"
+        buttons:
+          export: "Export Data"
+          cancel: "Cancel"
+      import:
+        title: "Import"
+        description: "Import your data"
+        fields:
+          format: "Import Format"
+          file: "File to Import"
+          mapping: "Field Mapping"
+        buttons:
+          import: "Import Data"
+          cancel: "Cancel"
+      backup:
+        title: "Backup"
+        description: "Manage your backups"
+        fields:
+          schedule: "Backup Schedule"
+          location: "Backup Location"
+          retention: "Retention Period"
+        buttons:
+          update: "Update Backup"
+          cancel: "Cancel"
+      restore:
+        title: "Restore"
+        description: "Restore your data"
+        fields:
+          backup: "Select Backup"
+          date: "Backup Date"
+          items: "Items to Restore"
+        buttons:
+          restore: "Restore Data"
+          cancel: "Cancel"
+      delete:
+        title: "Delete"
+        description: "Delete your account"
+        fields:
+          confirm: "Confirm Deletion"
+          reason: "Reason for Deletion"
+          feedback: "Feedback"
+        buttons:
+          delete: "Delete Account"
+          cancel: "Cancel"

@@ -250,4 +250,167 @@ pt-BR:
           item: "Item"
           sku: "SKU"
           movements: "Movimentações"
-          trend: "Tendência" 
+          trend: "Tendência"
+  settings:
+    title: "Configurações"
+    sections:
+      billing: "Faturamento"
+      account: "Conta"
+    billing:
+      current_plan:
+        title: "Plano Atual"
+        name: "Plano Gratuito"
+        description: "Você está atualmente no plano Gratuito com recursos limitados."
+        upgrade_button: "Atualizar para Pro"
+        cancel_notice: "Cancele a qualquer momento. Sem perguntas."
+      plans:
+        free:
+          title: "Gratuito"
+          features:
+            items: "Até 100 itens"
+            analytics: "Análises básicas"
+            support: "Suporte por email"
+          current_button: "Plano Atual"
+        pro:
+          popular: "Popular"
+          title: "Pro"
+          features:
+            items: "Itens ilimitados"
+            analytics: "Análises avançadas"
+            support: "Suporte prioritário"
+            reports: "Relatórios personalizados"
+            api: "Acesso à API"
+          upgrade_button: "Atualizar Agora"
+        enterprise:
+          title: "Empresarial"
+          price: "Preço Personalizado"
+          features:
+            pro: "Tudo do Pro"
+            support: "Suporte dedicado"
+            integration: "Integração personalizada"
+            sla: "Garantia de SLA"
+          contact_button: "Fale com Vendas"
+      payment_history:
+        title: "Histórico de Pagamentos"
+        empty: "Nenhum histórico de pagamento disponível"
+    account:
+      profile:
+        title: "Perfil"
+        description: "Atualize suas informações de conta"
+        fields:
+          name: "Nome"
+          email: "Email"
+          password: "Senha"
+          password_confirmation: "Confirmar Senha"
+        buttons:
+          update: "Atualizar Perfil"
+          cancel: "Cancelar"
+      team:
+        title: "Equipe"
+        description: "Gerencie os membros da sua equipe"
+        fields:
+          name: "Nome da Equipe"
+          description: "Descrição da Equipe"
+        buttons:
+          update: "Atualizar Equipe"
+          cancel: "Cancelar"
+      notifications:
+        title: "Notificações"
+        description: "Gerencie suas preferências de notificação"
+        fields:
+          email: "Notificações por Email"
+          push: "Notificações Push"
+          sms: "Notificações SMS"
+        buttons:
+          update: "Atualizar Preferências"
+          cancel: "Cancelar"
+      security:
+        title: "Segurança"
+        description: "Gerencie suas configurações de segurança"
+        fields:
+          two_factor: "Autenticação de Dois Fatores"
+          password: "Alterar Senha"
+          sessions: "Sessões Ativas"
+        buttons:
+          update: "Atualizar Segurança"
+          cancel: "Cancelar"
+      billing:
+        title: "Faturamento"
+        description: "Gerencie suas informações de faturamento"
+        fields:
+          card: "Cartão de Crédito"
+          address: "Endereço de Cobrança"
+          history: "Histórico de Pagamentos"
+        buttons:
+          update: "Atualizar Faturamento"
+          cancel: "Cancelar"
+      api:
+        title: "API"
+        description: "Gerencie suas configurações de API"
+        fields:
+          key: "Chave da API"
+          usage: "Uso da API"
+          limits: "Limites da API"
+        buttons:
+          update: "Atualizar API"
+          cancel: "Cancelar"
+      integrations:
+        title: "Integrações"
+        description: "Gerencie suas integrações"
+        fields:
+          shopify: "Shopify"
+          woocommerce: "WooCommerce"
+          magento: "Magento"
+        buttons:
+          update: "Atualizar Integrações"
+          cancel: "Cancelar"
+      export:
+        title: "Exportar"
+        description: "Exporte seus dados"
+        fields:
+          format: "Formato de Exportação"
+          date_range: "Período"
+          items: "Itens para Exportar"
+        buttons:
+          export: "Exportar Dados"
+          cancel: "Cancelar"
+      import:
+        title: "Importar"
+        description: "Importe seus dados"
+        fields:
+          format: "Formato de Importação"
+          file: "Arquivo para Importar"
+          mapping: "Mapeamento de Campos"
+        buttons:
+          import: "Importar Dados"
+          cancel: "Cancelar"
+      backup:
+        title: "Backup"
+        description: "Gerencie seus backups"
+        fields:
+          schedule: "Agendamento de Backup"
+          location: "Local do Backup"
+          retention: "Período de Retenção"
+        buttons:
+          update: "Atualizar Backup"
+          cancel: "Cancelar"
+      restore:
+        title: "Restaurar"
+        description: "Restaure seus dados"
+        fields:
+          backup: "Selecionar Backup"
+          date: "Data do Backup"
+          items: "Itens para Restaurar"
+        buttons:
+          restore: "Restaurar Dados"
+          cancel: "Cancelar"
+      delete:
+        title: "Excluir"
+        description: "Exclua sua conta"
+        fields:
+          confirm: "Confirmar Exclusão"
+          reason: "Motivo da Exclusão"
+          feedback: "Feedback"
+        buttons:
+          delete: "Excluir Conta"
+          cancel: "Cancelar" 

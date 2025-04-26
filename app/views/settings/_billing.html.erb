@@ -1,135 +1,135 @@
 <div class="border-b border-gray-200 pb-5">
-  <h3 class="text-lg font-medium leading-6 text-gray-900">Plano Atual</h3>
+  <h3 class="text-lg font-medium leading-6 text-gray-900"><%= t('settings.billing.current_plan.title') %></h3>
   <div class="mt-2 max-w-xl text-sm text-gray-500">
     <div class="flex items-center">
       <svg class="h-8 w-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
       </svg>
-      <span class="ml-2 text-lg font-medium text-gray-900">Free Plan</span>
+      <span class="ml-2 text-lg font-medium text-gray-900"><%= t('settings.billing.current_plan.name') %></span>
     </div>
-    <p class="mt-1">Você está atualmente no plano Gratuito com recursos limitados.</p>
+    <p class="mt-1"><%= t('settings.billing.current_plan.description') %></p>
   </div>
   <div class="mt-4">
     <%= link_to "#", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" do %>
-      Atualizar para Pro
+      <%= t('settings.billing.current_plan.upgrade_button') %>
     <% end %>
-    <span class="ml-2 text-sm text-gray-500">Cancele a qualquer momento. Sem perguntas.</span>
+    <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.current_plan.cancel_notice') %></span>
   </div>
 </div>
 
 <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
   <!-- Free Plan -->
   <div class="border border-gray-200 rounded-lg p-6">
-    <h4 class="text-lg font-medium text-gray-900">Gratuito</h4>
+    <h4 class="text-lg font-medium text-gray-900"><%= t('settings.billing.plans.free.title') %></h4>
     <p class="mt-2 text-2xl font-bold text-gray-900">R$ 0,00<span class="text-base font-medium text-gray-500">/mo</span></p>
     <ul class="mt-6 space-y-4">
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Até 100 itens</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.free.features.items') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Análises básicas</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.free.features.analytics') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Suporte por email</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.free.features.support') %></span>
       </li>
     </ul>
     <button class="mt-8 w-full bg-gray-100 text-gray-800 px-4 py-2 rounded-md text-sm font-medium">
-      Plano Atual
+      <%= t('settings.billing.plans.free.current_button') %>
     </button>
   </div>
 
   <!-- Pro Plan -->
   <div class="border-2 border-purple-500 rounded-lg p-6 relative">
     <div class="absolute top-0 right-0 -translate-y-1/2 px-3 py-1 bg-purple-500 text-white text-sm font-medium rounded-full">
-      Popular
+      <%= t('settings.billing.plans.pro.popular') %>
     </div>
-    <h4 class="text-lg font-medium text-gray-900">Pro</h4>
+    <h4 class="text-lg font-medium text-gray-900"><%= t('settings.billing.plans.pro.title') %></h4>
     <p class="mt-2 text-2xl font-bold text-gray-900">R$ 145,00<span class="text-base font-medium text-gray-500">/mo</span></p>
     <ul class="mt-6 space-y-4">
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Itens ilimitados</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.pro.features.items') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Análises avançadas</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.pro.features.analytics') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Suporte prioritário</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.pro.features.support') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Relatórios personalizados</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.pro.features.reports') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Acesso à API</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.pro.features.api') %></span>
       </li>
     </ul>
     <button class="mt-8 w-full bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700">
-      Atualizar Agora
+      <%= t('settings.billing.plans.pro.upgrade_button') %>
     </button>
   </div>
 
   <!-- Enterprise Plan -->
   <div class="border border-gray-200 rounded-lg p-6">
-    <h4 class="text-lg font-medium text-gray-900">Empresarial</h4>
-    <p class="mt-2 text-2xl font-bold text-gray-900">Preço Personalizado</p>
+    <h4 class="text-lg font-medium text-gray-900"><%= t('settings.billing.plans.enterprise.title') %></h4>
+    <p class="mt-2 text-2xl font-bold text-gray-900"><%= t('settings.billing.plans.enterprise.price') %></p>
     <ul class="mt-6 space-y-4">
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Tudo do plano Pro</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.enterprise.features.pro') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Suporte dedicado</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.enterprise.features.support') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Integração personalizada</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.enterprise.features.integration') %></span>
       </li>
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        <span class="ml-2 text-sm text-gray-500">Garantia de SLA</span>
+        <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.plans.enterprise.features.sla') %></span>
       </li>
     </ul>
     <button class="mt-8 w-full bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50">
-      Contatar Vendas
+      <%= t('settings.billing.plans.enterprise.contact_button') %>
     </button>
   </div>
 </div>
 
 <div class="mt-8 border-t border-gray-200 pt-6">
-  <h3 class="text-lg font-medium text-gray-900">Histórico de Pagamentos</h3>
+  <h3 class="text-lg font-medium text-gray-900"><%= t('settings.billing.payment_history.title') %></h3>
   <div class="mt-4 text-sm text-gray-500 text-center py-8">
-    Nenhum histórico de pagamento disponível
+    <%= t('settings.billing.payment_history.empty') %>
   </div>
 </div> 
