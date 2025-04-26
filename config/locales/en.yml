@@ -124,3 +124,30 @@ en:
       errors:
         one: "error prohibited this item from being saved"
         other: "errors prohibited this item from being saved"
+    show:
+      back_to_list: "Back to List"
+      overview: "Overview"
+      item_information: "Item Information"
+      current_status: "Current Status"
+      total_stock: "Total stock"
+      transaction_filters:
+        all: "All"
+        stock_in: "Stock In"
+        stock_out: "Stock Out"
+        adjust: "Adjust"
+        move: "Move"
+      qr_code: "QR Code"
+      fields:
+        sku: "SKU"
+        name: "NAME"
+        barcode: "BARCODE"
+        cost: "COST"
+        price: "PRICE"
+        type: "TYPE"
+        brand: "BRAND"
+        location: "LOCATION"
+      no_location: "No location assigned"
+      transaction:
+        notes: "Notes"
+        at: "At"
+        from: "From"

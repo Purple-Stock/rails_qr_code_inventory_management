@@ -94,4 +94,31 @@ pt-BR:
         none: "Nenhum local disponível"
       errors:
         one: "erro impediu este item de ser salvo"
-        other: "erros impediram este item de ser salvo" 
+        other: "erros impediram este item de ser salvo"
+    show:
+      back_to_list: "Voltar para Lista"
+      overview: "Visão Geral"
+      item_information: "Informações do Item"
+      current_status: "Status Atual"
+      total_stock: "Estoque total"
+      transaction_filters:
+        all: "Todos"
+        stock_in: "Entrada"
+        stock_out: "Saída"
+        adjust: "Ajuste"
+        move: "Mover"
+      qr_code: "Código QR"
+      fields:
+        sku: "SKU"
+        name: "NOME"
+        barcode: "CÓDIGO DE BARRAS"
+        cost: "CUSTO"
+        price: "PREÇO"
+        type: "TIPO"
+        brand: "MARCA"
+        location: "LOCALIZAÇÃO"
+      no_location: "Nenhuma localização atribuída"
+      transaction:
+        notes: "Notas"
+        at: "Em"
+        from: "De" 
