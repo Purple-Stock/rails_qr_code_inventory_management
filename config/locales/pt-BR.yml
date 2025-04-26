@@ -121,4 +121,28 @@ pt-BR:
       transaction:
         notes: "Notas"
         at: "Em"
-        from: "De" 
+        from: "De"
+  locations:
+    index:
+      title: "Locais"
+      new_location: "Novo Local"
+      table:
+        name: "Nome"
+        description: "Descrição"
+        actions: "Ações"
+        edit: "Editar"
+        delete: "Excluir"
+        delete_confirm: "Tem certeza?"
+    form:
+      title:
+        new: "Novo Local"
+        edit: "Editar Local"
+      fields:
+        name: "Nome"
+        description: "Descrição"
+      buttons:
+        cancel: "Cancelar"
+        save: "Salvar"
+      errors:
+        one: "erro impediu este local de ser salvo"
+        other: "erros impediram este local de ser salvo" 

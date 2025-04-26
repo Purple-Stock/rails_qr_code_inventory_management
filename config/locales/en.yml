@@ -151,3 +151,27 @@ en:
         notes: "Notes"
         at: "At"
         from: "From"
+  locations:
+    index:
+      title: "Locations"
+      new_location: "New Location"
+      table:
+        name: "Name"
+        description: "Description"
+        actions: "Actions"
+        edit: "Edit"
+        delete: "Delete"
+        delete_confirm: "Are you sure?"
+    form:
+      title:
+        new: "New Location"
+        edit: "Edit Location"
+      fields:
+        name: "Name"
+        description: "Description"
+      buttons:
+        cancel: "Cancel"
+        save: "Save"
+      errors:
+        one: "error prohibited this location from being saved"
+        other: "errors prohibited this location from being saved"
