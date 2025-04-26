@@ -44,6 +44,18 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
             </svg>
           </button>
+          
+          <!-- Language Switcher -->
+          <div class="language-switcher ml-2">
+            <% I18n.available_locales.each do |locale| %>
+              <% if locale == I18n.locale %>
+                <span class="current-locale px-2 py-1 bg-gray-100 rounded text-sm font-medium"><%= locale.to_s.upcase %></span>
+              <% else %>
+                <%= link_to locale.to_s.upcase, { locale: locale }, class: "locale-link px-2 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded" %>
+              <% end %>
+            <% end %>
+          </div>
+          
           <%= button_to destroy_user_session_path, 
               method: :delete,
               class: "flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" do %>

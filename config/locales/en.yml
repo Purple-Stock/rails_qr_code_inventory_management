@@ -28,4 +28,20 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  hello: "Hello"
+  # Add your English translations here
+  sidebar:
+    item_list: "Item List"
+    locations: "Locations"
+    stock_in: "Stock In"
+    stock_out: "Stock Out"
+    adjust: "Adjust"
+    move: "Move"
+    transactions: "Transactions"
+    stock_by_location: "Stock by Location"
+    labels: "Labels"
+    reports: "Reports"
+    settings: "Settings"
+    change_team: "Change Team"
+    select_team: "Select Team"
+    choose_team: "Choose a team"
