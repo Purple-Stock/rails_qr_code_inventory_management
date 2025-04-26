@@ -175,3 +175,108 @@ en:
       errors:
         one: "error prohibited this location from being saved"
         other: "errors prohibited this location from being saved"
+  stock_transactions:
+    index:
+      title: "Transactions"
+      search_placeholder: "Search transactions..."
+      table:
+        date: "Date"
+        type: "Type"
+        item: "Item"
+        quantity: "Quantity"
+        location: "Location"
+        user: "User"
+    stock_in:
+      title: "Stock In"
+      subtitle: "Add items to your inventory"
+      location: "Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Add"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Add"
+      save_button: "Add Stock"
+    stock_out:
+      title: "Stock Out"
+      subtitle: "Remove items from your inventory"
+      location: "Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Remove"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Remove"
+      save_button: "Remove Stock"
+    move:
+      title: "Move Stock"
+      subtitle: "Move items between locations"
+      from_location: "From Location"
+      to_location: "To Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Move"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Move"
+      save_button: "Move Stock"
+    stock_by_location:
+      title: "Stock by Location"
+      subtitle: "View current stock levels across all locations"
+      print: "Print"
+      table:
+        item: "Item"
+        total: "Total"
+    adjust:
+      title: "Adjust Stock"
+      subtitle: "Adjust stock levels for items"
+      location: "Location"
+      location_placeholder: "Select a location"
+      items: "Items"
+      search_placeholder: "Search for an item"
+      table:
+        item: "Item"
+        current_stock: "Current Stock"
+        quantity: "Quantity to Adjust"
+        actions: "Actions"
+      notes: "Notes"
+      notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+      total_items: "Total Items to Adjust"
+      save_button: "Adjust Stock"
+    report:
+      title: "Summary"
+      export_report: "Export Report"
+      cards:
+        total_items: "Total Items"
+        stock_value: "Stock Value"
+        low_stock: "Low Stock Items"
+        zero_stock: "No Stock"
+      recent_activity:
+        title: "Recent Activity"
+        subtitle: "Last 24 hours of movement"
+      stock_alerts:
+        title: "Stock Alerts"
+        subtitle: "Items that need attention"
+      most_active:
+        title: "Most Active Items"
+        subtitle: "Most active items in your inventory"
+        table:
+          item: "Item"
+          sku: "SKU"
+          movements: "Movements"
+          trend: "Trend"

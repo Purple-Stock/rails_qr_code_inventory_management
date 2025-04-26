@@ -2,11 +2,11 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-between items-center mb-6">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Adjust Stock</h1>
-        <p class="mt-1 text-sm text-gray-500">Adjust inventory levels</p>
+        <h1 class="text-2xl font-bold text-yellow-600"><%= t('stock_transactions.adjust.title') %></h1>
+        <p class="mt-1 text-sm text-gray-500"><%= t('stock_transactions.adjust.subtitle') %></p>
       </div>
       <button class="text-gray-400 hover:text-gray-500">
-        <span class="sr-only">Reset</span>
+        <span class="sr-only"><%= t('items.form.buttons.reset') %></span>
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
         </svg>
@@ -20,9 +20,9 @@
       <div class="p-6 border-b border-gray-200">
         <div class="grid grid-cols-1 gap-6">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Location<span class="text-red-500">*</span></label>
+            <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.adjust.location') %><span class="text-red-500">*</span></label>
             <select name="location" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
-              <option value="">Select a location</option>
+              <option value=""><%= t('stock_transactions.adjust.location_placeholder') %></option>
               <% @team.locations.ordered.each do |location| %>
                 <option value="<%= location.id %>">
                   <%= location.name %>
@@ -35,10 +35,10 @@
 
       <div class="p-6">
         <div class="mb-6">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Items</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.adjust.items') %></label>
           <div class="relative" data-controller="search" data-team-id="<%= @team.id %>">
             <input type="text" 
-                   placeholder="Search for an item" 
+                   placeholder="<%= t('stock_transactions.adjust.search_placeholder') %>" 
                    class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
                    data-search-target="input"
                    data-action="input->search#search">
@@ -64,11 +64,11 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Stock</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">New Stock<span class="text-red-500">*</span></th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('stock_transactions.adjust.table.item') %></th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('stock_transactions.adjust.table.current_stock') %></th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('stock_transactions.adjust.table.quantity') %><span class="text-red-500">*</span></th>
                 <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Actions</span>
+                  <span class="sr-only"><%= t('stock_transactions.adjust.table.actions') %></span>
                 </th>
               </tr>
             </thead>
@@ -79,24 +79,21 @@
         </div>
 
         <div class="mt-6">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Notes</label>
-          <textarea rows="3" 
-                    placeholder="Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
+          <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.adjust.notes') %></label>
+          <textarea name="notes" rows="3" 
+                    placeholder="<%= t('stock_transactions.adjust.notes_placeholder') %>"
                     class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
         </div>
 
         <div class="mt-6 flex justify-between items-center">
           <div class="text-sm text-gray-500">
-            <span class="font-medium">1</span> Item
+            <%= t('stock_transactions.adjust.total_items') %>: <span class="font-medium" data-stock-transaction-target="totalQuantity">0</span>
           </div>
 
           <div class="space-x-4">
-            <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-              Save Draft
-            </button>
             <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700"
                     data-action="stock-transaction#save">
-              Adjust Stock
+              <%= t('stock_transactions.adjust.save_button') %>
             </button>
           </div>
         </div>
@@ -116,15 +113,17 @@
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-current-stock></td>
           <td class="px-6 py-4 whitespace-nowrap">
             <input type="number" 
-                   min="0" 
+                   name="items[][quantity]"
+                   min="1"
                    class="w-24 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
-                   data-quantity>
+                   data-quantity
+                   data-action="input->stock-transaction#updateTotal">
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <button type="button" 
                     class="text-red-600 hover:text-red-900"
                     data-action="stock-transaction#removeItem">
-              Remove
+              <%= t('stock_transactions.adjust.table.actions') %>
             </button>
           </td>
         </tr>
