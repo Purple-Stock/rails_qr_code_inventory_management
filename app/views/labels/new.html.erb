@@ -10,6 +10,7 @@
         <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, target: '_blank', class: 'inline', id: 'print-form' do %>
           <%= hidden_field_tag :label_type %>
           <%= hidden_field_tag :item_ids %>
+          <%= hidden_field_tag :copies %>
           <%= button_tag type: 'submit', class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500", onclick: "updateAndSubmit('print-form'); return false;" do %>
             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -21,6 +22,7 @@
         <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, class: 'inline', id: 'download-form' do %>
           <%= hidden_field_tag :label_type %>
           <%= hidden_field_tag :item_ids %>
+          <%= hidden_field_tag :copies %>
           <%= button_tag type: 'submit', class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500", onclick: "updateAndSubmit('download-form'); return false;" do %>
             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
@@ -147,12 +149,22 @@ function updateAndSubmit(formId) {
   // Get values from checkboxes
   const selectedItems = Array.from(document.querySelectorAll('input[name="item_ids[]"]:checked'))
     .map(checkbox => checkbox.value);
+  
   // Get the label type
   const labelType = document.querySelector('select[name="label_type"]').value;
+  
+  // Get the copies for each selected item
+  const copies = selectedItems.map(itemId => {
+    const input = document.querySelector(`input[name="copies[${itemId}]"]`);
+    return input ? input.value : '1';
+  });
+  
   // Update the target form
   const form = document.getElementById(formId);
   form.querySelector('input[name="label_type"]').value = labelType;
   form.querySelector('input[name="item_ids"]').value = selectedItems.join(',');
+  form.querySelector('input[name="copies"]').value = copies.join(',');
+  
   // Submit the form
   form.submit();
 }

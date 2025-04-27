@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["labelType", "labelTypeSelect", "selectedItems"]
+  static targets = ["form"]
 
   connect() {
     console.log("Form controller connected")
@@ -20,7 +20,11 @@ export default class extends Controller {
       .map(checkbox => checkbox.value)
     
     // Get the label type
-    const labelType = this.labelTypeSelectTarget.value
+    const labelType = this.element.querySelector('select[name="label_type"]').value
+
+    // Get the copies
+    const copies = Array.from(document.querySelectorAll('input[name="copies[]"]'))
+      .map(input => input.value || '1')
 
     // Submit the form with Turbo
     const form = this.element
@@ -32,6 +36,7 @@ export default class extends Controller {
     selectedItems.forEach(id => {
       formData.append('item_ids[]', id)
     })
+    formData.set('copies[]', copies)
 
     // Submit the form
     fetch(form.action, {
@@ -51,21 +56,23 @@ export default class extends Controller {
   }
 
   updateFormValues() {
-    const labelType = this.labelTypeSelectTarget.value
+    // Get selected items
     const selectedItems = Array.from(document.querySelectorAll('input[name="item_ids[]"]:checked'))
-      .map(checkbox => checkbox.value)
-
-    // Update all forms, not just the preview form
-    document.querySelectorAll('form').forEach(form => {
-      const labelTypeInput = form.querySelector('input[name="label_type"]')
-      const itemIdsInput = form.querySelector('input[name="item_ids"]')
-      
-      if (labelTypeInput) {
-        labelTypeInput.value = labelType
-      }
-      if (itemIdsInput) {
-        itemIdsInput.value = selectedItems.join(',')
-      }
+      .map(input => input.value)
+    
+    // Get the label type
+    const labelType = document.querySelector('select[name="label_type"]').value
+    
+    // Get the copies
+    const copies = Array.from(document.querySelectorAll('input[name="copies[]"]'))
+      .map(input => input.value || '1')
+    
+    // Update both forms
+    const forms = document.querySelectorAll('form[id$="-form"]')
+    forms.forEach(form => {
+      form.querySelector('input[name="label_type"]').value = labelType
+      form.querySelector('input[name="item_ids"]').value = selectedItems.join(',')
+      form.querySelector('input[name="copies"]').value = copies.join(',')
     })
   }
 } 
