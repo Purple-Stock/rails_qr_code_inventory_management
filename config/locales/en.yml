@@ -454,3 +454,30 @@ en:
       "pt-br": "PT"
       fr: "FR"
     sign_out: "Sign Out"
+  labels:
+    new:
+      title: "Label Generator"
+      subtitle: "Generate QR codes and barcodes for your inventory items"
+      print_labels: "Print Labels"
+      download_pdf: "Download PDF"
+      label_design:
+        title: "Label Design"
+        subtitle: "Choose your preferred label format"
+        label_type: "Label Type"
+        options:
+          qr: "QR Code"
+          barcode: "Barcode"
+          hybrid: "Hybrid (QR + Barcode)"
+      select_items:
+        title: "Select Items"
+        subtitle: "Choose the items you want to generate labels for"
+        search_placeholder: "Search items..."
+        table:
+          select: "Select"
+          item: "Item"
+          sku: "SKU"
+          copies: "Copies"
+      preview:
+        title: "Preview"
+        subtitle: "See how your labels will look"
+        no_items: "Select items to preview labels"

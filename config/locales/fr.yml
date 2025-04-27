@@ -181,3 +181,30 @@ fr:
       notes_placeholder: "Entrez une note. Astuce) Utilisez '#' pour faciliter la recherche (ex : #PurpleStock)."
       total_items: "Nombre Total d'Articles à Ajouter"
       save_button: "Ajouter au Stock"
+  labels:
+    new:
+      title: "Générateur d'Étiquettes"
+      subtitle: "Générez des codes QR et des codes-barres pour vos articles d'inventaire"
+      print_labels: "Imprimer les Étiquettes"
+      download_pdf: "Télécharger PDF"
+      label_design:
+        title: "Conception d'Étiquette"
+        subtitle: "Choisissez votre format d'étiquette préféré"
+        label_type: "Type d'Étiquette"
+        options:
+          qr: "Code QR"
+          barcode: "Code-barres"
+          hybrid: "Hybride (QR + Code-barres)"
+      select_items:
+        title: "Sélectionner les Articles"
+        subtitle: "Choisissez les articles pour lesquels vous souhaitez générer des étiquettes"
+        search_placeholder: "Rechercher des articles..."
+        table:
+          select: "Sélectionner"
+          item: "Article"
+          sku: "SKU"
+          copies: "Copies"
+      preview:
+        title: "Aperçu"
+        subtitle: "Voyez à quoi ressembleront vos étiquettes"
+        no_items: "Sélectionnez des articles pour prévisualiser les étiquettes"
