@@ -423,4 +423,31 @@ pt-BR:
       en: "EN"
       "pt-br": "PT"
       fr: "FR"
-    sign_out: "Sair" 
+    sign_out: "Sair"
+  labels:
+    new:
+      title: "Gerador de Etiquetas"
+      subtitle: "Gere códigos QR e códigos de barras para seus itens de inventário"
+      print_labels: "Imprimir Etiquetas"
+      download_pdf: "Baixar PDF"
+      label_design:
+        title: "Design da Etiqueta"
+        subtitle: "Escolha seu formato de etiqueta preferido"
+        label_type: "Tipo de Etiqueta"
+        options:
+          qr: "Código QR"
+          barcode: "Código de Barras"
+          hybrid: "Híbrido (QR + Código de Barras)"
+      select_items:
+        title: "Selecionar Itens"
+        subtitle: "Escolha os itens para os quais deseja gerar etiquetas"
+        search_placeholder: "Buscar itens..."
+        table:
+          select: "Selecionar"
+          item: "Item"
+          sku: "SKU"
+          copies: "Cópias"
+      preview:
+        title: "Prévia"
+        subtitle: "Veja como suas etiquetas ficarão"
+        no_items: "Selecione itens para visualizar as etiquetas" 

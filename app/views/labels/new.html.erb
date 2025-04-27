@@ -3,8 +3,8 @@
     <%# Header Section %>
     <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">Label Generator</h1>
-        <p class="mt-1 text-sm text-gray-500">Generate QR codes and barcodes for your inventory items</p>
+        <h1 class="text-2xl font-bold text-gray-900"><%= t('labels.new.title') %></h1>
+        <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.subtitle') %></p>
       </div>
       <div class="flex space-x-3">
         <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, target: '_blank', class: 'inline', id: 'print-form' do %>
@@ -14,7 +14,7 @@
             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
             </svg>
-            Print Labels
+            <%= t('labels.new.print_labels') %>
           <% end %>
         <% end %>
 
@@ -25,7 +25,7 @@
             <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            Download PDF
+            <%= t('labels.new.download_pdf') %>
           <% end %>
         <% end %>
       </div>
@@ -35,17 +35,17 @@
       <%# Label Design Options %>
       <div class="bg-white rounded-lg shadow divide-y divide-gray-200">
         <div class="p-6">
-          <h2 class="text-lg font-medium text-gray-900">Label Design</h2>
-          <p class="mt-1 text-sm text-gray-500">Choose your preferred label format</p>
+          <h2 class="text-lg font-medium text-gray-900"><%= t('labels.new.label_design.title') %></h2>
+          <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.label_design.subtitle') %></p>
           <div class="mt-6 space-y-6">
             <div class="space-y-2">
               <%= form_tag preview_team_labels_path(@team), method: :post, data: { turbo_frame: "preview" } do %>
-                <%= label_tag :label_type, "Label Type", class: "block text-sm font-medium text-gray-700" %>
+                <%= label_tag :label_type, t('labels.new.label_design.label_type'), class: "block text-sm font-medium text-gray-700" %>
                 <%= select_tag :label_type, 
                     options_for_select([
-                      ['QR Code', 'qr'],
-                      ['Barcode', 'barcode'],
-                      ['Hybrid (QR + Barcode)', 'hybrid']
+                      [t('labels.new.label_design.options.qr'), 'qr'],
+                      [t('labels.new.label_design.options.barcode'), 'barcode'],
+                      [t('labels.new.label_design.options.hybrid'), 'hybrid']
                     ]),
                     class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 rounded-md",
                     onchange: "this.form.requestSubmit()" %>
@@ -64,13 +64,13 @@
           <div class="p-6">
             <div class="flex justify-between items-center mb-6">
               <div>
-                <h2 class="text-lg font-medium text-gray-900">Select Items</h2>
-                <p class="mt-1 text-sm text-gray-500">Choose the items you want to generate labels for</p>
+                <h2 class="text-lg font-medium text-gray-900"><%= t('labels.new.select_items.title') %></h2>
+                <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.select_items.subtitle') %></p>
               </div>
               <div class="relative">
                 <input type="text" 
                        id="item-search" 
-                       placeholder="Search items..." 
+                       placeholder="<%= t('labels.new.select_items.search_placeholder') %>" 
                        class="block w-64 rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm pl-10"
                        oninput="filterItems(this.value)">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -84,10 +84,10 @@
               <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Select</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Item</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">SKU</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Copies</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"><%= t('labels.new.select_items.table.select') %></th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"><%= t('labels.new.select_items.table.item') %></th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"><%= t('labels.new.select_items.table.sku') %></th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"><%= t('labels.new.select_items.table.copies') %></th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white" id="items-table-body">
@@ -121,8 +121,8 @@
     <%# Preview Section %>
     <div class="bg-white rounded-lg shadow">
       <div class="p-6">
-        <h2 class="text-lg font-medium text-gray-900">Preview</h2>
-        <p class="mt-1 text-sm text-gray-500">See how your labels will look</p>
+        <h2 class="text-lg font-medium text-gray-900"><%= t('labels.new.preview.title') %></h2>
+        <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.preview.subtitle') %></p>
         <%= turbo_frame_tag "preview", class: "mt-6" do %>
           <%= render "preview" %>
         <% end %>
