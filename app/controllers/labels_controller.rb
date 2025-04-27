@@ -9,13 +9,16 @@ class LabelsController < ApplicationController
     @selected_items = @team.items.where(id: params[:item_ids])
     @label_type = params[:label_type]
     @layout = params[:layout]
-
+  
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.update("preview", 
           partial: "labels/preview",
           locals: { selected_items: @selected_items, label_type: @label_type }
         )
+      end
+      format.html do
+        render partial: "labels/preview", locals: { selected_items: @selected_items, label_type: @label_type }
       end
     end
   end
