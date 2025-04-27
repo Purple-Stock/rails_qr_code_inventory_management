@@ -61,6 +61,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'shoulda-matchers'
+  gem 'auto_reload', git: 'https://github.com/puppe1990/auto_reload'
 end
 
 group :development do
