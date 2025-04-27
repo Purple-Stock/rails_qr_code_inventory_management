@@ -53,7 +53,11 @@
       <%= t('settings.billing.plans.pro.popular') %>
     </div>
     <h4 class="text-lg font-medium text-gray-900"><%= t('settings.billing.plans.pro.title') %></h4>
-    <p class="mt-2 text-2xl font-bold text-gray-900">R$ 145,00<span class="text-base font-medium text-gray-500">/mo</span></p>
+    <% if I18n.locale == :'pt-BR' %>
+      <p class="mt-2 text-2xl font-bold text-gray-900">R$ 149,00<span class="text-base font-medium text-gray-500">/mo</span></p>
+    <% else %>
+      <p class="mt-2 text-2xl font-bold text-gray-900">$25<span class="text-base font-medium text-gray-500">/mo</span></p>
+    <% end %>
     <ul class="mt-6 space-y-4">
       <li class="flex items-start">
         <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

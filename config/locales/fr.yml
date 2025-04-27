@@ -208,3 +208,205 @@ fr:
         title: "Aperçu"
         subtitle: "Voyez à quoi ressembleront vos étiquettes"
         no_items: "Sélectionnez des articles pour prévisualiser les étiquettes"
+  settings:
+    title: "Paramètres"
+    sections:
+      billing: "Facturation"
+      account: "Compte"
+    billing:
+      current_plan:
+        title: "Plan Actuel"
+        name: "Plan Gratuit"
+        description: "Vous êtes actuellement sur le plan Gratuit avec des fonctionnalités limitées."
+        upgrade_button: "Passer à Pro"
+        cancel_notice: "Annulez à tout moment. Sans poser de questions."
+      plans:
+        free:
+          title: "Gratuit"
+          features:
+            items: "Jusqu'à 100 articles"
+            analytics: "Analyses de base"
+            support: "Support par email"
+          current_button: "Plan Actuel"
+        pro:
+          popular: "Populaire"
+          title: "Pro"
+          features:
+            items: "Articles illimités"
+            analytics: "Analyses avancées"
+            support: "Support prioritaire"
+            reports: "Rapports personnalisés"
+            api: "Accès à l'API"
+          upgrade_button: "Mettre à Niveau Maintenant"
+        enterprise:
+          title: "Entreprise"
+          price: "Prix Personnalisé"
+          features:
+            pro: "Tout ce qui est inclus dans Pro"
+            support: "Support dédié"
+            integration: "Intégration personnalisée"
+            sla: "Garantie SLA"
+          contact_button: "Contacter les Ventes"
+      payment_history:
+        title: "Historique de Paiement"
+        empty: "Aucun historique de paiement disponible"
+    account:
+      profile:
+        title: "Informations du Compte"
+        description: "Mettez à jour vos informations personnelles et préférences"
+        fields:
+          name: "Nom"
+          email: "Email"
+          password: "Nouveau Mot de Passe"
+          password_confirmation: "Confirmer le Nouveau Mot de Passe"
+          current_password: "Mot de Passe Actuel"
+          password_placeholder: "Laisser vide si vous ne voulez pas changer"
+          current_password_placeholder: "Nécessaire pour confirmer les modifications"
+        buttons:
+          update: "Mettre à Jour le Compte"
+          cancel: "Annuler"
+      team:
+        title: "Équipe"
+        description: "Gérez les membres de votre équipe"
+        fields:
+          name: "Nom de l'Équipe"
+          description: "Description de l'Équipe"
+        buttons:
+          update: "Mettre à Jour l'Équipe"
+          cancel: "Annuler"
+      notifications:
+        title: "Notifications"
+        description: "Gérez vos préférences de notification"
+        fields:
+          email: "Notifications par Email"
+          push: "Notifications Push"
+          sms: "Notifications SMS"
+        buttons:
+          update: "Mettre à Jour les Préférences"
+          cancel: "Annuler"
+      security:
+        title: "Sécurité"
+        description: "Gérez vos paramètres de sécurité"
+        fields:
+          two_factor: "Authentification à Deux Facteurs"
+          password: "Changer le Mot de Passe"
+          sessions: "Sessions Actives"
+        buttons:
+          update: "Mettre à Jour la Sécurité"
+          cancel: "Annuler"
+      billing:
+        title: "Facturation"
+        description: "Gérez vos informations de facturation"
+        fields:
+          card: "Carte de Crédit"
+          address: "Adresse de Facturation"
+          history: "Historique de Paiement"
+        buttons:
+          update: "Mettre à Jour la Facturation"
+          cancel: "Annuler"
+      api:
+        title: "API"
+        description: "Gérez vos paramètres API"
+        fields:
+          key: "Clé API"
+          usage: "Utilisation de l'API"
+          limits: "Limites de l'API"
+        buttons:
+          update: "Mettre à Jour l'API"
+          cancel: "Annuler"
+      integrations:
+        title: "Intégrations"
+        description: "Gérez vos intégrations"
+        fields:
+          shopify: "Shopify"
+          woocommerce: "WooCommerce"
+          magento: "Magento"
+        buttons:
+          update: "Mettre à Jour les Intégrations"
+          cancel: "Annuler"
+      export:
+        title: "Exporter"
+        description: "Exportez vos données"
+        fields:
+          format: "Format d'Exportation"
+          date_range: "Plage de Dates"
+          items: "Articles à Exporter"
+        buttons:
+          export: "Exporter les Données"
+          cancel: "Annuler"
+      import:
+        title: "Importer"
+        description: "Importez vos données"
+        fields:
+          format: "Format d'Importation"
+          file: "Fichier à Importer"
+          mapping: "Mappage des Champs"
+        buttons:
+          import: "Importer les Données"
+          cancel: "Annuler"
+      backup:
+        title: "Sauvegarde"
+        description: "Gérez vos sauvegardes"
+        fields:
+          schedule: "Planification de Sauvegarde"
+          location: "Emplacement de Sauvegarde"
+          retention: "Période de Rétention"
+        buttons:
+          update: "Mettre à Jour la Sauvegarde"
+          cancel: "Annuler"
+      restore:
+        title: "Restaurer"
+        description: "Restaurez vos données"
+        fields:
+          backup: "Sélectionner une Sauvegarde"
+          date: "Date de la Sauvegarde"
+          items: "Articles à Restaurer"
+        buttons:
+          restore: "Restaurer les Données"
+          cancel: "Annuler"
+      delete:
+        title: "Zone de Danger"
+        description: "Supprimez votre compte"
+        fields:
+          confirm: "Êtes-vous sûr ? Cette action est irréversible."
+        buttons:
+          delete: "Supprimer le Compte"
+          cancel: "Annuler"
+  header:
+    subscribe: "S'abonner"
+    user_guide: "Guide de l'Utilisateur"
+    theme:
+      light: "Thème Clair"
+      dark: "Thème Sombre"
+    language:
+      en: "EN"
+      "pt-br": "PT"
+      fr: "FR"
+    sign_out: "Se Déconnecter"
+  labels:
+    new:
+      title: "Générateur d'Étiquettes"
+      subtitle: "Générez des QR codes et des codes-barres pour vos articles d'inventaire"
+      print_labels: "Imprimer les Étiquettes"
+      download_pdf: "Télécharger le PDF"
+      label_design:
+        title: "Conception de l'Étiquette"
+        subtitle: "Choisissez votre format d'étiquette préféré"
+        label_type: "Type d'Étiquette"
+        options:
+          qr: "Code QR"
+          barcode: "Code-barres"
+          hybrid: "Hybride (QR + Code-barres)"
+      select_items:
+        title: "Sélectionner des Articles"
+        subtitle: "Choisissez les articles pour lesquels vous souhaitez générer des étiquettes"
+        search_placeholder: "Rechercher des articles..."
+        table:
+          select: "Sélectionner"
+          item: "Article"
+          sku: "SKU"
+          copies: "Copies"
+      preview:
+        title: "Aperçu"
+        subtitle: "Voyez à quoi ressembleront vos étiquettes"
+        no_items: "Sélectionnez des articles pour voir l'aperçu des étiquettes"
