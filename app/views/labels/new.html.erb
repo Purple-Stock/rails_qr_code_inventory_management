@@ -117,17 +117,6 @@
         </div>
       </div>
     </div>
-
-    <%# Preview Section %>
-    <div class="bg-white rounded-lg shadow">
-      <div class="p-6">
-        <h2 class="text-lg font-medium text-gray-900"><%= t('labels.new.preview.title') %></h2>
-        <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.preview.subtitle') %></p>
-        <%= turbo_frame_tag "preview", class: "mt-6" do %>
-          <%= render "preview" %>
-        <% end %>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -136,17 +125,13 @@ function updatePreview(checkbox) {
   // Get all selected items
   const selectedItems = Array.from(document.querySelectorAll('input[name="item_ids[]"]:checked'))
     .map(cb => cb.value);
-  
   // Get the current label type
   const labelType = document.querySelector('select[name="label_type"]').value;
-  
   // Get the form
   const form = document.querySelector('form[data-turbo-frame="preview"]');
-  
   // Clear existing hidden inputs
   const container = document.getElementById('selected-items-container');
   container.innerHTML = '';
-  
   // Add hidden inputs for each selected item
   selectedItems.forEach(itemId => {
     const input = document.createElement('input');
@@ -155,24 +140,19 @@ function updatePreview(checkbox) {
     input.value = itemId;
     container.appendChild(input);
   });
-  
-  // Submit the form
-  form.requestSubmit();
+  // No preview update needed
 }
 
 function updateAndSubmit(formId) {
   // Get values from checkboxes
   const selectedItems = Array.from(document.querySelectorAll('input[name="item_ids[]"]:checked'))
     .map(checkbox => checkbox.value);
-  
   // Get the label type
   const labelType = document.querySelector('select[name="label_type"]').value;
-  
   // Update the target form
   const form = document.getElementById(formId);
   form.querySelector('input[name="label_type"]').value = labelType;
   form.querySelector('input[name="item_ids"]').value = selectedItems.join(',');
-  
   // Submit the form
   form.submit();
 }
@@ -181,16 +161,13 @@ function filterItems(searchTerm) {
   searchTerm = searchTerm.toLowerCase();
   const rows = document.querySelectorAll('.item-row');
   let hasVisibleRows = false;
-
   rows.forEach(row => {
     const name = row.dataset.name;
     const sku = row.dataset.sku;
     const matches = name.includes(searchTerm) || sku.includes(searchTerm);
-    
     row.style.display = matches ? '' : 'none';
     if (matches) hasVisibleRows = true;
   });
-
   // Show or hide "no results" message
   let noResultsRow = document.getElementById('no-results-row');
   if (!hasVisibleRows) {
