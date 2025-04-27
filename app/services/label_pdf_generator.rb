@@ -10,10 +10,11 @@ class LabelPdfGenerator
   LABELS_PER_ROW = 2
   LABEL_PADDING = 20
 
-  def initialize(items, label_type, layout)
+  def initialize(items, label_type, layout, item_copies)
     @items = items
     @label_type = label_type
     @layout = layout
+    @item_copies = item_copies
   end
 
   def generate
@@ -23,7 +24,14 @@ class LabelPdfGenerator
     content_width = pdf.bounds.width
     label_width = (content_width - (LABELS_PER_ROW - 1) * LABEL_PADDING) / LABELS_PER_ROW
     
-    @items.each_slice(LABELS_PER_ROW).with_index do |item_group, row_index|
+    # Create an array of items with their copies
+    items_with_copies = []
+    @items.each do |item|
+      copies = @item_copies[item.id.to_s] || 1
+      copies.times { items_with_copies << item }
+    end
+    
+    items_with_copies.each_slice(LABELS_PER_ROW).with_index do |item_group, row_index|
       # Start new page if needed
       pdf.start_new_page if row_index > 0 && pdf.cursor < 200
 
