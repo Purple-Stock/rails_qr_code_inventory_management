@@ -176,6 +176,7 @@ en:
     index:
       title: "Locations"
       new_location: "New Location"
+      search_placeholder: "Search locations..."
       table:
         name: "Name"
         description: "Description"

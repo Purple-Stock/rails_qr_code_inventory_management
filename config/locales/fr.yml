@@ -155,6 +155,7 @@ fr:
     index:
       title: "Emplacements"
       new_location: "Nouvel Emplacement"
+      search_placeholder: "Rechercher des emplacements..."
       table:
         name: "Nom"
         description: "Description"
