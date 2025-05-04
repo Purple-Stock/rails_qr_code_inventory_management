@@ -42,6 +42,8 @@ class Item < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :barcode, uniqueness: true, allow_blank: true
+  validates :location_id, presence: { message: :must_be_selected }
+  validate :location_belongs_to_team
 
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
 
@@ -91,6 +93,12 @@ class Item < ApplicationRecord
   end
 
   private
+
+  def location_belongs_to_team
+    if location_id.present? && !team.locations.exists?(location_id)
+      errors.add(:location_id, :must_belong_to_team)
+    end
+  end
 
   def generate_sku
     return if name.blank?

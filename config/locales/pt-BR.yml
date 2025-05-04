@@ -1,19 +1,19 @@
 pt-BR:
   sidebar:
     item_list: "Lista de Itens"
-    locations: "Locais"
+    locations: "Localizações"
     stock_in: "Entrada"
     stock_out: "Saída"
     adjust: "Ajustar"
     move: "Mover"
     transactions: "Transações"
-    stock_by_location: "Estoque por Local"
+    stock_by_location: "Estoque por Localização"
     labels: "Etiquetas"
     reports: "Relatórios"
     settings: "Configurações"
-    change_team: "Mudar Time"
-    select_team: "Selecionar Time"
-    choose_team: "Escolha um time"
+    change_team: "Mudar Equipe"
+    select_team: "Selecionar Equipe"
+    choose_team: "Escolha uma equipe"
   teams:
     selection:
       title: "Selecione um Time"
@@ -76,7 +76,7 @@ pt-BR:
         sku: "Digite o SKU"
         barcode: "Digite ou gere o código de barras"
         item_type: "Digite o tipo do item"
-        brand: "Digite o nome da marca"
+        brand: "Digite a marca"
         cost: "0,00"
         price: "0,00"
       buttons:
@@ -85,14 +85,35 @@ pt-BR:
         create: "Criar Item"
         update: "Atualizar Item"
         cancel: "Cancelar"
-        reset: "Reiniciar"
+        reset: "Resetar"
       location:
-        select: "Selecione um local"
-        available: "Locais disponíveis: %{count}"
-        none: "Nenhum local disponível"
+        select: "Selecione uma localização"
+        available: "Localizações disponíveis: %{count}"
+        none: "Nenhuma localização disponível. Por favor, crie uma localização primeiro."
       errors:
-        one: "erro impediu este item de ser salvo"
-        other: "erros impediram este item de ser salvo"
+        one: "1 erro impediu este item de ser salvo"
+        other: "%{count} erros impediram este item de ser salvo"
+        stock_transaction: "Falha ao criar transação de estoque: %{errors}"
+        transaction_failed: "Falha na transação: %{message}"
+      success:
+        create: "Item foi criado com sucesso."
+        update: "Item foi atualizado com sucesso."
+        destroy: "Item foi excluído com sucesso."
+      initial_stock_note: "Estoque inicial para criação do item"
+      field_names:
+        name: "Nome"
+        sku: "SKU"
+        barcode: "Código de Barras"
+        item_type: "Tipo do Item"
+        brand: "Marca"
+        cost: "Custo"
+        price: "Preço"
+        location: "Localização"
+        initial_quantity: "Quantidade inicial"
+      error_messages:
+        blank: "não pode ficar em branco"
+        not_a_number: "não é um número"
+        must_be_selected: "deve ser selecionado"
     show:
       back_to_list: "Voltar para Lista"
       overview: "Visão Geral"
@@ -450,4 +471,41 @@ pt-BR:
       preview:
         title: "Prévia"
         subtitle: "Veja como suas etiquetas ficarão"
-        no_items: "Selecione itens para visualizar as etiquetas" 
+        no_items: "Selecione itens para visualizar as etiquetas"
+  activerecord:
+    attributes:
+      item:
+        name: "Nome"
+        sku: "SKU"
+        item_type: "Tipo"
+        price: "Preço"
+        cost: "Custo"
+        location_id: "Localização"
+        barcode: "Código de Barras"
+    errors:
+      messages:
+        blank: "não pode ficar em branco"
+        not_a_number: "não é um número"
+        must_be_selected: "deve ser selecionado"
+        taken: "já está em uso"
+      models:
+        item:
+          attributes:
+            name:
+              blank: "não pode ficar em branco"
+            sku:
+              blank: "não pode ficar em branco"
+              taken: "já está em uso"
+            item_type:
+              blank: "não pode ficar em branco"
+            price:
+              blank: "não pode ficar em branco"
+              not_a_number: "não é um número"
+            cost:
+              blank: "não pode ficar em branco"
+              not_a_number: "não é um número"
+            location_id:
+              blank: "deve ser selecionado"
+              must_belong_to_team: "deve pertencer à sua equipe"
+            barcode:
+              taken: "já está em uso" 

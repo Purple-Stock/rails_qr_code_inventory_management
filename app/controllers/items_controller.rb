@@ -29,7 +29,10 @@ class ItemsController < ApplicationController
   def new
     @item = @team.items.build
     @locations = @team.locations.ordered
-    puts "Debug: Found #{@locations.count} locations"
+    
+    if @locations.empty?
+      flash.now[:alert] = t('items.form.location.none')
+    end
   end
 
   def create
@@ -45,14 +48,14 @@ class ItemsController < ApplicationController
           quantity: item_params[:initial_quantity],
           destination_location_id: item_params[:location_id],
           user: current_user,
-          notes: "Initial stock for item creation"
+          notes: t('items.form.initial_stock_note')
         )
 
         if stock_transaction.save
-          redirect_to team_items_path(@team), notice: 'Item was successfully created.'
+          redirect_to team_items_path(@team), notice: t('items.form.success.create')
         else
           raise ActiveRecord::Rollback
-          @item.errors.add(:base, "Failed to create stock transaction: #{stock_transaction.errors.full_messages.join(', ')}")
+          @item.errors.add(:base, t('items.form.errors.stock_transaction', errors: stock_transaction.errors.full_messages.join(', ')))
           render :new, status: :unprocessable_entity
         end
       else
@@ -61,7 +64,7 @@ class ItemsController < ApplicationController
     end
   rescue ActiveRecord::RecordInvalid => e
     @locations = @team.locations.ordered
-    @item.errors.add(:base, "Transaction failed: #{e.message}")
+    @item.errors.add(:base, t('items.form.errors.transaction_failed', message: e.message))
     render :new, status: :unprocessable_entity
   end
 
@@ -71,7 +74,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to team_items_path(@team), notice: 'Item atualizado com sucesso.'
+      redirect_to team_items_path(@team), notice: t('items.form.success.update')
     else
       @locations = @team.locations.ordered
       render :edit, status: :unprocessable_entity
@@ -83,8 +86,8 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
-      format.html { redirect_to team_items_path(@team), notice: 'Item was successfully deleted.' }
-      format.turbo_stream { redirect_to team_items_path(@team), notice: 'Item was successfully deleted.' }
+      format.html { redirect_to team_items_path(@team), notice: t('items.form.success.destroy') }
+      format.turbo_stream { redirect_to team_items_path(@team), notice: t('items.form.success.destroy') }
     end
   end
 
