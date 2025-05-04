@@ -525,3 +525,8 @@ en:
               must_belong_to_team: "must belong to your team"
             barcode:
               taken: "has already been taken"
+      messages:
+        blank: "can't be blank"
+        not_a_number: "is not a number"
+        must_be_selected: "must be selected"
+        taken: "has already been taken"

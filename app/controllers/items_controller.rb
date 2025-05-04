@@ -28,44 +28,17 @@ class ItemsController < ApplicationController
 
   def new
     @item = @team.items.build
-    @locations = @team.locations.ordered
-    
-    if @locations.empty?
-      flash.now[:alert] = t('items.form.location.none')
-    end
   end
 
   def create
-    ActiveRecord::Base.transaction do
-      @item = @team.items.build(item_params.except(:initial_quantity))
-      @locations = @team.locations.ordered
-
-      if @item.save
-        # Create stock_in transaction with explicit destination_location_id
-        stock_transaction = @team.stock_transactions.new(
-          item: @item,
-          transaction_type: 'stock_in',
-          quantity: item_params[:initial_quantity],
-          destination_location_id: item_params[:location_id],
-          user: current_user,
-          notes: t('items.form.initial_stock_note')
-        )
-
-        if stock_transaction.save
-          redirect_to team_items_path(@team), notice: t('items.form.success.create')
-        else
-          raise ActiveRecord::Rollback
-          @item.errors.add(:base, t('items.form.errors.stock_transaction', errors: stock_transaction.errors.full_messages.join(', ')))
-          render :new, status: :unprocessable_entity
-        end
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
-  rescue ActiveRecord::RecordInvalid => e
+    @item = @team.items.build(item_params.except(:initial_quantity))
     @locations = @team.locations.ordered
-    @item.errors.add(:base, t('items.form.errors.transaction_failed', message: e.message))
-    render :new, status: :unprocessable_entity
+
+    if @item.save
+      redirect_to team_items_path(@team), notice: t('items.form.success.create')
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit

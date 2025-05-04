@@ -42,7 +42,6 @@ class Item < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :barcode, uniqueness: true, allow_blank: true
-  validates :location_id, presence: { message: :must_be_selected }
   validate :location_belongs_to_team
 
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }

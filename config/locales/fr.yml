@@ -442,29 +442,29 @@ fr:
         location_id: "Emplacement"
         barcode: "Code-barres"
     errors:
-      messages:
-        blank: "doit être rempli(e)"
-        not_a_number: "n'est pas un nombre"
-        must_be_selected: "doit être sélectionné(e)"
-        taken: "est déjà pris"
       models:
         item:
           attributes:
             name:
-              blank: "doit être rempli(e)"
+              blank: "ne peut pas être vide"
             sku:
-              blank: "doit être rempli(e)"
+              blank: "ne peut pas être vide"
               taken: "est déjà pris"
             item_type:
-              blank: "doit être rempli(e)"
+              blank: "ne peut pas être vide"
             price:
-              blank: "doit être rempli(e)"
+              blank: "ne peut pas être vide"
               not_a_number: "n'est pas un nombre"
             cost:
-              blank: "doit être rempli(e)"
+              blank: "ne peut pas être vide"
               not_a_number: "n'est pas un nombre"
             location_id:
-              blank: "doit être sélectionné(e)"
+              blank: "doit être sélectionné"
               must_belong_to_team: "doit appartenir à votre équipe"
             barcode:
               taken: "est déjà pris"
+      messages:
+        blank: "ne peut pas être vide"
+        not_a_number: "n'est pas un nombre"
+        must_be_selected: "doit être sélectionné"
+        taken: "est déjà pris"
