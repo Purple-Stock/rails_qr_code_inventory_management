@@ -28,41 +28,17 @@ class ItemsController < ApplicationController
 
   def new
     @item = @team.items.build
-    @locations = @team.locations.ordered
-    puts "Debug: Found #{@locations.count} locations"
   end
 
   def create
-    ActiveRecord::Base.transaction do
-      @item = @team.items.build(item_params.except(:initial_quantity))
-      @locations = @team.locations.ordered
-
-      if @item.save
-        # Create stock_in transaction with explicit destination_location_id
-        stock_transaction = @team.stock_transactions.new(
-          item: @item,
-          transaction_type: 'stock_in',
-          quantity: item_params[:initial_quantity],
-          destination_location_id: item_params[:location_id],
-          user: current_user,
-          notes: "Initial stock for item creation"
-        )
-
-        if stock_transaction.save
-          redirect_to team_items_path(@team), notice: 'Item was successfully created.'
-        else
-          raise ActiveRecord::Rollback
-          @item.errors.add(:base, "Failed to create stock transaction: #{stock_transaction.errors.full_messages.join(', ')}")
-          render :new, status: :unprocessable_entity
-        end
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
-  rescue ActiveRecord::RecordInvalid => e
+    @item = @team.items.build(item_params.except(:initial_quantity))
     @locations = @team.locations.ordered
-    @item.errors.add(:base, "Transaction failed: #{e.message}")
-    render :new, status: :unprocessable_entity
+
+    if @item.save
+      redirect_to team_items_path(@team), notice: t('items.form.success.create')
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -71,7 +47,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to team_items_path(@team), notice: 'Item atualizado com sucesso.'
+      redirect_to team_items_path(@team), notice: t('items.form.success.update')
     else
       @locations = @team.locations.ordered
       render :edit, status: :unprocessable_entity
@@ -83,8 +59,8 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
-      format.html { redirect_to team_items_path(@team), notice: 'Item was successfully deleted.' }
-      format.turbo_stream { redirect_to team_items_path(@team), notice: 'Item was successfully deleted.' }
+      format.html { redirect_to team_items_path(@team), notice: t('items.form.success.destroy') }
+      format.turbo_stream { redirect_to team_items_path(@team), notice: t('items.form.success.destroy') }
     end
   end
 

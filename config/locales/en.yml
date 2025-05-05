@@ -120,10 +120,31 @@ en:
       location:
         select: "Select a location"
         available: "Available locations: %{count}"
-        none: "No locations available"
+        none: "No locations available. Please create a location first."
       errors:
-        one: "error prohibited this item from being saved"
-        other: "errors prohibited this item from being saved"
+        one: "1 error prohibited this item from being saved"
+        other: "%{count} errors prohibited this item from being saved"
+        stock_transaction: "Failed to create stock transaction: %{errors}"
+        transaction_failed: "Transaction failed: %{message}"
+      success:
+        create: "Item was successfully created."
+        update: "Item was successfully updated."
+        destroy: "Item was successfully deleted."
+      initial_stock_note: "Initial stock for item creation"
+      field_names:
+        name: "Name"
+        sku: "SKU"
+        barcode: "Barcode"
+        item_type: "Item type"
+        brand: "Brand"
+        cost: "Cost"
+        price: "Price"
+        location: "Location"
+        initial_quantity: "Initial quantity"
+      error_messages:
+        blank: "can't be blank"
+        not_a_number: "is not a number"
+        must_be_selected: "must be selected"
     show:
       back_to_list: "Back to List"
       overview: "Overview"
@@ -155,6 +176,7 @@ en:
     index:
       title: "Locations"
       new_location: "New Location"
+      search_placeholder: "Search locations..."
       table:
         name: "Name"
         description: "Description"
@@ -481,3 +503,31 @@ en:
         title: "Preview"
         subtitle: "See how your labels will look"
         no_items: "Select items to preview labels"
+  activerecord:
+    errors:
+      models:
+        item:
+          attributes:
+            name:
+              blank: "can't be blank"
+            sku:
+              blank: "can't be blank"
+              taken: "has already been taken"
+            item_type:
+              blank: "can't be blank"
+            price:
+              blank: "can't be blank"
+              not_a_number: "is not a number"
+            cost:
+              blank: "can't be blank"
+              not_a_number: "is not a number"
+            location_id:
+              blank: "must be selected"
+              must_belong_to_team: "must belong to your team"
+            barcode:
+              taken: "has already been taken"
+      messages:
+        blank: "can't be blank"
+        not_a_number: "is not a number"
+        must_be_selected: "must be selected"
+        taken: "has already been taken"
