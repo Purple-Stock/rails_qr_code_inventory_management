@@ -318,7 +318,7 @@ en:
         free:
           title: "Free"
           features:
-            items: "Up to 100 items"
+            items: "Up to 10 items"
             analytics: "Basic analytics"
             support: "Email support"
           current_button: "Current Plan"

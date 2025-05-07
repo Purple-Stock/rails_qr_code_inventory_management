@@ -246,7 +246,7 @@ fr:
         free:
           title: "Gratuit"
           features:
-            items: "Jusqu'à 100 articles"
+            items: "Jusqu'à 10 articles"
             analytics: "Analyses de base"
             support: "Support par email"
           current_button: "Plan Actuel"
