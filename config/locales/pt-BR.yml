@@ -295,7 +295,7 @@ pt-BR:
           popular: "Popular"
           title: "Pro"
           features:
-            items: "Itens ilimitados"
+            items: "Até 100 itens"
             analytics: "Análises avançadas"
             support: "Suporte prioritário"
             reports: "Relatórios personalizados"
@@ -306,6 +306,7 @@ pt-BR:
           price: "Preço Personalizado"
           features:
             pro: "Tudo do Pro"
+            items: "Itens ilimitados"
             support: "Suporte dedicado"
             integration: "Integração personalizada"
             sla: "Garantia de SLA"
