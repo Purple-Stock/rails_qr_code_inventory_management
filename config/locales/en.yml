@@ -326,7 +326,7 @@ en:
           popular: "Popular"
           title: "Pro"
           features:
-            items: "Unlimited items"
+            items: "Up to 100 items"
             analytics: "Advanced analytics"
             support: "Priority support"
             reports: "Custom reports"
@@ -337,6 +337,7 @@ en:
           price: "Custom Pricing"
           features:
             pro: "Everything in Pro"
+            items: "Unlimited items"
             support: "Dedicated support"
             integration: "Custom integration"
             sla: "SLA guarantee"

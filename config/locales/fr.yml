@@ -254,7 +254,7 @@ fr:
           popular: "Populaire"
           title: "Pro"
           features:
-            items: "Articles illimités"
+            items: "Jusqu'à 100 articles"
             analytics: "Analyses avancées"
             support: "Support prioritaire"
             reports: "Rapports personnalisés"
@@ -265,6 +265,7 @@ fr:
           price: "Prix Personnalisé"
           features:
             pro: "Tout ce qui est inclus dans Pro"
+            items: "Articles illimités"
             support: "Support dédié"
             integration: "Intégration personnalisée"
             sla: "Garantie SLA"
