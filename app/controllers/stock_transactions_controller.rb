@@ -258,8 +258,13 @@ class StockTransactionsController < ApplicationController
   end
 
   def destroy
-    @transaction.destroy
-    redirect_to team_stock_transactions_path(@team), notice: 'Transaction was successfully deleted.'
+    @transaction = @team.stock_transactions.find(params[:id])
+    
+    if @transaction.destroy
+      redirect_to team_stock_transactions_path(@team), notice: t('stock_transactions.destroy.success')
+    else
+      redirect_to team_stock_transactions_path(@team), alert: t('stock_transactions.destroy.error')
+    end
   end
 
   def report
@@ -287,16 +292,10 @@ class StockTransactionsController < ApplicationController
   end
 
   def stock_by_location
-    @locations = @team.locations.ordered
-    @items = @team.items.includes(:stock_transactions)
-    
-    @stock_levels = {}
-    @items.each do |item|
-      @stock_levels[item.id] = {}
-      @locations.each do |location|
-        @stock_levels[item.id][location.id] = item.stock_at_location(location.id)
-      end
-    end
+    @locations = @team.locations.order(:name)
+    @transactions = @team.stock_transactions.includes(:item, :source_location, :destination_location, :user)
+                        .order(created_at: :desc)
+                        .page(params[:page])
   end
 
   private

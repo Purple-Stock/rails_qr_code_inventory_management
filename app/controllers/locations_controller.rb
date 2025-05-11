@@ -36,11 +36,20 @@ class LocationsController < ApplicationController
   end
   
   def destroy
-    if @location.items_as_source.exists? || @location.items_as_destination.exists?
-      redirect_to team_locations_path(@team), alert: 'Cannot delete location that has associated transactions.'
+    @location = @team.locations.find(params[:id])
+    
+    if @location.items.exists?
+      redirect_to team_locations_path(@team), 
+                  alert: t('locations.destroy.error_has_items', 
+                          count: @location.items.count)
     else
-      @location.destroy
-      redirect_to team_locations_path(@team), notice: 'Location was successfully deleted.'
+      if @location.destroy
+        redirect_to team_locations_path(@team), 
+                    notice: t('locations.destroy.success')
+      else
+        redirect_to team_locations_path(@team), 
+                    alert: t('locations.destroy.error')
+      end
     end
   end
   

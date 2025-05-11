@@ -197,6 +197,10 @@ en:
       errors:
         one: "error prohibited this location from being saved"
         other: "errors prohibited this location from being saved"
+    destroy:
+      success: "Location was successfully deleted."
+      error: "Failed to delete location."
+      error_has_items: "Cannot delete location because it has %{count} associated items. Please reassign or delete these items first."
   stock_transactions:
     index:
       title: "Transactions"
@@ -208,6 +212,7 @@ en:
         quantity: "Quantity"
         location: "Location"
         user: "User"
+        actions: "Actions"
     stock_in:
       title: "Stock In"
       subtitle: "Add items to your inventory"
@@ -302,6 +307,10 @@ en:
           sku: "SKU"
           movements: "Movements"
           trend: "Trend"
+    destroy:
+      success: "Transaction was successfully deleted."
+      error: "Failed to delete transaction."
+      confirm: "Are you sure you want to delete this transaction?"
   settings:
     title: "Settings"
     sections:
