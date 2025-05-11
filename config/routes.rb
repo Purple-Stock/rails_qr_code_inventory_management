@@ -50,6 +50,9 @@ Rails.application.routes.draw do
         get :report
         get :stock_by_location
       end
+      member do
+        delete :destroy
+      end
     end
     resource :settings, only: [:show]
     resources :locations
