@@ -10,8 +10,14 @@
     <p class="mt-1"><%= t('settings.billing.current_plan.description') %></p>
   </div>
   <div class="mt-4">
-    <%= link_to "#", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" do %>
-      <%= t('settings.billing.current_plan.upgrade_button') %>
+    <% if I18n.locale == :'pt-BR' %>
+      <%= link_to ENV['STRIPE_PRO_PLAN_BR_URL'], class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500", target: "_blank" do %>
+        <%= t('settings.billing.current_plan.upgrade_button') %>
+      <% end %>
+    <% else %>
+      <%= link_to ENV['STRIPE_PRO_PLAN_WORLDWIDE_URL'], class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500", target: "_blank" do %>
+        <%= t('settings.billing.current_plan.upgrade_button') %>
+      <% end %>
     <% end %>
     <span class="ml-2 text-sm text-gray-500"><%= t('settings.billing.current_plan.cancel_notice') %></span>
   </div>
@@ -85,7 +91,11 @@
       </li>
     </ul>
     <button class="mt-8 w-full bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700">
-      <%= t('settings.billing.plans.pro.upgrade_button') %>
+      <% if I18n.locale == :'pt-BR' %>
+        <%= link_to t('settings.billing.plans.pro.upgrade_button'), ENV['STRIPE_PRO_PLAN_BR_URL'], class: "block w-full text-center", target: "_blank" %>
+      <% else %>
+        <%= link_to t('settings.billing.plans.pro.upgrade_button'), ENV['STRIPE_PRO_PLAN_WORLDWIDE_URL'], class: "block w-full text-center", target: "_blank" %>
+      <% end %>
     </button>
   </div>
 
