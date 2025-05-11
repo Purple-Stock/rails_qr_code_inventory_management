@@ -91,3 +91,6 @@ gem 'rqrcode'
 gem 'prawn'  # For PDF generation
 gem 'barby'  # For barcode generation
 gem 'chunky_png' # For rendering QR codes
+
+# Payment processing
+gem 'stripe'
