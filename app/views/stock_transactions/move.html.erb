@@ -86,15 +86,14 @@
       <div class="p-6">
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.move.items') %></label>
-          <div class="relative" data-controller="search" data-team-id="<%= @team.id %>">
+          <div class="relative" data-team-id="<%= @team.id %>">
             <input type="text" 
                    placeholder="<%= t('stock_transactions.move.search_placeholder') %>" 
                    class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
-                   data-search-target="input"
-                   data-action="input->search#search">
+                   id="searchInput">
             
             <div class="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-lg hidden"
-                 data-search-target="results">
+                 id="searchResults">
             </div>
           </div>
         </div>
@@ -168,4 +167,183 @@
       </template>
     </div>
   </div>
-</div> 
+</div>
+
+<script>
+  // Wait for the document to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const teamId = document.querySelector('[data-team-id]').dataset.teamId;
+    const sourceLocationSelect = document.querySelector('select[name="source_location_id"]');
+
+    // Hide results when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+        searchResults.classList.add('hidden');
+      }
+    });
+
+    // Function to load items
+    function loadItems(query = '') {
+      searchResults.classList.remove('hidden');
+
+      // Get the source location ID
+      const sourceLocationId = sourceLocationSelect.value;
+
+      fetch(`/teams/${teamId}/items/search?q=${encodeURIComponent(query)}&location_id=${sourceLocationId}`, {
+        headers: {
+          "Accept": "text/html",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Search failed');
+        return response.text();
+      })
+      .then(html => {
+        searchResults.innerHTML = html;
+        
+        // Add click handlers to the search results
+        searchResults.querySelectorAll('button[data-item-id]').forEach(button => {
+          button.addEventListener('click', function() {
+            const item = {
+              id: this.dataset.itemId,
+              name: this.dataset.itemName,
+              sku: this.dataset.itemSku,
+              currentStock: this.dataset.itemCurrentStock
+            };
+
+            // Get the items list and template
+            const itemsList = document.querySelector('[data-stock-transaction-target="itemsList"]');
+            const template = document.querySelector('[data-stock-transaction-target="itemTemplate"]');
+            
+            if (template && itemsList) {
+              // Check if item is already in the list
+              const existingRow = itemsList.querySelector(`tr[data-item-id="${item.id}"]`);
+              if (existingRow) {
+                // If item already exists, increment quantity by 1 (checking stock limits)
+                const quantityInput = existingRow.querySelector('[data-quantity]');
+                const currentQuantity = parseInt(quantityInput.value) || 0;
+                const currentStock = parseInt(existingRow.querySelector('[data-current-stock]').textContent);
+                
+                if (currentQuantity + 1 > currentStock) {
+                  showToast(`Cannot move more than ${currentStock} of this item!`, "red");
+                  return;
+                }
+                
+                quantityInput.value = currentQuantity + 1;
+                
+                // Manually trigger the update total calculation
+                const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+                if (stockTransactionController) {
+                  stockTransactionController.updateTotal();
+                }
+                
+                // Show success notification
+                showToast(`Added 1 more ${item.name} to move`);
+              } else {
+                // Add new item to the list
+                const clone = template.content.cloneNode(true);
+                const row = clone.querySelector('tr');
+                
+                row.dataset.itemId = item.id;
+                row.querySelector('[data-item-name]').textContent = item.name;
+                row.querySelector('[data-item-sku]').textContent = item.sku;
+                row.querySelector('[data-current-stock]').textContent = item.currentStock;
+                
+                // Set default quantity to 1 and max to current stock
+                const quantityInput = row.querySelector('[data-quantity]');
+                quantityInput.value = 1;
+                quantityInput.max = item.currentStock;
+                
+                itemsList.appendChild(row);
+                
+                // Manually trigger the update total calculation
+                const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+                if (stockTransactionController) {
+                  stockTransactionController.updateTotal();
+                }
+                
+                // Show success notification
+                showToast(`Added ${item.name} to move list`);
+              }
+            }
+
+            // Clear the search input and hide results
+            searchInput.value = "";
+            searchResults.classList.add('hidden');
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Search error:', error);
+        searchResults.innerHTML = `
+          <div class="py-14">
+            <div class="text-center">
+              <svg class="mx-auto h-6 w-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <p class="mt-2 text-sm text-gray-500">Error searching items. Please try again.</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Show all items when input is focused
+    searchInput.addEventListener('focus', function() {
+      loadItems();
+    });
+
+    // Handle search input
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
+      
+      searchTimeout = setTimeout(() => {
+        loadItems(query);
+      }, 300); // Debounce search for 300ms
+    });
+
+    // Reload items when source location changes
+    sourceLocationSelect.addEventListener('change', function() {
+      if (searchInput.value.trim()) {
+        loadItems(searchInput.value.trim());
+      }
+    });
+  });
+
+  // Add toast notification function if not already present
+  function showToast(message, color = "green") {
+    // Create toast element if it doesn't exist
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast-notification';
+      toast.className = 'fixed bottom-4 right-4 text-white px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 translate-y-20 opacity-0 z-50';
+      document.body.appendChild(toast);
+    }
+    
+    // Set background color based on the type
+    toast.className = toast.className.replace(/bg-\w+-500/g, '');
+    toast.classList.add(`bg-${color}-500`);
+    
+    // Set message and show toast
+    toast.textContent = message;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0');
+    }, 3000);
+  }
+</script>
+
+<style>
+  #toast-notification {
+    z-index: 9999;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+</style> 
