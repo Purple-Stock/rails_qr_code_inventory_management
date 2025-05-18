@@ -293,9 +293,15 @@ class StockTransactionsController < ApplicationController
 
   def stock_by_location
     @locations = @team.locations.order(:name)
-    @transactions = @team.stock_transactions.includes(:item, :source_location, :destination_location, :user)
-                        .order(created_at: :desc)
-                        .page(params[:page])
+    @items = @team.items.order(:name)
+    @stock_levels = {}
+    
+    @items.each do |item|
+      @stock_levels[item.id] = {}
+      @locations.each do |location|
+        @stock_levels[item.id][location.id] = item.stock_at_location(location.id)
+      end
+    end
   end
 
   private
