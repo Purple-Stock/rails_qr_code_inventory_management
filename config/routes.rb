@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       end
     end
     resource :settings, only: [:show]
+    resource :subscription, only: [:create]
     resources :locations
   end
   get 'team_selection', to: 'teams#selection'
