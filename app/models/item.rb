@@ -38,7 +38,6 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :sku, presence: true, uniqueness: { scope: :team_id }
   validates :item_type, presence: true
-  validates :initial_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :barcode, uniqueness: true, allow_blank: true

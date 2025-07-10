@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = @team.items.build(item_params.except(:initial_quantity))
+    @item = @team.items.build(item_params)
     @locations = @team.locations.ordered
 
     if @item.save
@@ -166,7 +166,7 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:sku, :name, :barcode, :cost, :price, 
-                               :item_type, :brand, :location_id, :initial_quantity)
+                               :item_type, :brand, :location_id)
   end
 
   # Helper methods for generating unique SKUs and barcodes
