@@ -141,6 +141,10 @@ pt-BR:
         notes: "Notas"
         at: "Em"
         from: "De"
+    import:
+      success: "Itens importados com sucesso."
+      invalid: "Falha ao importar itens."
+      no_file: "Envie um arquivo CSV."
   locations:
     index:
       title: "Locais"

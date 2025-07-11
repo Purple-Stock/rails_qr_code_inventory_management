@@ -151,6 +151,10 @@ fr:
         notes: "Notes"
         at: "À"
         from: "De"
+    import:
+      success: "Articles importés avec succès."
+      invalid: "Échec de l'import des articles."
+      no_file: "Veuillez télécharger un fichier CSV."
   locations:
     index:
       title: "Emplacements"
