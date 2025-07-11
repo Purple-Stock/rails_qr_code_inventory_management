@@ -1,8 +1,10 @@
 GIT
   remote: https://github.com/drwl/annotaterb
-  revision: df91a4e53836cd9569d3984c4170f5e4b6614dd5
+  revision: 663fa08aadcc2ca54327d8838603d788cd86f40d
   specs:
-    annotaterb (4.14.0)
+    annotaterb (4.16.0)
+      activerecord (>= 6.0.0)
+      activesupport (>= 6.0.0)
 
 GIT
   remote: https://github.com/puppe1990/auto_reload
