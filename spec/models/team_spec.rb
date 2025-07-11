@@ -34,4 +34,4 @@ RSpec.describe Team, type: :model do
       expect(build(:team)).to be_valid
     end
   end
-end 
+end

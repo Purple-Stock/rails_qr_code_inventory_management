@@ -11,12 +11,12 @@ module LabelsHelper
       bit_depth: 1,
       border_modules: 4,
       color_mode: ChunkyPNG::COLOR_GRAYSCALE,
-      color: 'black',
+      color: "black",
       file: nil,
-      fill: 'white',
+      fill: "white",
       module_px_size: 6,
       size: 180
     )
     "data:image/png;base64,#{Base64.strict_encode64(png.to_blob)}"
   end
-end 
+end

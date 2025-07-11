@@ -1,21 +1,21 @@
 class ItemsController < ApplicationController
-  require 'csv'
+  require "csv"
   before_action :authenticate_user!
   before_action :set_team
-  before_action :set_item, only: [:edit, :update, :destroy]
+  before_action :set_item, only: [ :edit, :update, :destroy ]
 
   def index
     @categories = @team.items.pluck(:item_type).uniq
     @items = @team.items
-    
+
     if params[:query].present?
       query = "%#{params[:query]}%"
-      @items = @items.where("LOWER(name) ILIKE :query OR 
-                            LOWER(sku) ILIKE :query OR 
-                            LOWER(barcode) ILIKE :query", 
+      @items = @items.where("LOWER(name) ILIKE :query OR
+                            LOWER(sku) ILIKE :query OR
+                            LOWER(barcode) ILIKE :query",
                             query: query)
     end
-    
+
     if params[:category].present? && params[:category] != "Todas as Categorias"
       @items = @items.where(item_type: params[:category])
     end
@@ -31,11 +31,11 @@ class ItemsController < ApplicationController
   end
 
   def create
-    @item = @team.items.build(item_params.except(:initial_quantity))
+    @item = @team.items.build(item_params)
     @locations = @team.locations.ordered
 
     if @item.save
-      redirect_to team_items_path(@team), notice: t('items.form.success.create')
+      redirect_to team_items_path(@team), notice: t("items.form.success.create")
     else
       render :new, status: :unprocessable_entity
     end
@@ -47,7 +47,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to team_items_path(@team), notice: t('items.form.success.update')
+      redirect_to team_items_path(@team), notice: t("items.form.success.update")
     else
       @locations = @team.locations.ordered
       render :edit, status: :unprocessable_entity
@@ -59,8 +59,8 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
-      format.html { redirect_to team_items_path(@team), notice: t('items.form.success.destroy') }
-      format.turbo_stream { redirect_to team_items_path(@team), notice: t('items.form.success.destroy') }
+      format.html { redirect_to team_items_path(@team), notice: t("items.form.success.destroy") }
+      format.turbo_stream { redirect_to team_items_path(@team), notice: t("items.form.success.destroy") }
     end
   end
 
@@ -77,11 +77,11 @@ class ItemsController < ApplicationController
   # New action to find item by barcode and return JSON
   def find_by_barcode
     barcode = params[:barcode]
-    
-    @item = @team.items.find_by(barcode: barcode) || 
-            @team.items.find_by(sku: barcode) || 
+
+    @item = @team.items.find_by(barcode: barcode) ||
+            @team.items.find_by(sku: barcode) ||
             @team.items.where("barcode LIKE ? OR sku LIKE ?", "%#{barcode}%", "%#{barcode}%").first
-    
+
     if @item
       render json: {
         success: true,
@@ -100,7 +100,7 @@ class ItemsController < ApplicationController
 
   def duplicate
     @original_item = @team.items.find(params[:id])
-    
+
     # Create a new item with attributes from the original
     @new_item = @team.items.build(
       name: "#{@original_item.name} (Copy)",
@@ -114,7 +114,7 @@ class ItemsController < ApplicationController
       current_stock: 0.0,  # Start with zero stock
       minimum_stock: @original_item.minimum_stock
     )
-    
+
     if @new_item.save
       redirect_to edit_team_item_path(@team, @new_item), notice: "Item duplicated successfully! Please review the details."
     else
@@ -124,16 +124,16 @@ class ItemsController < ApplicationController
 
   def export
     @items = @team.items
-    
+
     respond_to do |format|
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"items-#{Date.today}.csv\""
-        headers['Content-Type'] ||= 'text/csv'
-        
+        headers["Content-Disposition"] = "attachment; filename=\"items-#{Date.today}.csv\""
+        headers["Content-Type"] ||= "text/csv"
+
         csv_data = CSV.generate do |csv|
           # Header row - removed Location
-          csv << ['Name', 'SKU', 'Barcode', 'Type', 'Current Stock', 'Price', 'Cost', 'Brand']
-          
+          csv << [ "Name", "SKU", "Barcode", "Type", "Current Stock", "Price", "Cost", "Brand" ]
+
           # Data rows - removed location
           @items.each do |item|
             csv << [
@@ -148,7 +148,7 @@ class ItemsController < ApplicationController
             ]
           end
         end
-        
+
         render plain: csv_data
       end
     end
@@ -165,37 +165,37 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:sku, :name, :barcode, :cost, :price, 
-                               :item_type, :brand, :location_id, :initial_quantity)
+    params.require(:item).permit(:sku, :name, :barcode, :cost, :price,
+                               :item_type, :brand, :location_id)
   end
 
   # Helper methods for generating unique SKUs and barcodes
   def generate_unique_sku(original_sku)
-    base_sku = original_sku.gsub(/-COPY\d*$/, '')
+    base_sku = original_sku.gsub(/-COPY\d*$/, "")
     counter = 1
     new_sku = "#{base_sku}-COPY"
-    
+
     while @team.items.exists?(sku: new_sku)
       counter += 1
       new_sku = "#{base_sku}-COPY#{counter}"
     end
-    
+
     new_sku
   end
 
   def generate_unique_barcode(original_barcode)
     return SecureRandom.uuid if original_barcode.blank?
-    
+
     # Try to create a unique barcode based on the original
-    base_barcode = original_barcode.gsub(/COPY\d*$/, '')
+    base_barcode = original_barcode.gsub(/COPY\d*$/, "")
     counter = 1
     new_barcode = "#{base_barcode}COPY"
-    
+
     while @team.items.exists?(barcode: new_barcode)
       counter += 1
       new_barcode = "#{base_barcode}COPY#{counter}"
     end
-    
+
     new_barcode
   end
-end 
+end

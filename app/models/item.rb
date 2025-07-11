@@ -38,7 +38,6 @@ class Item < ApplicationRecord
   validates :name, presence: true
   validates :sku, presence: true, uniqueness: { scope: :team_id }
   validates :item_type, presence: true
-  validates :initial_quantity, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :barcode, uniqueness: true, allow_blank: true
@@ -50,14 +49,14 @@ class Item < ApplicationRecord
     total = 0
     stock_transactions.each do |transaction|
       case transaction.transaction_type
-      when 'stock_in'
+      when "stock_in"
         total += transaction.quantity
-      when 'stock_out'
+      when "stock_out"
         total += transaction.quantity  # quantity is already negative for stock_out
-      when 'move'
+      when "move"
         # Move transactions don't affect total stock
         next
-      when 'adjust'
+      when "adjust"
         total += transaction.quantity
       end
     end
@@ -66,24 +65,24 @@ class Item < ApplicationRecord
 
   def stock_at_location(location_id)
     total = 0
-    
+
     stock_transactions.each do |transaction|
       case transaction.transaction_type
-      when 'stock_in'
+      when "stock_in"
         total += transaction.quantity if transaction.destination_location_id == location_id
-      when 'stock_out'  
+      when "stock_out"
         total += transaction.quantity if transaction.source_location_id == location_id
-      when 'move'
+      when "move"
         if transaction.source_location_id == location_id
           total -= transaction.quantity.abs # Subtract from source
         elsif transaction.destination_location_id == location_id
           total += transaction.quantity.abs # Add to destination
         end
-      when 'adjust'
+      when "adjust"
         total += transaction.quantity if transaction.destination_location_id == location_id
       end
     end
-    
+
     total
   end
 
@@ -101,10 +100,10 @@ class Item < ApplicationRecord
 
   def generate_sku
     return if name.blank?
-    
+
     self.sku = name
       .split(/\s+/)
       .map { |word| word.first(3).upcase }
-      .join('-')
+      .join("-")
   end
-end 
+end

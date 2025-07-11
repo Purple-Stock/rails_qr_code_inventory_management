@@ -22,8 +22,11 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+
+one:
+  email: user1@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+
+two:
+  email: user2@example.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>

@@ -24,14 +24,14 @@ class Team < ApplicationRecord
   has_many :locations, dependent: :destroy
   validates :name, presence: true
   validates :name, uniqueness: { scope: :user_id }
-  
+
   after_create :create_default_location
 
   private
 
   def create_default_location
-    locations.create!(name: 'Default Location', description: 'Default location for all items')
+    locations.create!(name: "Default Location", description: "Default location for all items")
   end
 
   # Add any other team-specific validations or methods here
-end 
+end

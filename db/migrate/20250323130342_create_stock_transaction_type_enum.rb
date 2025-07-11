@@ -10,4 +10,4 @@ class CreateStockTransactionTypeEnum < ActiveRecord::Migration[8.0]
       DROP TYPE stock_transaction_type;
     SQL
   end
-end 
+end
