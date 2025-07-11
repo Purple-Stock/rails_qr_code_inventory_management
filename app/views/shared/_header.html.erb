@@ -1,6 +1,12 @@
 <header class="bg-white shadow-sm">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
+        <button data-action="click->sidebar#toggleMobile" class="md:hidden mr-2 text-gray-600 hover:text-gray-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
         <%= link_to root_path, class: "flex items-center" do %>
           <%= tag.svg xmlns: "http://www.w3.org/2000/svg", width: "300", height: "60", viewBox: "0 0 1500 360" do %>
             <g transform="translate(100, 200) scale(1.2)">
