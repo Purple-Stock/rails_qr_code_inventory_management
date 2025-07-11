@@ -1,0 +1,7 @@
+pt-BR:
+  devise:
+    failure:
+      user:
+        invalid: "E-mail ou senha inválidos."
+      invalid: "E-mail ou senha inválidos."
+
