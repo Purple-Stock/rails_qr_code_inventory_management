@@ -12,6 +12,6 @@ class DashboardController < ApplicationController
   private
 
   def set_team
-    @team = current_user.teams.find(params[:team_id])
+    @team = current_user.teams.find(params[:team_id] || params[:id])
   end
 end
