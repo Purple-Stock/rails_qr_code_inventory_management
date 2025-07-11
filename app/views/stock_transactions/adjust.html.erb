@@ -52,15 +52,14 @@
       <div class="p-6">
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.adjust.items') %></label>
-          <div class="relative" data-controller="search" data-team-id="<%= @team.id %>">
-            <input type="text" 
-                   placeholder="<%= t('stock_transactions.adjust.search_placeholder') %>" 
-                   class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
-                   data-search-target="input"
-                   data-action="input->search#search">
-            
+          <div class="relative" data-team-id="<%= @team.id %>">
+            <input type="text"
+                   id="searchInput"
+                   placeholder="<%= t('stock_transactions.adjust.search_placeholder') %>"
+                   class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+
             <div class="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-lg hidden"
-                 data-search-target="results">
+                 id="searchResults">
             </div>
           </div>
           
@@ -250,6 +249,114 @@
 <!-- Add the JavaScript for barcode scanning -->
 <script>
   let adjustQrCodeScanner = null;
+
+  // Set up search functionality once the page is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const teamId = document.querySelector('[data-team-id]').dataset.teamId;
+
+    // Hide results when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+        searchResults.classList.add('hidden');
+      }
+    });
+
+    let searchTimeout;
+
+    function loadItems(query = '') {
+      searchResults.classList.remove('hidden');
+
+      fetch(`/teams/${teamId}/items/search?q=${encodeURIComponent(query)}`, {
+        headers: {
+          "Accept": "text/html",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Search failed');
+        return response.text();
+      })
+      .then(html => {
+        searchResults.innerHTML = html;
+
+        // Add click handlers to the search results
+        searchResults.querySelectorAll('button[data-item-id]').forEach(button => {
+          button.addEventListener('click', function() {
+            const item = {
+              id: this.dataset.itemId,
+              name: this.dataset.itemName,
+              sku: this.dataset.itemSku,
+              currentStock: this.dataset.itemCurrentStock
+            };
+
+            const itemsList = document.querySelector('[data-stock-transaction-target="itemsList"]');
+            const template = document.querySelector('[data-stock-transaction-target="itemTemplate"]');
+
+            if (template && itemsList) {
+              const existingRow = itemsList.querySelector(`tr[data-item-id="${item.id}"]`);
+              if (existingRow) {
+                const quantityInput = existingRow.querySelector('[data-quantity]');
+                const currentValue = parseInt(quantityInput.value) || 0;
+                quantityInput.value = currentValue + 1;
+              } else {
+                const clone = template.content.cloneNode(true);
+                const row = clone.querySelector('tr');
+
+                row.dataset.itemId = item.id;
+                row.querySelector('[data-item-name]').textContent = item.name;
+                row.querySelector('[data-item-sku]').textContent = item.sku;
+                row.querySelector('[data-current-stock]').textContent = item.currentStock;
+
+                const quantityInput = row.querySelector('[data-quantity]');
+                quantityInput.value = 1;
+
+                itemsList.appendChild(row);
+              }
+
+              const stockTransactionController = document.querySelector('[data-controller="stock-transaction"]').__stimulusController;
+              if (stockTransactionController) {
+                stockTransactionController.updateTotal();
+              }
+
+              showToast(`Added ${item.name} to list`);
+            }
+
+            searchInput.value = '';
+            searchResults.classList.add('hidden');
+          });
+        });
+      })
+      .catch(error => {
+        console.error('Search error:', error);
+        searchResults.innerHTML = `
+          <div class="py-14">
+            <div class="text-center">
+              <svg class="mx-auto h-6 w-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <p class="mt-2 text-sm text-gray-500">Error searching items. Please try again.</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // Show all items when input is focused
+    searchInput.addEventListener('focus', function() {
+      loadItems();
+    });
+
+    searchInput.addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
+
+      searchTimeout = setTimeout(() => {
+        loadItems(query);
+      }, 300);
+    });
+  });
 
   function openAdjustBarcodeModal() {
     console.log('Opening adjust barcode modal');

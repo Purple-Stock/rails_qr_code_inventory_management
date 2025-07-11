@@ -71,6 +71,12 @@ class ItemsController < ApplicationController
 
   def search
     @items = @team.items.where("name ILIKE ? OR sku ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+
+    if params[:location_id].present?
+      location_id = params[:location_id].to_i
+      @items = @items.select { |item| item.stock_at_location(location_id) > 0 }
+    end
+
     render partial: "stock_transactions/search_results", layout: false
   end
 
