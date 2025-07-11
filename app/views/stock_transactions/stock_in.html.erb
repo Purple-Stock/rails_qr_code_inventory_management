@@ -252,6 +252,7 @@
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const teamId = document.querySelector('[data-team-id]').dataset.teamId;
+    const locationSelect = document.querySelector('select[name="location"]');
 
     // Hide results when clicking outside
     document.addEventListener('click', function(event) {
@@ -267,7 +268,8 @@
     function loadItems(query = '') {
       searchResults.classList.remove('hidden');
 
-      fetch(`/teams/${teamId}/items/search?q=${encodeURIComponent(query)}`, {
+      const locationId = locationSelect ? locationSelect.value : '';
+      fetch(`/teams/${teamId}/items/search?q=${encodeURIComponent(query)}&location_id=${locationId}`, {
         headers: {
           "Accept": "text/html",
           "X-Requested-With": "XMLHttpRequest"
@@ -368,11 +370,19 @@
     searchInput.addEventListener('input', function() {
       clearTimeout(searchTimeout);
       const query = this.value.trim();
-      
+
       searchTimeout = setTimeout(() => {
         loadItems(query);
       }, 300); // Debounce search for 300ms
     });
+
+    if (locationSelect) {
+      locationSelect.addEventListener('change', function() {
+        if (searchInput.value.trim()) {
+          loadItems(searchInput.value.trim());
+        }
+      });
+    }
 
     // Add keyboard event listener to the barcode input
     const barcodeInput = document.getElementById('barcodeInput');
