@@ -9,11 +9,14 @@ pt-BR:
     transactions: "Transações"
     stock_by_location: "Estoque por Localização"
     labels: "Etiquetas"
+    dashboard: "Painel"
     reports: "Relatórios"
     settings: "Configurações"
     change_team: "Mudar Equipe"
     select_team: "Selecionar Equipe"
     choose_team: "Escolha uma equipe"
+  dashboard:
+    title: "Painel"
   teams:
     selection:
       title: "Selecione um Time"

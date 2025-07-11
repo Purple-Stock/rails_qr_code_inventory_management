@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   resources :teams do
+    member do
+      get :dashboard, to: 'dashboard#index'
+    end
     resources :items do
       collection do
         get "search"

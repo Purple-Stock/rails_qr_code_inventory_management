@@ -9,11 +9,14 @@ fr:
     transactions: "Transactions"
     stock_by_location: "Stock par Emplacement"
     labels: "Étiquettes"
+    dashboard: "Tableau de bord"
     reports: "Rapports"
     settings: "Paramètres"
     change_team: "Changer d'Équipe"
     select_team: "Sélectionner une Équipe"
     choose_team: "Choisissez une équipe"
+  dashboard:
+    title: "Tableau de bord"
   header:
     subscribe: "S'abonner"
     user_guide: "Guide Utilisateur"

@@ -115,13 +115,22 @@
               <span data-sidebar-target="text" class="sidebar-text"><%= t('sidebar.stock_by_location') %></span>
             <% end %>
 
-            <%= link_to new_team_label_path(@team), 
+            <%= link_to new_team_label_path(@team),
                 class: "group flex items-center px-3 py-2 text-sm font-medium rounded-md #{current_page?(new_team_label_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}",
                 data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
               <svg class="sidebar-icon #{current_page?(new_team_label_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
               </svg>
               <span data-sidebar-target="text" class="sidebar-text"><%= t('sidebar.labels') %></span>
+            <% end %>
+
+            <%= link_to dashboard_team_path(@team),
+                class: "group flex items-center px-3 py-2 text-sm font-medium rounded-md #{current_page?(dashboard_team_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}",
+                data: { "sidebar-expanded-class": "justify-start", "sidebar-collapsed-class": "justify-center" } do %>
+              <svg class="sidebar-icon #{current_page?(dashboard_team_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2v18H3V3zm4 4h2v14H7V7zm4 8h2v6h-2v-6zm4-12h2v18h-2V3zm4 10h2v8h-2v-8z"/>
+              </svg>
+              <span data-sidebar-target="text" class="sidebar-text"><%= t('sidebar.dashboard') %></span>
             <% end %>
 
             <%= link_to report_team_stock_transactions_path(@team), 

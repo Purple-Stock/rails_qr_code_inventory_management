@@ -1,0 +1,22 @@
+<% metrics = {
+  type: 'bar',
+  data: {
+    labels: [
+      t('stock_transactions.report.cards.total_items'),
+      t('stock_transactions.report.cards.low_stock'),
+      t('stock_transactions.report.cards.zero_stock')
+    ],
+    datasets: [
+      {
+        label: 'Count',
+        data: [@total_items, @low_stock_items, @zero_stock_items],
+        backgroundColor: ['#6366F1', '#F59E0B', '#EF4444']
+      }
+    ]
+  }
+} %>
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-4"><%= t('dashboard.title') %></h1>
+  <%= tag.canvas '', data: { controller: 'chart', chart: metrics.to_json }, class: 'w-full h-64' %>
+</div>

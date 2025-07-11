@@ -40,11 +40,14 @@ en:
     transactions: "Transactions"
     stock_by_location: "Stock by Location"
     labels: "Labels"
+    dashboard: "Dashboard"
     reports: "Reports"
     settings: "Settings"
     change_team: "Change Team"
     select_team: "Select Team"
     choose_team: "Choose a team"
+  dashboard:
+    title: "Dashboard"
   teams:
     selection:
       title: "Select a Team"
