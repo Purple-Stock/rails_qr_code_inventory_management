@@ -8,3 +8,4 @@ pin "barcode-detector", to: "https://cdn.jsdelivr.net/npm/barcode-detector@1.0.3
 pin "html5-qrcode", to: "https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/+esm"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "chart.js", to: "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"
+pin "chart.js/auto", to: "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"
