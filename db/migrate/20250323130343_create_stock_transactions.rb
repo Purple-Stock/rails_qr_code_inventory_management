@@ -12,7 +12,7 @@ class CreateStockTransactions < ActiveRecord::Migration[8.0]
 
       t.timestamps
 
-      t.check_constraint "CASE transaction_type 
+      t.check_constraint "CASE transaction_type
                          WHEN 'move' THEN source_location IS NOT NULL AND destination_location IS NOT NULL
                          WHEN 'stock_in' THEN destination_location IS NOT NULL AND source_location IS NULL
                          WHEN 'stock_out' THEN source_location IS NOT NULL AND destination_location IS NULL
@@ -29,6 +29,6 @@ class CreateStockTransactions < ActiveRecord::Migration[8.0]
     end
 
     add_index :stock_transactions, :transaction_type
-    add_index :stock_transactions, [:item_id, :created_at]
+    add_index :stock_transactions, [ :item_id, :created_at ]
   end
-end 
+end

@@ -7,7 +7,7 @@ Rails.application.configure do
   config.enable_reloading = true
 
   # Configure host for Devise mailer
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Do not eager load code on boot.
   config.eager_load = false

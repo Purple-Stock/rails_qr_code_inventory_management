@@ -25,12 +25,12 @@ module RailsQrCodeInventoryManagement
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Available locales
-    config.i18n.available_locales = [:en, :"pt-BR", :fr]
-    
+    config.i18n.available_locales = [ :en, :"pt-BR", :fr ]
+
     # Default locale
     config.i18n.default_locale = :en
-    
+
     # Load locale files from config/locales/*.{rb,yml}
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}")]
   end
 end

@@ -18,4 +18,4 @@ class CreateItems < ActiveRecord::Migration[8.0]
     add_index :items, :sku
     add_index :items, :barcode
   end
-end 
+end

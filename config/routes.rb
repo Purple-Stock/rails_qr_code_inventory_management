@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # Make team selection the root after sign in - this needs to be first
   authenticated :user do
-    root 'teams#selection', as: :authenticated_root
+    root "teams#selection", as: :authenticated_root
   end
 
   # Then define other routes
@@ -20,11 +20,11 @@ Rails.application.routes.draw do
   resources :teams do
     resources :items do
       collection do
-        get 'search'
+        get "search"
         get :find_by_barcode
         get :export
       end
-      
+
       member do
         post :duplicate
       end
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
         post :generate
       end
     end
-    resources :stock_transactions, path: 'transactions' do
+    resources :stock_transactions, path: "transactions" do
       collection do
         get :stock_in
         post :stock_in
@@ -54,11 +54,11 @@ Rails.application.routes.draw do
         delete :destroy
       end
     end
-    resource :settings, only: [:show]
+    resource :settings, only: [ :show ]
     resources :locations
   end
-  get 'team_selection', to: 'teams#selection'
-  
+  get "team_selection", to: "teams#selection"
+
   # Default root for non-authenticated users should be last
   root "home#index"
 end

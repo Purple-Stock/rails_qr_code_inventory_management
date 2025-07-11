@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
-  
+
   # Require authentication for all pages
   before_action :authenticate_user!
 
@@ -14,12 +14,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  
+
   def determine_layout
     if current_user
-      'authenticated'
+      "authenticated"
     else
-      'application'
+      "application"
     end
   end
 
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   def extract_locale
     # Priority: 1. URL parameter, 2. User preference, 3. Accept-Language header, 4. Default locale
     locale = params[:locale] || cookies[:locale] || extract_locale_from_header
-    
+
     if locale && I18n.available_locales.map(&:to_s).include?(locale)
       cookies[:locale] = locale unless cookies[:locale] == locale
       locale.to_sym
@@ -38,14 +38,14 @@ class ApplicationController < ActionController::Base
   end
 
   def extract_locale_from_header
-    accept_language = request.env['HTTP_ACCEPT_LANGUAGE']
+    accept_language = request.env["HTTP_ACCEPT_LANGUAGE"]
     return unless accept_language
-    
+
     locale = accept_language.scan(/^[a-z]{2}/).first
-    
+
     # Special case for Brazilian Portuguese
-    if locale == 'pt' && accept_language.include?('pt-BR')
-      'pt-BR'
+    if locale == "pt" && accept_language.include?("pt-BR")
+      "pt-BR"
     else
       locale
     end
