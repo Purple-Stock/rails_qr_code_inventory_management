@@ -4,4 +4,9 @@ pt-BR:
       user:
         invalid: "E-mail ou senha inválidos."
       invalid: "E-mail ou senha inválidos."
+  errors:
+    messages:
+      not_saved:
+        one: "1 erro impediu que %{resource} fosse salvo:"
+        other: "%{count} erros impediram que %{resource} fosse salvo:"
 
