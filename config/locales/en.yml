@@ -172,6 +172,10 @@ en:
         notes: "Notes"
         at: "At"
         from: "From"
+    import:
+      success: "Items imported successfully."
+      invalid: "Failed to import items."
+      no_file: "Please upload a CSV file."
   locations:
     index:
       title: "Locations"
