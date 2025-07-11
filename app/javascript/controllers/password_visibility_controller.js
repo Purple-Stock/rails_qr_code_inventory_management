@@ -5,14 +5,15 @@ export default class extends Controller {
 
   toggle(event) {
     event.preventDefault()
-    event.stopPropagation()
 
-    const type = this.inputTarget.type === "password" ? "text" : "password"
+    const show = this.inputTarget.type === "password"
+    const type = show ? "text" : "password"
     this.inputTarget.type = type
+    this.inputTarget.setAttribute("type", type)
 
     if (this.hasEyeTarget && this.hasEyeSlashTarget) {
-      this.eyeTarget.classList.toggle("hidden", type === "text")
-      this.eyeSlashTarget.classList.toggle("hidden", type === "password")
+      this.eyeTarget.classList.toggle("hidden", show)
+      this.eyeSlashTarget.classList.toggle("hidden", !show)
     }
   }
 }
