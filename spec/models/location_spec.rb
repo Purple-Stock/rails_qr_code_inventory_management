@@ -19,7 +19,7 @@ RSpec.describe Location, type: :model do
     it 'returns locations ordered by name' do
       l1 = create(:location, name: 'B')
       l2 = create(:location, name: 'A')
-      expect(Location.where(id: [l1.id, l2.id]).ordered.to_a).to eq([l2, l1])
+      expect(Location.where(id: [ l1.id, l2.id ]).ordered.to_a).to eq([ l2, l1 ])
     end
   end
 end

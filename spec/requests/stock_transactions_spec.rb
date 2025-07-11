@@ -13,7 +13,7 @@ RSpec.describe "StockTransactions", type: :request do
   describe "POST /teams/:team_id/transactions/stock_in" do
     it "creates a stock transaction" do
       expect {
-        post stock_in_team_stock_transactions_path(team), params: { location: location.id, items: [{ id: item.id, quantity: 2 }], notes: "" }, as: :json
+        post stock_in_team_stock_transactions_path(team), params: { location: location.id, items: [ { id: item.id, quantity: 2 } ], notes: "" }, as: :json
       }.to change(StockTransaction, :count).by(1)
       expect(response).to have_http_status(:ok)
     end
