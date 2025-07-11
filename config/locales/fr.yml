@@ -37,7 +37,7 @@ fr:
       total_items: "Nombre Total d'Articles"
       total_transactions: "Nombre Total de Transactions"
       edit_team: "Modifier l'Équipe"
-      delete_team: "Supprimer l'Équipe"
+     delete_team: "Supprimer l'Équipe"
       delete_confirmation: "Êtes-vous sûr de vouloir supprimer cette équipe ?"
     form:
       errors:
@@ -470,3 +470,14 @@ fr:
         not_a_number: "n'est pas un nombre"
         must_be_selected: "doit être sélectionné"
         taken: "est déjà pris"
+
+  auth:
+    sign_in:
+      title: "Se connecter"
+      subtitle: "Entrez vos informations pour accéder à votre compte"
+      email: "E-mail"
+      password: "Mot de passe"
+      forgot_password: "Mot de passe oublié ?"
+      submit: "Se connecter"
+      no_account: "Vous n\x27avez pas de compte ?"
+      register: "S\x27inscrire"

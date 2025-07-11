@@ -541,3 +541,14 @@ en:
         not_a_number: "is not a number"
         must_be_selected: "must be selected"
         taken: "has already been taken"
+
+  auth:
+    sign_in:
+      title: "Sign In"
+      subtitle: "Enter your credentials to access your account"
+      email: "E-mail"
+      password: "Password"
+      forgot_password: "Forgot password?"
+      submit: "Sign In"
+      no_account: "Don\x27t have an account?"
+      register: "Register"

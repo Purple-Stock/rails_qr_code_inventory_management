@@ -489,7 +489,7 @@ pt-BR:
         blank: "não pode ficar em branco"
         not_a_number: "não é um número"
         must_be_selected: "deve ser selecionado"
-        taken: "já está em uso"
+             taken: "já está em uso"
       models:
         item:
           attributes:
@@ -511,3 +511,13 @@ pt-BR:
               must_belong_to_team: "deve pertencer à sua equipe"
             barcode:
               taken: "já está em uso" 
+  auth:
+    sign_in:
+      title: "Entrar"
+      subtitle: "Digite suas credenciais para acessar sua conta"
+      email: "E-mail"
+      password: "Senha"
+      forgot_password: "Esqueceu a senha?"
+      submit: "Entrar"
+      no_account: "Não tem uma conta?"
+      register: "Cadastrar"
