@@ -26,7 +26,25 @@
       <h2 class="text-xl font-bold mb-2">Entrar</h2>
       <p class="text-gray-600 text-base mb-8">Digite suas credenciais para acessar sua conta</p>
 
+      <% if flash[:alert].present? %>
+        <div class="mb-6 bg-red-50 border-l-4 border-red-400 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-red-700">
+                <%= flash[:alert] %>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
         <div>
           <%= f.label :email, "E-mail", class: "block text-sm font-bold mb-2 text-gray-700" %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", 
