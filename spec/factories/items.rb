@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :item do
     association :team
-    association :location, factory: :location, team: team
+    association :location
     sequence(:name) { |n| "Item #{n}" }
     sequence(:sku) { |n| "SKU#{n}" }
     sequence(:barcode) { |n| "BC#{n}" }

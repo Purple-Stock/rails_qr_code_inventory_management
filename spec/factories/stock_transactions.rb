@@ -5,13 +5,13 @@ FactoryBot.define do
     user { team.user }
     transaction_type { 'stock_in' }
     quantity { 1 }
-    destination_location { association :location, team: team }
+    association :destination_location, factory: :location
 
     trait :stock_out do
       transaction_type { 'stock_out' }
       quantity { -1 }
       destination_location { nil }
-      source_location { association :location, team: team }
+      association :source_location, factory: :location
     end
 
     trait :adjust do
