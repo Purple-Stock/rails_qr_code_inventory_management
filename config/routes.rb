@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       collection do
         get "search"
         get :find_by_barcode
+        get :import
+        post :import
         get :export
       end
 

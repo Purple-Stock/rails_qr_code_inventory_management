@@ -122,6 +122,37 @@ class ItemsController < ApplicationController
     end
   end
 
+  def import
+    return unless request.post?
+
+    if params[:file].blank?
+      redirect_to import_team_items_path(@team), alert: t('items.import.no_file')
+      return
+    end
+
+    begin
+      CSV.foreach(params[:file].path, headers: true) do |row|
+        attrs = {
+          name:          row['Name'],
+          sku:           row['SKU'],
+          barcode:       row['Barcode'],
+          item_type:     row['Type'],
+          current_stock: row['Current Stock'],
+          price:         row['Price'],
+          cost:          row['Cost'],
+          brand:         row['Brand']
+        }
+
+        item = @team.items.find_or_initialize_by(sku: attrs[:sku])
+        item.update(attrs)
+      end
+      redirect_to team_items_path(@team), notice: t('items.import.success')
+    rescue StandardError => e
+      Rails.logger.error("Item import failed: #{e.message}")
+      redirect_to import_team_items_path(@team), alert: t('items.import.invalid')
+    end
+  end
+
   def export
     @items = @team.items
 
