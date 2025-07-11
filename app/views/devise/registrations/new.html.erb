@@ -1,62 +1,36 @@
-<div class="min-h-screen w-full flex items-center justify-center bg-purple-50 absolute inset-0">
-  <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 m-4">
-    <div class="text-center mb-8">
-      <div class="h-32 w-96 flex items-center justify-center mx-auto mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" width="350" height="200" viewBox="0 0 350 200" class="w-full h-full">
-          <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#8E44AD;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#5B2C6F;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <rect width="100%" height="100%" fill="#7D3C98" rx="20" ry="20"/>
-          <g fill="none" fill-rule="evenodd">
-            <path fill="#FFF" d="M175 50l23 14v28l-23 14-23-14V64z"/>
-            <path fill="#7D3C98" d="M173 62l-9 16h12l-5 14 14-18h-12z"/>
-            <text font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#FFF" text-anchor="middle" x="175" y="130">PURPLE STOCK</text>
-            <text font-family="Arial, sans-serif" font-size="14" fill="#FFF" text-anchor="middle" x="175" y="155">Your Inventory Simplified</text>
-          </g>
-        </svg>
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 via-purple-500 to-indigo-500 p-6">
+  <div class="w-full max-w-4xl bg-white rounded-lg shadow-xl overflow-hidden grid md:grid-cols-2">
+    <div class="hidden md:flex items-center justify-center bg-gradient-to-br from-purple-600 to-indigo-600 p-10">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-white mb-2">Purple Stock</h1>
+        <p class="text-lg text-purple-100">Your Inventory Simplified</p>
       </div>
     </div>
-
-    <div class="w-full">
-      <h2 class="text-xl font-bold mb-2">Criar conta</h2>
-      <p class="text-gray-600 text-base mb-8">Digite seus dados para criar sua conta</p>
-
+    <div class="p-8">
+      <h2 class="text-2xl font-bold mb-2">Criar conta</h2>
+      <p class="text-gray-600 mb-8">Digite seus dados para criar sua conta</p>
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
-
         <div>
           <%= f.label :email, "E-mail", class: "block text-sm font-bold mb-2 text-gray-700" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email",
-              placeholder: "name@example.com",
-              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent text-base" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "name@example.com", class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" %>
         </div>
-
         <div>
           <%= f.label :password, "Senha", class: "block text-sm font-bold mb-2 text-gray-700" %>
-          <%= f.password_field :password, autocomplete: "new-password",
-              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent text-base" %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" %>
           <% if @minimum_password_length %>
             <p class="mt-1 text-sm text-gray-500">Mínimo <%= @minimum_password_length %> caracteres</p>
           <% end %>
         </div>
-
         <div>
           <%= f.label :password_confirmation, "Confirmar Senha", class: "block text-sm font-bold mb-2 text-gray-700" %>
-          <%= f.password_field :password_confirmation, autocomplete: "new-password",
-              class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent text-base" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" %>
         </div>
-
-        <%= f.submit "Criar conta",
-            class: "w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-bold text-base hover:bg-purple-700 transition duration-200 ease-in-out mt-6" %>
+        <%= f.submit "Criar conta", class: "w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-bold hover:bg-purple-700 transition" %>
       <% end %>
-
-      <div class="mt-8 text-center text-base text-gray-600">
-        Já tem uma conta? 
-        <%= link_to "Entrar", new_session_path(resource_name),
-            class: "text-purple-600 font-bold hover:text-purple-800" %>
+      <div class="mt-8 text-center text-gray-600">
+        Já tem uma conta?
+        <%= link_to "Entrar", new_session_path(resource_name), class: "text-purple-600 font-bold hover:text-purple-800" %>
       </div>
     </div>
   </div>
