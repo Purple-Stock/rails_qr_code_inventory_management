@@ -22,4 +22,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :teams, dependent: :destroy
+
+  # Patch for Devise session serialization bug in tests
+  def self.serialize_from_session(key, salt = nil)
+    record = to_adapter.get(key)
+    return record unless salt
+    record if record && record.authenticatable_salt == salt
+  end
 end
