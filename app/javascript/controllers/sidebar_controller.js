@@ -2,7 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["sidebar", "text", "toggleIcon"]
-  static values = { expanded: { type: Boolean, default: true } }
+  static values = {
+    expanded: { type: Boolean, default: true },
+    mobileVisible: { type: Boolean, default: false }
+  }
 
   connect() {
     this.expandedValue = true
@@ -41,4 +44,17 @@ export default class extends Controller {
       })
     }
   }
-} 
+
+  toggleMobile() {
+    this.mobileVisibleValue = !this.mobileVisibleValue
+
+    if (this.mobileVisibleValue) {
+      this.sidebarTarget.classList.remove("hidden", "-translate-x-full")
+      this.sidebarTarget.classList.add("translate-x-0")
+    } else {
+      this.sidebarTarget.classList.remove("translate-x-0")
+      this.sidebarTarget.classList.add("-translate-x-full")
+      setTimeout(() => this.sidebarTarget.classList.add("hidden"), 300)
+    }
+  }
+}
