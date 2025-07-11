@@ -138,7 +138,7 @@ GEM
     et-orbi (1.2.11)
       tzinfo
     eventmachine (1.2.7)
-    factory_bot (6.5.1)
+    factory_bot (6.5.4)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.4.4)
       factory_bot (~> 6.5)
