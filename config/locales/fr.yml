@@ -399,6 +399,17 @@ fr:
         buttons:
           delete: "Supprimer le Compte"
           cancel: "Annuler"
+  devise:
+    sessions:
+      new:
+        title: "Se Connecter"
+        subtitle: "Entrez vos identifiants pour accéder à votre compte"
+        email: "E-mail"
+        password: "Mot de passe"
+        forgot_password: "Mot de passe oublié ?"
+        submit: "Se Connecter"
+        sign_up: "Vous n'avez pas de compte ?"
+        register: "S'inscrire"
   header:
     subscribe: "S'abonner"
     user_guide: "Guide de l'Utilisateur"
