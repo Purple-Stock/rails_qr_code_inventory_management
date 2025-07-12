@@ -13,16 +13,14 @@ RSpec.describe "Webhooks", type: :system do
   describe "webhook management" do
     it "allows users to create a new webhook" do
       visit team_webhooks_path(team)
-
-      # Navigate directly to the new webhook page instead of clicking the link
       visit new_team_webhook_path(team)
-
       fill_in "Url", with: "https://example.com/webhook"
       select "item.created", from: "Event"
       fill_in "Secret", with: "secret123"
-
       click_button "Create Webhook"
-
+      unless page.has_content?("Webhook was successfully created")
+        puts page.body
+      end
       expect(page).to have_content("Webhook was successfully created")
       expect(page).to have_content("https://example.com/webhook")
       expect(page).to have_content("item.created")
@@ -219,12 +217,12 @@ RSpec.describe "Webhooks", type: :system do
       visit team_settings_path(team)
 
       expect(page).to have_link("Webhooks")
-      
+
       # Debug: print the current path before clicking
       puts "Current path before clicking: #{current_path}"
-      
+
       click_link "Webhooks"
-      
+
       # Debug: print the current path after clicking
       puts "Current path after clicking: #{current_path}"
 
