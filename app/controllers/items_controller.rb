@@ -35,6 +35,7 @@ class ItemsController < ApplicationController
     @locations = @team.locations.ordered
 
     if @item.save
+      trigger_webhook("item.created", @item)
       redirect_to team_items_path(@team), notice: t("items.form.success.create")
     else
       render :new, status: :unprocessable_entity
@@ -198,6 +199,15 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:sku, :name, :barcode, :cost, :price,
                                :item_type, :brand, :location_id)
+  end
+
+  def trigger_webhook(event, item)
+    webhooks = @team.webhooks.where(event: event)
+    payload = { event: event, item: item.as_json }
+
+    webhooks.each do |webhook|
+      WebhookService.new(webhook, payload).deliver
+    end
   end
 
   # Helper methods for generating unique SKUs and barcodes

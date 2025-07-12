@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     end
     resource :settings, only: [ :show ]
     resources :locations
+    resources :webhooks
   end
 
   namespace :api do

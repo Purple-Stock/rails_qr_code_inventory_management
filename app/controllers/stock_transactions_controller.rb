@@ -36,6 +36,7 @@ class StockTransactionsController < ApplicationController
             notes: params[:notes],
             user: current_user
           )
+          trigger_stock_webhook("stock.updated", item)
         end
 
         render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
@@ -72,6 +73,7 @@ class StockTransactionsController < ApplicationController
             notes: params[:notes],
             user: current_user
           )
+          trigger_stock_webhook("stock.updated", item)
         end
 
         render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
@@ -104,6 +106,7 @@ class StockTransactionsController < ApplicationController
             notes: params[:notes],
             user: current_user
           )
+          trigger_stock_webhook("stock.updated", item)
         end
 
         render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
@@ -167,6 +170,7 @@ class StockTransactionsController < ApplicationController
               notes: params[:notes],
               user: current_user
             )
+            trigger_stock_webhook("stock.updated", item)
             Rails.logger.info "Created transaction: #{transaction.inspect}"
           end
 
@@ -382,5 +386,14 @@ class StockTransactionsController < ApplicationController
   def number_with_sign(number)
     return number if number.nil?
     number.positive? ? "+#{number}" : number.to_s
+  end
+
+  def trigger_stock_webhook(event, item)
+    webhooks = @team.webhooks.where(event: event)
+    payload = { event: event, item: item.as_json }
+
+    webhooks.each do |webhook|
+      WebhookService.new(webhook, payload).deliver
+    end
   end
 end
