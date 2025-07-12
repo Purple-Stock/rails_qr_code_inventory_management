@@ -63,8 +63,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :teams, only: [] do
-        resources :items, only: [:index, :show]
-        resources :transactions, only: [:index, :create]
+        resources :items, only: [ :index, :show ]
+        resources :transactions, only: [ :index, :create ]
       end
     end
   end
