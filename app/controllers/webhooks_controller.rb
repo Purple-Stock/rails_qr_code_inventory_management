@@ -16,7 +16,7 @@ class WebhooksController < ApplicationController
     if @webhook.save
       redirect_to team_webhooks_path(@team), notice: "Webhook was successfully created."
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -27,7 +27,7 @@ class WebhooksController < ApplicationController
     if @webhook.update(webhook_params)
       redirect_to team_webhooks_path(@team), notice: "Webhook was successfully updated."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

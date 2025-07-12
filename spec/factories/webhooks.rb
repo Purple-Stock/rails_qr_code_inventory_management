@@ -20,7 +20,7 @@
 #
 FactoryBot.define do
   factory :webhook do
-    url { "https://example.com/webhook" }
+    sequence(:url) { |n| "https://example.com/webhook#{n}" }
     event { "item.created" }
     secret { "secret_key_123" }
     association :team

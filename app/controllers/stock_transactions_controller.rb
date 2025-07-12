@@ -393,7 +393,12 @@ class StockTransactionsController < ApplicationController
     payload = { event: event, item: item.as_json }
 
     webhooks.each do |webhook|
-      WebhookService.new(webhook, payload).deliver
+      begin
+        WebhookService.new(webhook, payload).deliver
+      rescue => e
+        Rails.logger.error "Webhook delivery failed for #{webhook.url}: #{e.message}"
+        # Don't re-raise the error to prevent it from affecting the main flow
+      end
     end
   end
 end

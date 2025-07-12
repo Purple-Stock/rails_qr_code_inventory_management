@@ -207,37 +207,32 @@ RSpec.describe "Webhooks", type: :request do
     let(:other_webhook) { create(:webhook, team: other_team) }
 
     it "prevents access to webhooks from other teams" do
-      expect {
-        get team_webhooks_path(other_team)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get team_webhooks_path(other_team)
+      expect(response).to have_http_status(:not_found)
     end
 
     it "prevents creating webhooks for other teams" do
-      expect {
-        post team_webhooks_path(other_team), params: {
-          webhook: { url: 'https://example.com', event: 'item.created', secret: 'secret' }
-        }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      post team_webhooks_path(other_team), params: {
+        webhook: { url: 'https://example.com', event: 'item.created', secret: 'secret' }
+      }
+      expect(response).to have_http_status(:not_found)
     end
 
     it "prevents editing webhooks from other teams" do
-      expect {
-        get edit_team_webhook_path(other_team, other_webhook)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get edit_team_webhook_path(other_team, other_webhook)
+      expect(response).to have_http_status(:not_found)
     end
 
     it "prevents updating webhooks from other teams" do
-      expect {
-        put team_webhook_path(other_team, other_webhook), params: {
-          webhook: { url: 'https://example.com', event: 'item.created', secret: 'secret' }
-        }
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      put team_webhook_path(other_team, other_webhook), params: {
+        webhook: { url: 'https://example.com', event: 'item.created', secret: 'secret' }
+      }
+      expect(response).to have_http_status(:not_found)
     end
 
     it "prevents destroying webhooks from other teams" do
-      expect {
-        delete team_webhook_path(other_team, other_webhook)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      delete team_webhook_path(other_team, other_webhook)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

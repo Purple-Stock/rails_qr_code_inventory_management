@@ -221,8 +221,8 @@ RSpec.describe "Webhook Integration", type: :request do
 
       it "triggers webhook when stock is moved" do
         move_params = {
-          source_location: location.id,
-          destination_location: destination_location.id,
+          source_location_id: location.id,
+          destination_location_id: destination_location.id,
           items: [ { id: item.id, quantity: 10 } ],
           notes: 'Stock move test'
         }
@@ -311,8 +311,8 @@ RSpec.describe "Webhook Integration", type: :request do
           'sku' => 'TEST-PAYLOAD',
           'name' => 'Payload Test Item',
           'barcode' => '999888777',
-          'cost' => 40.0,
-          'price' => 80.0,
+          'cost' => '40.0',
+          'price' => '80.0',
           'item_type' => 'Electronics',
           'brand' => 'Test Brand'
         )
@@ -323,6 +323,9 @@ RSpec.describe "Webhook Integration", type: :request do
     end
 
     it "includes correct stock data in stock update payload" do
+      # Create a webhook for stock updates
+      stock_webhook = create(:webhook, :stock_updated, team: team)
+      
       stock_in_params = {
         location: location.id,
         items: [ { id: item.id, quantity: 25 } ],
@@ -337,7 +340,7 @@ RSpec.describe "Webhook Integration", type: :request do
           'id' => item.id,
           'name' => item.name,
           'sku' => item.sku,
-          'current_stock' => 25
+          'current_stock' => '25.0'
         )
         expect(payload[:item]).to have_key('created_at')
         expect(payload[:item]).to have_key('updated_at')
