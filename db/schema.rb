@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_232144) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_24_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "stock_transaction_type", ["stock_in", "stock_out", "adjust", "move", "count"]
+
+  create_table "api_keys", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_api_keys_on_token", unique: true
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
+  end
 
   create_table "items", force: :cascade do |t|
     t.string "name"
@@ -92,6 +101,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_232144) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "api_keys", "users"
   add_foreign_key "items", "locations"
   add_foreign_key "items", "teams"
   add_foreign_key "locations", "teams"
