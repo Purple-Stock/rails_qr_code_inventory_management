@@ -219,8 +219,14 @@ RSpec.describe "Webhooks", type: :system do
       visit team_settings_path(team)
 
       expect(page).to have_link("Webhooks")
-
+      
+      # Debug: print the current path before clicking
+      puts "Current path before clicking: #{current_path}"
+      
       click_link "Webhooks"
+      
+      # Debug: print the current path after clicking
+      puts "Current path after clicking: #{current_path}"
 
       expect(current_path).to eq(team_webhooks_path(team))
     end
