@@ -22,6 +22,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :teams, dependent: :destroy
+  has_many :api_keys, dependent: :destroy
 
   # Patch for Devise session serialization bug in tests
   def self.serialize_from_session(key, salt = nil)

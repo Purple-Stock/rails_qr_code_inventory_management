@@ -58,6 +58,16 @@ Rails.application.routes.draw do
     end
     resource :settings, only: [ :show ]
     resources :locations
+    resources :webhooks
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :teams, only: [] do
+        resources :items, only: [ :index, :show ]
+        resources :transactions, only: [ :index, :create ]
+      end
+    end
   end
   get "team_selection", to: "teams#selection"
 
