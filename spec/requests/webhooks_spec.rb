@@ -26,7 +26,7 @@ RSpec.describe "Webhooks", type: :request do
       other_team = create(:team)
       other_webhook = create(:webhook, team: other_team)
       team_webhook = create(:webhook, team: team)
-      
+
       get team_webhooks_path(team)
       expect(response.body).to include(team_webhook.url)
       expect(response.body).not_to include(other_webhook.url)
@@ -240,4 +240,4 @@ RSpec.describe "Webhooks", type: :request do
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
-end 
+end

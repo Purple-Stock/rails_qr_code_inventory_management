@@ -44,7 +44,7 @@ RSpec.describe "Webhook Integration", type: :request do
 
     it "does not trigger webhook for other events" do
       other_webhook = create(:webhook, :stock_updated, team: team)
-      
+
       item_attributes = {
         item: {
           sku: 'TEST-002',
@@ -72,7 +72,7 @@ RSpec.describe "Webhook Integration", type: :request do
 
     it "triggers multiple webhooks for the same event" do
       webhook2 = create(:webhook, :item_created, team: team, url: 'https://example2.com/webhook')
-      
+
       item_attributes = {
         item: {
           sku: 'TEST-003',
@@ -102,7 +102,7 @@ RSpec.describe "Webhook Integration", type: :request do
     it "does not trigger webhooks from other teams" do
       other_team = create(:team)
       other_webhook = create(:webhook, :item_created, team: other_team)
-      
+
       item_attributes = {
         item: {
           sku: 'TEST-004',
@@ -142,7 +142,7 @@ RSpec.describe "Webhook Integration", type: :request do
       it "triggers webhook when stock is added" do
         stock_in_params = {
           location: location.id,
-          items: [{ id: item.id, quantity: 10 }],
+          items: [ { id: item.id, quantity: 10 } ],
           notes: 'Stock in test'
         }
 
@@ -159,11 +159,11 @@ RSpec.describe "Webhook Integration", type: :request do
     context "stock out transaction" do
       before do
         # Add some stock first
-        create(:stock_transaction, 
-          team: team, 
-          item: item, 
-          transaction_type: 'stock_in', 
-          quantity: 20, 
+        create(:stock_transaction,
+          team: team,
+          item: item,
+          transaction_type: 'stock_in',
+          quantity: 20,
           destination_location: location,
           user: user
         )
@@ -172,7 +172,7 @@ RSpec.describe "Webhook Integration", type: :request do
       it "triggers webhook when stock is removed" do
         stock_out_params = {
           location: location.id,
-          items: [{ id: item.id, quantity: 5 }],
+          items: [ { id: item.id, quantity: 5 } ],
           notes: 'Stock out test'
         }
 
@@ -190,7 +190,7 @@ RSpec.describe "Webhook Integration", type: :request do
       it "triggers webhook when stock is adjusted" do
         adjustment_params = {
           location: location.id,
-          items: [{ id: item.id, quantity: 15 }],
+          items: [ { id: item.id, quantity: 15 } ],
           notes: 'Stock adjustment test'
         }
 
@@ -209,11 +209,11 @@ RSpec.describe "Webhook Integration", type: :request do
 
       before do
         # Add some stock first
-        create(:stock_transaction, 
-          team: team, 
-          item: item, 
-          transaction_type: 'stock_in', 
-          quantity: 20, 
+        create(:stock_transaction,
+          team: team,
+          item: item,
+          transaction_type: 'stock_in',
+          quantity: 20,
           destination_location: location,
           user: user
         )
@@ -223,7 +223,7 @@ RSpec.describe "Webhook Integration", type: :request do
         move_params = {
           source_location: location.id,
           destination_location: destination_location.id,
-          items: [{ id: item.id, quantity: 10 }],
+          items: [ { id: item.id, quantity: 10 } ],
           notes: 'Stock move test'
         }
 
@@ -239,7 +239,7 @@ RSpec.describe "Webhook Integration", type: :request do
 
     it "triggers webhook for each item in batch operations" do
       item2 = create(:item, team: team, location: location)
-      
+
       stock_in_params = {
         location: location.id,
         items: [
@@ -260,10 +260,10 @@ RSpec.describe "Webhook Integration", type: :request do
 
     it "does not trigger webhooks for other events" do
       other_webhook = create(:webhook, :item_created, team: team)
-      
+
       stock_in_params = {
         location: location.id,
-        items: [{ id: item.id, quantity: 10 }],
+        items: [ { id: item.id, quantity: 10 } ],
         notes: 'Stock in test'
       }
 
@@ -325,7 +325,7 @@ RSpec.describe "Webhook Integration", type: :request do
     it "includes correct stock data in stock update payload" do
       stock_in_params = {
         location: location.id,
-        items: [{ id: item.id, quantity: 25 }],
+        items: [ { id: item.id, quantity: 25 } ],
         notes: 'Stock payload test'
       }
 
@@ -372,4 +372,4 @@ RSpec.describe "Webhook Integration", type: :request do
       expect(Item.last.sku).to eq('TEST-ERROR')
     end
   end
-end 
+end

@@ -45,4 +45,4 @@ FactoryBot.define do
   trait :with_long_secret do
     secret { "very_long_secret_key_for_hmac_signature_generation_123456789" }
   end
-end 
+end

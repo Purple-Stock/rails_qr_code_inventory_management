@@ -45,7 +45,7 @@ RSpec.describe WebhookService do
     it 'disables SSL for HTTP URLs' do
       http_webhook = create(:webhook, :with_http_url, team: team)
       http_service = described_class.new(http_webhook, payload)
-      
+
       expect(http_double).to receive(:use_ssl=).with(false)
       http_service.deliver
     end
@@ -56,7 +56,7 @@ RSpec.describe WebhookService do
         webhook.secret,
         payload.to_json
       )
-      
+
       expect(request_double).to receive(:[]=).with('X-Signature', expected_signature)
       service.deliver
     end
@@ -69,10 +69,10 @@ RSpec.describe WebhookService do
       it 'generates different signatures for different payloads' do
         payload1 = { event: 'item.created', item: { id: 1 } }
         payload2 = { event: 'item.created', item: { id: 2 } }
-        
+
         service1 = described_class.new(webhook, payload1)
         service2 = described_class.new(webhook, payload2)
-        
+
         signature1 = OpenSSL::HMAC.hexdigest(
           OpenSSL::Digest.new('sha256'),
           webhook.secret,
@@ -83,7 +83,7 @@ RSpec.describe WebhookService do
           webhook.secret,
           payload2.to_json
         )
-        
+
         expect(signature1).not_to eq(signature2)
       end
     end
@@ -92,10 +92,10 @@ RSpec.describe WebhookService do
       it 'generates different signatures for different secrets' do
         webhook1 = create(:webhook, team: team, secret: 'secret1')
         webhook2 = create(:webhook, team: team, secret: 'secret2')
-        
+
         service1 = described_class.new(webhook1, payload)
         service2 = described_class.new(webhook2, payload)
-        
+
         signature1 = OpenSSL::HMAC.hexdigest(
           OpenSSL::Digest.new('sha256'),
           webhook1.secret,
@@ -106,7 +106,7 @@ RSpec.describe WebhookService do
           webhook2.secret,
           payload.to_json
         )
-        
+
         expect(signature1).not_to eq(signature2)
       end
     end
@@ -128,14 +128,14 @@ RSpec.describe WebhookService do
             ]
           }
         }
-        
+
         complex_service = described_class.new(webhook, complex_payload)
         expected_signature = OpenSSL::HMAC.hexdigest(
           OpenSSL::Digest.new('sha256'),
           webhook.secret,
           complex_payload.to_json
         )
-        
+
         expect(request_double).to receive(:[]=).with('X-Signature', expected_signature)
         complex_service.deliver
       end
@@ -144,14 +144,14 @@ RSpec.describe WebhookService do
     context 'error handling' do
       it 'raises an error when HTTP request fails' do
         allow(http_double).to receive(:request).and_raise(Net::HTTPError.new('Connection failed', nil))
-        
+
         expect { service.deliver }.to raise_error(Net::HTTPError)
       end
 
       it 'raises an error for invalid URLs' do
         invalid_webhook = create(:webhook, team: team, url: 'not-a-valid-url')
         invalid_service = described_class.new(invalid_webhook, payload)
-        
+
         expect { invalid_service.deliver }.to raise_error(URI::InvalidURIError)
       end
     end
@@ -173,21 +173,21 @@ RSpec.describe WebhookService do
     it 'generates different signatures for different secrets' do
       webhook1 = create(:webhook, team: team, secret: 'secret1')
       webhook2 = create(:webhook, team: team, secret: 'secret2')
-      
+
       service1 = described_class.new(webhook1, payload)
       service2 = described_class.new(webhook2, payload)
-      
+
       expect(service1.send(:signature)).not_to eq(service2.send(:signature))
     end
 
     it 'generates different signatures for different payloads' do
       payload1 = { event: 'item.created', item: { id: 1 } }
       payload2 = { event: 'item.created', item: { id: 2 } }
-      
+
       service1 = described_class.new(webhook, payload1)
       service2 = described_class.new(webhook, payload2)
-      
+
       expect(service1.send(:signature)).not_to eq(service2.send(:signature))
     end
   end
-end 
+end
