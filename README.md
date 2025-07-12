@@ -77,3 +77,16 @@ Purple Stock is a comprehensive inventory management system designed for busines
 3. Make your changes and commit them
 4. Push to your fork
 5. Create a pull request
+
+## API
+
+### Authentication
+
+Include an `X-Api-Key` header with a valid token generated for a user.
+
+### Endpoints
+
+- `GET /api/v1/teams/:team_id/items` – list items
+- `GET /api/v1/teams/:team_id/items/:id` – show an item
+- `GET /api/v1/teams/:team_id/transactions` – list transactions
+- `POST /api/v1/teams/:team_id/transactions` – create a transaction
