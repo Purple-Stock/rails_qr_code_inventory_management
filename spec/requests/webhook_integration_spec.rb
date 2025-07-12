@@ -325,7 +325,7 @@ RSpec.describe "Webhook Integration", type: :request do
     it "includes correct stock data in stock update payload" do
       # Create a webhook for stock updates
       stock_webhook = create(:webhook, :stock_updated, team: team)
-      
+
       stock_in_params = {
         location: location.id,
         items: [ { id: item.id, quantity: 25 } ],
