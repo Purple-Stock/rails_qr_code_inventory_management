@@ -527,3 +527,14 @@ pt-BR:
         submit: "Entrar"
         sign_up: "Não tem uma conta?"
         register: "Cadastrar" 
+    registrations:
+      new:
+        title: "Criar conta"
+        subtitle: "Digite seus dados para criar sua conta"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmar Senha"
+        submit: "Criar conta"
+        already_have_account: "Já tem uma conta?"
+        sign_in: "Entrar"
+        min_password: "Mínimo %{count} caracteres" 
