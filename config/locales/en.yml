@@ -557,3 +557,14 @@ en:
         submit: "Sign In"
         sign_up: "Don't have an account?"
         register: "Sign Up"
+    registrations:
+      new:
+        title: "Sign Up"
+        subtitle: "Enter your details to create your account"
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Confirm Password"
+        submit: "Sign Up"
+        already_have_account: "Already have an account?"
+        sign_in: "Sign In"
+        min_password: "Minimum %{count} characters"
