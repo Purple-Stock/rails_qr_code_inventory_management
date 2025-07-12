@@ -34,6 +34,15 @@
           </svg>
           <%= t('settings.sections.account') %>
         <% end %>
+
+        <%= link_to team_webhooks_path(@team),
+            class: "px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700",
+            data: { turbo: "false" } do %>
+          <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          Webhooks
+        <% end %>
       </nav>
 
       <div class="bg-white shadow rounded-lg">
