@@ -22,6 +22,7 @@ class Team < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :stock_transactions, dependent: :destroy
   has_many :locations, dependent: :destroy
+  has_many :webhooks, dependent: :destroy
   validates :name, presence: true
   validates :name, uniqueness: { scope: :user_id }
 
