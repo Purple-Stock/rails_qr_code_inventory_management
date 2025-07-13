@@ -1,13 +1,13 @@
-<header class="bg-white shadow-sm">
+<header class="bg-gradient-to-r from-purple-700 to-purple-500 shadow-sm text-white">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
         <%= link_to root_path, class: "flex items-center" do %>
           <%= tag.svg xmlns: "http://www.w3.org/2000/svg", width: "300", height: "60", viewBox: "0 0 1500 360" do %>
             <g transform="translate(100, 200) scale(1.2)">
-              <path fill="#7D3C98" d="M0,-100 L86,-50 L86,50 L0,100 L-86,50 L-86,-50 Z"></path>
-              <path fill="#FFFFFF" d="M30,-50 L-15,10 H15 L-10,55 L40,0 H15 Z"></path>
+              <path fill="#FFFFFF" d="M0,-100 L86,-50 L86,50 L0,100 L-86,50 L-86,-50 Z"></path>
+              <path fill="#7D3C98" d="M30,-50 L-15,10 H15 L-10,55 L40,0 H15 Z"></path>
             </g>
-            <text x="270" y="230" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#7D3C98">PURPLE STOCK</text>
+            <text x="270" y="230" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#FFFFFF">PURPLE STOCK</text>
           <% end %>
         <% end %>
         
@@ -21,8 +21,8 @@
 
       <div class="flex items-center space-x-4">
         <% if @team.present? && @team.persisted? && !@hide_team_settings %>
-          <%= link_to team_settings_path(@team, section: 'billing'), 
-              class: "text-gray-600 hover:text-gray-900" do %>
+          <%= link_to team_settings_path(@team, section: 'billing'),
+              class: "text-white hover:text-gray-200" do %>
             <div class="flex items-center">
               <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -36,9 +36,9 @@
           <!-- Language Switcher -->
           <%= render 'shared/language_switcher' %>
           
-          <%= button_to destroy_user_session_path, 
+          <%= button_to destroy_user_session_path,
               method: :delete,
-              class: "flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" do %>
+              class: "flex items-center px-3 py-2 text-sm font-medium text-white hover:text-gray-200" do %>
             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
