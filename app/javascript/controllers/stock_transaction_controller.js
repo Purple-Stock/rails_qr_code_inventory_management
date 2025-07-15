@@ -1,7 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
+import { createTransactionScanner } from "../modules/barcode_scanner"
 
 export default class extends Controller {
-  static targets = ["itemsList", "itemTemplate", "totalQuantity"]
+  static targets = [
+    "itemsList", 
+    "itemTemplate", 
+    "totalQuantity",
+    // Barcode scanner targets
+    "barcodeModal",
+    "scannerContainer", 
+    "qrReader",
+    "startScannerButton",
+    "fileInput",
+    "barcodeInput",
+    "searchButton"
+  ]
   static values = {
     teamId: String,
     type: { type: String, default: 'stock_in' }
@@ -9,6 +22,7 @@ export default class extends Controller {
 
   connect() {
     this.items = new Map()
+    this.barcodeScanner = null
     
     // Use the same event name for both, but handle differently based on type
     this.element.addEventListener("item-selected", (event) => {
@@ -24,6 +38,9 @@ export default class extends Controller {
       }
     })
     
+    // Initialize barcode scanner if targets are available
+    this.initializeBarcodeScanner()
+    
     console.log("Stock Transaction Controller connected", {
       type: this.typeValue,
       element: this.element
@@ -34,6 +51,237 @@ export default class extends Controller {
     // Clean up event listeners
     this.element.removeEventListener("item-selected", this.addItem.bind(this))
     this.element.removeEventListener("item-selected", this.addMoveItem.bind(this))
+    
+    // Clean up barcode scanner
+    if (this.barcodeScanner) {
+      this.barcodeScanner.destroy()
+    }
+  }
+
+  // Barcode Scanner Methods
+  initializeBarcodeScanner() {
+    if (!this.hasQrReaderTarget) {
+      console.log("No QR reader target found, skipping barcode scanner initialization")
+      return
+    }
+
+    const readerId = this.qrReaderTarget.id
+    this.barcodeScanner = createTransactionScanner(this.typeValue, readerId)
+    
+    // Set up callbacks
+    this.barcodeScanner
+      .onSuccess((decodedText) => {
+        console.log("Barcode scanned successfully:", decodedText)
+        this.handleBarcodeSuccess(decodedText)
+      })
+      .onError((error) => {
+        // Only log actual errors, not continuous scanning messages
+        if (error && !error.toString().includes('No QR code found')) {
+          console.warn("Barcode scan error:", error)
+        }
+      })
+      .onLibraryError((error) => {
+        console.error("Failed to load barcode scanner library:", error)
+        this.showToast("Failed to load barcode scanner. Please try refreshing the page.", "red")
+      })
+
+    console.log("Barcode scanner initialized for transaction type:", this.typeValue)
+  }
+
+  async toggleScanner() {
+    if (!this.barcodeScanner) {
+      console.error("Barcode scanner not initialized")
+      return
+    }
+
+    try {
+      if (this.barcodeScanner.isCurrentlyScanning()) {
+        await this.barcodeScanner.stopCameraScanning()
+        this.updateScannerButtonState(false)
+        console.log("Scanner stopped")
+      } else {
+        await this.barcodeScanner.startCameraScanning()
+        this.updateScannerButtonState(true)
+        console.log("Scanner started")
+      }
+    } catch (error) {
+      console.error("Error toggling scanner:", error)
+      this.showToast("Camera access failed. Please check permissions.", "red")
+      this.updateScannerButtonState(false)
+    }
+  }
+
+  async handleFileSelect(event) {
+    const file = event.target.files[0]
+    if (!file) return
+
+    if (!this.barcodeScanner) {
+      console.error("Barcode scanner not initialized")
+      return
+    }
+
+    try {
+      this.showToast("Processing image...", "blue")
+      await this.barcodeScanner.scanFile(file)
+      // Success is handled by the onSuccess callback
+    } catch (error) {
+      console.error("File scan failed:", error)
+      this.showToast("Could not read barcode from image. Please try another image.", "red")
+    }
+    
+    // Clear the file input
+    event.target.value = ''
+  }
+
+  handleBarcodeKeypress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      this.processScannedItem()
+    }
+  }
+
+  processScannedItem() {
+    const barcodeValue = this.barcodeInputTarget.value.trim()
+    if (!barcodeValue) {
+      this.showToast("Please enter or scan a barcode", "yellow")
+      return
+    }
+
+    this.handleBarcodeSuccess(barcodeValue)
+  }
+
+  handleBarcodeSuccess(barcode) {
+    console.log("Processing barcode:", barcode)
+    
+    // Clear the input
+    if (this.hasBarcodeInputTarget) {
+      this.barcodeInputTarget.value = ''
+    }
+    
+    // Stop scanning if active
+    if (this.barcodeScanner && this.barcodeScanner.isCurrentlyScanning()) {
+      this.barcodeScanner.stopCameraScanning()
+      this.updateScannerButtonState(false)
+    }
+    
+    // Close the modal
+    this.closeBarcodeModal()
+    
+    // Search for the item by barcode
+    this.searchItemByBarcode(barcode)
+  }
+
+  async searchItemByBarcode(barcode) {
+    try {
+      this.showToast("Searching for item...", "blue")
+      
+      const response = await fetch(`/teams/${this.teamIdValue}/items/search?barcode=${encodeURIComponent(barcode)}`, {
+        headers: {
+          "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`)
+      }
+      
+      const data = await response.json()
+      
+      if (data.items && data.items.length > 0) {
+        const item = data.items[0] // Take the first match
+        this.showToast(`Found: ${item.name}`, "green")
+        
+        // Dispatch item-selected event
+        const event = new CustomEvent('item-selected', {
+          detail: item,
+          bubbles: true
+        })
+        this.element.dispatchEvent(event)
+      } else {
+        this.showToast("No item found with that barcode", "yellow")
+      }
+    } catch (error) {
+      console.error("Error searching for item:", error)
+      this.showToast("Error searching for item. Please try again.", "red")
+    }
+  }
+
+  openBarcodeModal() {
+    if (this.hasBarcodeModalTarget) {
+      this.barcodeModalTarget.classList.remove('hidden')
+      // Focus on the barcode input
+      if (this.hasBarcodeInputTarget) {
+        setTimeout(() => this.barcodeInputTarget.focus(), 100)
+      }
+    }
+  }
+
+  closeBarcodeModal() {
+    if (this.hasBarcodeModalTarget) {
+      this.barcodeModalTarget.classList.add('hidden')
+      
+      // Stop scanner if running
+      if (this.barcodeScanner && this.barcodeScanner.isCurrentlyScanning()) {
+        this.barcodeScanner.stopCameraScanning()
+        this.updateScannerButtonState(false)
+      }
+      
+      // Clear input
+      if (this.hasBarcodeInputTarget) {
+        this.barcodeInputTarget.value = ''
+      }
+    }
+  }
+
+  updateScannerButtonState(isScanning) {
+    if (this.hasStartScannerButtonTarget) {
+      const button = this.startScannerButtonTarget
+      if (isScanning) {
+        button.textContent = "Stop Camera"
+        button.classList.add('bg-red-600', 'hover:bg-red-700')
+        button.classList.remove('bg-green-600', 'hover:bg-green-700', 'bg-blue-600', 'hover:bg-blue-700', 'bg-purple-600', 'hover:bg-purple-700')
+      } else {
+        button.textContent = "Start Camera"
+        // Reset to transaction-specific color - this could be improved with config
+        button.classList.remove('bg-red-600', 'hover:bg-red-700')
+        // Add back the appropriate color based on transaction type
+        switch(this.typeValue) {
+          case 'stock_in':
+            button.classList.add('bg-green-600', 'hover:bg-green-700')
+            break
+          case 'stock_out':
+            button.classList.add('bg-red-600', 'hover:bg-red-700')
+            break
+          case 'adjust':
+            button.classList.add('bg-blue-600', 'hover:bg-blue-700')
+            break
+          case 'move':
+            button.classList.add('bg-purple-600', 'hover:bg-purple-700')
+            break
+          default:
+            button.classList.add('bg-blue-600', 'hover:bg-blue-700')
+        }
+      }
+    }
+  }
+
+  showToast(message, color = "blue") {
+    // Simple toast implementation - could be enhanced
+    const toast = document.createElement('div')
+    toast.className = `fixed top-4 right-4 z-50 px-4 py-2 rounded-md text-white bg-${color}-600 shadow-lg transition-opacity duration-300`
+    toast.textContent = message
+    
+    document.body.appendChild(toast)
+    
+    // Fade out and remove after 3 seconds
+    setTimeout(() => {
+      toast.style.opacity = '0'
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast)
+        }
+      }, 300)
+    }, 3000)
   }
 
   addItem(event) {
