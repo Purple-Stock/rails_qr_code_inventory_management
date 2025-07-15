@@ -206,6 +206,22 @@ en:
       error: "Failed to delete location."
       error_has_items: "Cannot delete location because it has %{count} associated items. Please reassign or delete these items first."
   stock_transactions:
+    common:
+      scan_barcode: "Scan Barcode"
+      barcode_scanner: "Barcode Scanner"
+      barcode_scanner_description: "Scan or enter a barcode/QR code to search for an item"
+      start_camera: "Start Camera"
+      stop_camera: "Stop Camera"
+      upload_qr_image: "Upload QR Image"
+      barcode_input_label: "Barcode/QR Code"
+      barcode_input_placeholder: "Enter barcode or scan"
+      barcode_help_text: "You can enter a code manually or use the camera to scan"
+      search: "Search"
+      cancel: "Cancel"
+    errors:
+      no_locations: "No locations found"
+      insufficient_locations_for_move: "Not enough locations"
+      create_location: "Create a location"
     index:
       title: "Transactions"
       search_placeholder: "Search transactions..."
@@ -229,6 +245,9 @@ en:
         current_stock: "Current Stock"
         quantity: "Quantity to Add"
         actions: "Actions"
+      empty_state:
+        title: "No items added yet"
+        description: "Search for items above to add them to your stock in transaction"
       notes: "Notes"
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Add"
@@ -245,6 +264,9 @@ en:
         current_stock: "Current Stock"
         quantity: "Quantity to Remove"
         actions: "Actions"
+      empty_state:
+        title: "No items added yet"
+        description: "Search for items above to add them to your stock out transaction"
       notes: "Notes"
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Remove"
@@ -262,6 +284,9 @@ en:
         current_stock: "Current Stock"
         quantity: "Quantity to Move"
         actions: "Actions"
+      empty_state:
+        title: "No items added yet"
+        description: "Search for items above to add them to your move transaction"
       notes: "Notes"
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Move"
@@ -285,6 +310,9 @@ en:
         current_stock: "Current Stock"
         quantity: "Quantity to Adjust"
         actions: "Actions"
+      empty_state:
+        title: "No items added yet"
+        description: "Search for items above to add them to your adjust transaction"
       notes: "Notes"
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Adjust"

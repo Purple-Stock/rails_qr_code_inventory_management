@@ -1,0 +1,84 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold <%= config.css_color_class %>"><%= t("stock_transactions.#{config.type}.title") %></h1>
+        <p class="mt-1 text-sm text-gray-500"><%= t("stock_transactions.#{config.type}.subtitle") %></p>
+      </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg" 
+         data-controller="stock-transaction"
+         data-stock-transaction-team-id-value="<%= @team.id %>"
+         data-stock-transaction-type-value="<%= config.type %>"
+         data-stock-transaction-config-value="<%= config.to_json %>">
+      
+      <!-- Location Selection Section -->
+      <%= render 'stock_transactions/location_selector', config: config, team: @team %>
+
+      <div class="p-6">
+        <!-- Item Search Section -->
+        <%= render 'stock_transactions/item_search', config: config, team: @team %>
+
+        <!-- Item Table Section -->
+        <%= render 'stock_transactions/item_table', config: config %>
+
+        <!-- Notes Section -->
+        <div class="mt-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2"><%= t("stock_transactions.#{config.type}.notes") %></label>
+          <textarea name="notes" rows="3" 
+                    placeholder="<%= t("stock_transactions.#{config.type}.notes_placeholder") %>"
+                    class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
+        </div>
+
+        <!-- Action Section -->
+        <div class="mt-6 flex justify-between items-center">
+          <div class="text-sm text-gray-500">
+            <%= t("stock_transactions.#{config.type}.total_items") %>: <span class="font-medium" data-stock-transaction-target="totalQuantity">0</span>
+          </div>
+
+          <div class="space-x-4">
+            <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white <%= config.button_color_class %>"
+                    data-action="stock-transaction#save">
+              <%= t("stock_transactions.#{config.type}.save_button") %>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barcode Scanner Modal -->
+      <%= render 'stock_transactions/barcode_modal', config: config %>
+
+      <!-- Item Template -->
+      <template data-stock-transaction-target="itemTemplate">
+        <tr>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="h-10 w-10 flex-shrink-0 bg-gray-100 rounded-lg"></div>
+              <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900" data-item-name></div>
+                <div class="text-sm text-gray-500" data-item-sku></div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-current-stock></td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <input type="number" 
+                   name="items[][quantity]"
+                   <% if config.quantity_should_be_positive? %>min="1"<% end %>
+                   class="w-24 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                   data-quantity
+                   data-action="input->stock-transaction#updateTotal">
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button type="button" 
+                    class="text-red-600 hover:text-red-900"
+                    data-action="stock-transaction#removeItem">
+              <%= t("stock_transactions.#{config.type}.table.actions") %>
+            </button>
+          </td>
+        </tr>
+      </template>
+    </div>
+  </div>
+</div>

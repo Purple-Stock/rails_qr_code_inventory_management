@@ -1,0 +1,40 @@
+<div class="border rounded-lg overflow-hidden">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= t("stock_transactions.#{config.type}.table.item") %>
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= t("stock_transactions.#{config.type}.table.current_stock") %>
+        </th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <%= t("stock_transactions.#{config.type}.table.quantity") %><span class="text-red-500">*</span>
+        </th>
+        <th scope="col" class="relative px-6 py-3">
+          <span class="sr-only"><%= t("stock_transactions.#{config.type}.table.actions") %></span>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200" 
+           data-stock-transaction-target="itemsList"
+           data-transaction-type="<%= config.type %>">
+      <!-- Items will be added here dynamically -->
+    </tbody>
+  </table>
+  
+  <!-- Empty State -->
+  <div class="hidden py-12" data-stock-transaction-target="emptyState">
+    <div class="text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2 2v-5m16 0h-2M4 13h2m13-8V4a1 1 0 00-1-1H7a1 1 0 00-1 1v1m8 0V4a1 1 0 00-1-1H9a1 1 0 00-1 1v1"/>
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">
+        <%= t("stock_transactions.#{config.type}.empty_state.title") %>
+      </h3>
+      <p class="mt-1 text-sm text-gray-500">
+        <%= t("stock_transactions.#{config.type}.empty_state.description") %>
+      </p>
+    </div>
+  </div>
+</div>
