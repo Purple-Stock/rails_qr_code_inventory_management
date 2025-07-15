@@ -33,6 +33,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class StockTransaction < ApplicationRecord
+  include TransactionConfig
+  
   paginates_per 25
 
   belongs_to :item
