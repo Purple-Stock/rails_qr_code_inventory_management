@@ -46,7 +46,7 @@
     - Remove duplicated scanner code from individual transaction views
     - _Requirements: 1.3, 3.2, 4.3_
 
-- [x] 4. Refactor stock transaction controller
+- [ ] 4. Refactor stock transaction controller
   - [x] 4.1 Create shared transaction processing methods
     - Extract common transaction creation logic into private `process_transaction` method
     - Create shared validation logic for items, locations, and quantities
@@ -65,14 +65,14 @@
     - Ensure all transaction types render correctly with shared components
     - _Requirements: 1.2, 4.1, 4.4_
 
-- [ ] 5. Update JavaScript controllers
-  - [ ] 5.1 Refactor stock transaction Stimulus controller
+- [x] 5. Update JavaScript controllers
+  - [x] 5.1 Refactor stock transaction Stimulus controller
     - Update `app/javascript/controllers/stock_transaction_controller.js` to use configuration-driven behavior
     - Consolidate item addition, removal, and total calculation logic
     - Integrate with unified barcode scanner module
     - _Requirements: 1.3, 3.2, 4.3_
 
-  - [ ] 5.2 Create transaction-specific JavaScript configurations
+  - [x] 5.2 Create transaction-specific JavaScript configurations
     - Define JavaScript configuration objects for each transaction type
     - Include validation rules, UI behavior, and API endpoints
     - Pass configurations from Rails views to JavaScript controllers
