@@ -78,26 +78,26 @@
     - Pass configurations from Rails views to JavaScript controllers
     - _Requirements: 3.1, 3.2, 4.3_
 
-- [ ] 6. Replace individual transaction views
-  - [ ] 6.1 Update stock_in view to use shared components
+- [x] 6. Replace individual transaction views
+  - [x] 6.1 Update stock_in view to use shared components
     - Replace `app/views/stock_transactions/stock_in.html.erb` with shared component calls
     - Ensure all existing functionality works identically
     - Test barcode scanning, item selection, and form submission
     - _Requirements: 1.1, 2.1, 2.2_
 
-  - [ ] 6.2 Update stock_out view to use shared components
+  - [x] 6.2 Update stock_out view to use shared components
     - Replace `app/views/stock_transactions/stock_out.html.erb` with shared component calls
     - Preserve stock validation and quantity limit functionality
     - Test all stock_out specific features work correctly
     - _Requirements: 1.1, 2.2, 2.2_
 
-  - [ ] 6.3 Update adjust view to use shared components
+  - [x] 6.3 Update adjust view to use shared components
     - Replace `app/views/stock_transactions/adjust.html.erb` with shared component calls
     - Maintain adjustment calculation behavior and UI
     - Verify adjust-specific functionality remains intact
     - _Requirements: 1.1, 2.3, 2.2_
 
-  - [ ] 6.4 Update move view to use shared components
+  - [x] 6.4 Update move view to use shared components
     - Replace `app/views/stock_transactions/move.html.erb` with shared component calls
     - Preserve dual-location selection and move-specific validation
     - Test source/destination location functionality
