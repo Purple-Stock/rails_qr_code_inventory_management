@@ -46,20 +46,20 @@
     - Remove duplicated scanner code from individual transaction views
     - _Requirements: 1.3, 3.2, 4.3_
 
-- [ ] 4. Refactor stock transaction controller
-  - [ ] 4.1 Create shared transaction processing methods
+- [x] 4. Refactor stock transaction controller
+  - [x] 4.1 Create shared transaction processing methods
     - Extract common transaction creation logic into private `process_transaction` method
     - Create shared validation logic for items, locations, and quantities
     - Implement unified error handling and response formatting
     - _Requirements: 1.2, 4.1, 4.4_
 
-  - [ ] 4.2 Consolidate transaction-specific methods
+  - [x] 4.2 Consolidate transaction-specific methods
     - Refactor `stock_in`, `stock_out`, `adjust`, and `move` methods to use shared logic
     - Maintain existing method signatures and response formats for backward compatibility
     - Remove duplicated code while preserving transaction-specific business rules
     - _Requirements: 1.2, 2.1, 2.2, 2.3, 2.4_
 
-  - [ ] 4.3 Create unified form rendering method
+  - [x] 4.3 Create unified form rendering method
     - Extract common form rendering logic into private `render_transaction_form` method
     - Pass transaction configuration to views for dynamic behavior
     - Ensure all transaction types render correctly with shared components

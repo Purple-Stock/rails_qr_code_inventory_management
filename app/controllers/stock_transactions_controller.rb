@@ -3,6 +3,9 @@ class StockTransactionsController < ApplicationController
   before_action :set_team
   before_action :set_transaction, only: [ :destroy ]
 
+  # Custom exception for transaction validation errors
+  class TransactionValidationError < StandardError; end
+
   def index
     @transactions = @team.stock_transactions
                         .includes(:item, :user, :source_location, :destination_location)
@@ -22,243 +25,47 @@ class StockTransactionsController < ApplicationController
 
   def stock_in
     if request.post?
-      ActiveRecord::Base.transaction do
-        # Find the location first
-        destination_location = @team.locations.find(params[:location])
-
-        params[:items].each do |item_data|
-          item = @team.items.find(item_data[:id])
-          @team.stock_transactions.create!(
-            item: item,
-            transaction_type: "stock_in",
-            quantity: item_data[:quantity],
-            destination_location: destination_location, # Use the found location object
-            notes: params[:notes],
-            user: current_user
-          )
-          trigger_stock_webhook("stock.updated", item)
-        end
-
-        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
-      end
+      process_transaction(:stock_in)
     else
-      # Handle GET request - show the form
-      @transaction = @team.stock_transactions.new(transaction_type: :stock_in)
+      render_transaction_form(:stock_in)
     end
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Location or item not found" }, status: :not_found
-  rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def stock_out
     if request.post?
-      ActiveRecord::Base.transaction do
-        # Find the location first
-        source_location = @team.locations.find(params[:location])
-
-        params[:items].each do |item_data|
-          item = @team.items.find(item_data[:id])
-
-          # Validate stock availability
-          if item.current_stock < item_data[:quantity].to_i
-            raise StandardError, "Not enough stock for #{item.name}"
-          end
-
-          @team.stock_transactions.create!(
-            item: item,
-            transaction_type: "stock_out",
-            quantity: -item_data[:quantity].to_i, # Make quantity negative for stock out
-            source_location: source_location,
-            notes: params[:notes],
-            user: current_user
-          )
-          trigger_stock_webhook("stock.updated", item)
-        end
-
-        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
-      end
+      process_transaction(:stock_out)
     else
-      @transaction = @team.stock_transactions.new(transaction_type: :stock_out)
+      render_transaction_form(:stock_out)
     end
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Location or item not found" }, status: :not_found
-  rescue StandardError => e
-    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def adjust
     if request.post?
-      ActiveRecord::Base.transaction do
-        # Find the location first
-        destination_location = @team.locations.find(params[:location])
-
-        params[:items].each do |item_data|
-          item = @team.items.find(item_data[:id])
-          new_quantity = item_data[:quantity].to_i
-          adjustment = new_quantity - item.current_stock
-
-          @team.stock_transactions.create!(
-            item: item,
-            transaction_type: "adjust",
-            quantity: adjustment,
-            destination_location: destination_location,
-            notes: params[:notes],
-            user: current_user
-          )
-          trigger_stock_webhook("stock.updated", item)
-        end
-
-        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
-      end
+      process_transaction(:adjust)
     else
-      @transaction = @team.stock_transactions.new(transaction_type: :adjust)
+      render_transaction_form(:adjust)
     end
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: "Location or item not found" }, status: :not_found
-  rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def move
     if request.post?
-      begin
-        Rails.logger.info "=== Starting Move Transaction ==="
-        Rails.logger.info "Raw params: #{params.inspect}"
-
-        ActiveRecord::Base.transaction do
-          # Find both locations - handle both formats
-          source_location = if params[:source_location_id]
-            @team.locations.find(params[:source_location_id])
-          else
-            @team.locations.find(params[:location])
-          end
-
-          destination_location = if params[:destination_location_id]
-            @team.locations.find(params[:destination_location_id])
-          else
-            # If no destination_location_id, use the next location in sequence
-            next_location = @team.locations.where.not(id: params[:location]).first
-            raise StandardError, "No destination location available" unless next_location
-            next_location
-          end
-
-          Rails.logger.info "Processing move with: source=#{source_location.id}, dest=#{destination_location.id}"
-          Rails.logger.info "Items to process: #{params[:items].inspect}"
-
-          params[:items].each do |item_data|
-            Rails.logger.info "Processing item: #{item_data.inspect}"
-
-            item = @team.items.find(item_data[:id])
-            Rails.logger.info "Found item: #{item.inspect}"
-
-            quantity = item_data[:quantity].to_i
-            Rails.logger.info "Quantity to move: #{quantity}"
-
-            if item.current_stock < quantity
-              error_message = "Not enough stock for #{item.name} at #{source_location.name}"
-              Rails.logger.error error_message
-              raise StandardError, error_message
-            end
-
-            transaction = @team.stock_transactions.create!(
-              item: item,
-              transaction_type: "move",
-              quantity: quantity,
-              source_location: source_location,
-              destination_location: destination_location,
-              notes: params[:notes],
-              user: current_user
-            )
-            trigger_stock_webhook("stock.updated", item)
-            Rails.logger.info "Created transaction: #{transaction.inspect}"
-          end
-
-          Rails.logger.info "Move transaction completed successfully"
-          render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
-        end
-      rescue ActiveRecord::RecordNotFound => e
-        Rails.logger.error "Record not found error: #{e.message}"
-        Rails.logger.error "Backtrace: #{e.backtrace.join("\n")}"
-        Rails.logger.error "Params that caused error: #{params.inspect}"
-        render json: { error: "Location or item not found" }, status: :not_found
-      rescue StandardError => e
-        Rails.logger.error "Standard error: #{e.message}"
-        Rails.logger.error "Backtrace: #{e.backtrace.join("\n")}"
-        Rails.logger.error "Params that caused error: #{params.inspect}"
-        render json: { error: e.message }, status: :unprocessable_entity
-      end
+      process_transaction(:move)
     else
-      @transaction = @team.stock_transactions.new(transaction_type: :move)
-      Rails.logger.info "Rendering move form for new transaction"
+      render_transaction_form(:move)
     end
   end
 
   def count
-    @transaction = @team.stock_transactions.new(transaction_type: :count)
+    if request.post?
+      process_transaction(:count)
+    else
+      render_transaction_form(:count)
+    end
   end
 
   def create
-    @transaction_type = params[:transaction_type] || "stock_in"
-    @notes = params[:notes]
-    items_params = params[:items] || []
-
-    begin
-      ActiveRecord::Base.transaction do
-        # Find the location first
-        location = @team.locations.find(params[:location])
-
-        # Process each item as its own transaction record
-        items_params.each do |item_data|
-          item_id = item_data[:id]
-          quantity = item_data[:quantity].to_f
-
-          item = @team.items.find(item_id)
-
-          # Create a separate transaction for each item
-          if @transaction_type == "adjust"
-            # For adjust, calculate the difference
-            difference = quantity - item.current_stock
-            @team.stock_transactions.create!(
-              item: item,
-              transaction_type: "adjust",
-              quantity: difference,
-              destination_location: location,
-              notes: @notes,
-              user: current_user
-            )
-          elsif @transaction_type == "stock_out"
-            # For stock out
-            @team.stock_transactions.create!(
-              item: item,
-              transaction_type: "stock_out",
-              quantity: quantity * -1, # Make negative for stock out
-              source_location: location,
-              notes: @notes,
-              user: current_user
-            )
-          else
-            # For stock in
-            @team.stock_transactions.create!(
-              item: item,
-              transaction_type: "stock_in",
-              quantity: quantity,
-              destination_location: location,
-              notes: @notes,
-              user: current_user
-            )
-          end
-        end
-
-        render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
-      end
-    rescue ActiveRecord::RecordNotFound => e
-      Rails.logger.error("Error creating transaction: #{e.message}")
-      render json: { error: "Location or item not found" }, status: :not_found
-    rescue => e
-      Rails.logger.error("Error creating transaction: #{e.message}")
-      render json: { error: e.message }, status: :unprocessable_entity
-    end
+    transaction_type = (params[:transaction_type] || "stock_in").to_sym
+    process_transaction(transaction_type)
   end
 
   def destroy
@@ -309,6 +116,153 @@ class StockTransactionsController < ApplicationController
   end
 
   private
+
+  # Shared transaction processing method
+  def process_transaction(transaction_type)
+    config = StockTransaction.transaction_config(transaction_type)
+    
+    ActiveRecord::Base.transaction do
+      locations = resolve_locations(config)
+      items_data = params[:items] || []
+      
+      validate_transaction_data(config, locations, items_data)
+      
+      items_data.each do |item_data|
+        item = @team.items.find(item_data[:id])
+        quantity = calculate_quantity(config, item, item_data[:quantity])
+        
+        validate_item_transaction(config, item, quantity, locations)
+        
+        create_transaction_record(config, item, quantity, locations)
+        trigger_stock_webhook("stock.updated", item)
+      end
+      
+      render_success_response
+    end
+  rescue TransactionValidationError => e
+    render_error_response(e.message, :unprocessable_entity)
+  rescue ActiveRecord::RecordNotFound => e
+    render_error_response("Location or item not found", :not_found)
+  rescue StandardError => e
+    Rails.logger.error "Transaction error: #{e.message}"
+    Rails.logger.error "Backtrace: #{e.backtrace.join("\n")}"
+    render_error_response(e.message, :unprocessable_entity)
+  end
+
+  # Resolve locations based on transaction configuration
+  def resolve_locations(config)
+    locations = {}
+    
+    if config.requires_source_location?
+      locations[:source] = find_location_from_params(:source_location_id, :location)
+    end
+    
+    if config.requires_destination_location?
+      locations[:destination] = find_location_from_params(:destination_location_id, :location)
+    end
+    
+    # Special handling for move transactions with fallback destination
+    if config.type == :move && locations[:destination].nil?
+      locations[:destination] = @team.locations.where.not(id: locations[:source]&.id).first
+      raise TransactionValidationError, "No destination location available" unless locations[:destination]
+    end
+    
+    locations
+  end
+
+  # Find location from multiple possible parameter keys
+  def find_location_from_params(*param_keys)
+    param_keys.each do |key|
+      location_id = params[key]
+      return @team.locations.find(location_id) if location_id.present?
+    end
+    nil
+  end
+
+  # Validate transaction data before processing
+  def validate_transaction_data(config, locations, items_data)
+    raise TransactionValidationError, "No items provided" if items_data.empty?
+    
+    if config.requires_source_location? && locations[:source].nil?
+      raise TransactionValidationError, "Source location is required"
+    end
+    
+    if config.requires_destination_location? && locations[:destination].nil?
+      raise TransactionValidationError, "Destination location is required"
+    end
+  end
+
+  # Calculate the actual quantity based on transaction type
+  def calculate_quantity(config, item, input_quantity)
+    quantity = input_quantity.to_i
+    
+    case config.quantity_behavior
+    when :negative
+      -quantity.abs # Ensure negative for stock_out
+    when :adjustment
+      quantity - item.current_stock # Calculate adjustment difference
+    else
+      quantity.abs # Ensure positive for stock_in, move, count
+    end
+  end
+
+  # Validate individual item transaction
+  def validate_item_transaction(config, item, quantity, locations)
+    if config.requires_stock_availability_check?
+      required_stock = config.quantity_behavior == :negative ? quantity.abs : quantity
+      
+      if config.type == :move
+        # For move, check stock at source location
+        available_stock = item.stock_at_location(locations[:source].id)
+        if available_stock < required_stock
+          raise TransactionValidationError, "Not enough stock for #{item.name} at #{locations[:source].name}"
+        end
+      else
+        # For stock_out, check total current stock
+        if item.current_stock < required_stock
+          raise TransactionValidationError, "Not enough stock for #{item.name}"
+        end
+      end
+    end
+    
+    if config.requires_positive_quantity? && quantity <= 0
+      raise TransactionValidationError, "Quantity must be positive for #{item.name}"
+    end
+  end
+
+  # Create the actual transaction record
+  def create_transaction_record(config, item, quantity, locations)
+    transaction_attrs = {
+      item: item,
+      transaction_type: config.type.to_s,
+      quantity: quantity,
+      notes: params[:notes],
+      user: current_user
+    }
+    
+    transaction_attrs[:source_location] = locations[:source] if locations[:source]
+    transaction_attrs[:destination_location] = locations[:destination] if locations[:destination]
+    
+    @team.stock_transactions.create!(transaction_attrs)
+  end
+
+  # Render success response
+  def render_success_response
+    render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
+  end
+
+  # Render error response with consistent format
+  def render_error_response(message, status)
+    render json: { error: message }, status: status
+  end
+
+  # Render transaction form with configuration
+  def render_transaction_form(transaction_type)
+    @transaction_config = StockTransaction.transaction_config(transaction_type)
+    @transaction = @team.stock_transactions.new(transaction_type: transaction_type)
+    
+    render transaction_type.to_s
+  end
 
   def set_team
     @team = current_user.teams.find(params[:team_id])

@@ -74,6 +74,7 @@ module TransactionConfig
   included do
     # Instance method to get configuration for this transaction's type
     def config
+      return nil unless transaction_type.present?
       self.class.transaction_config(transaction_type)
     end
   end
