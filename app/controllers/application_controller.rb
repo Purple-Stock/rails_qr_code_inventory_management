@@ -58,4 +58,11 @@ class ApplicationController < ActionController::Base
   def default_url_options
     { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
   end
+
+  # Check if barcode scanner is enabled for the current team/user
+  def barcode_scanner_enabled?
+    # For now, enable barcode scanner for all users
+    # This can be made configurable per team/user in the future
+    true
+  end
 end

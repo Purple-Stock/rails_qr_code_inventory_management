@@ -85,7 +85,7 @@ export default class extends Controller {
       },
       api_endpoints: {
         search: `/teams/${this.teamIdValue}/items/search`,
-        transaction: `/teams/${this.teamIdValue}/transactions`
+        transaction: `/teams/${this.teamIdValue}/transactions/${this.typeValue}`
       },
       validation_messages: {
         no_location: 'Please select a location',

@@ -50,16 +50,18 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
     it 'renders item template with correct structure' do
       render partial: 'stock_transactions/transaction_form', locals: { config: config }
       
-      expect(rendered).to have_css('template[data-stock-transaction-target="itemTemplate"]')
-      expect(rendered).to have_css('template input[data-quantity]')
-      expect(rendered).to have_css('template button[data-action="stock-transaction#removeItem"]')
+      expect(rendered).to have_css('template[data-stock-transaction-target="itemTemplate"]', visible: false)
+      expect(rendered).to have_css('template input[data-quantity]', visible: false)
+      expect(rendered).to have_css('template button[data-action="stock-transaction#removeItem"]', visible: false)
     end
 
     it 'applies correct styling classes based on config' do
       render partial: 'stock_transactions/transaction_form', locals: { config: config }
       
-      expect(rendered).to have_css(".#{config.css_color_class}")
-      expect(rendered).to have_css(".#{config.button_color_class}")
+      # Check for the title with color class
+      expect(rendered).to have_css("h1.#{config.css_color_class}")
+      # Check for the save button with color class
+      expect(rendered).to have_css("button.#{config.button_color_class.gsub(' ', '.')}")
     end
   end
 
@@ -86,7 +88,8 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
         
         expect(rendered).not_to have_css('select')
         # Should render location error partial
-        expect(rendered).to include('stock_transactions/location_error')
+        expect(rendered).to have_css('.bg-yellow-50')
+        expect(rendered).to have_content('No locations found')
       end
     end
 
@@ -114,7 +117,8 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
         
         expect(rendered).not_to have_css('select')
         # Should render location error partial twice (for both selectors)
-        expect(rendered).to include('stock_transactions/location_error')
+        expect(rendered).to have_css('.bg-yellow-50')
+        expect(rendered).to have_content('Not enough locations')
       end
 
       it 'pre-selects different locations by default' do
@@ -257,7 +261,8 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
     it 'applies config-based styling' do
       render partial: 'stock_transactions/barcode_modal', locals: { config: config }
       
-      expect(rendered).to have_css(".#{config.button_color_class}")
+      # Check for button with the first part of the color class
+      expect(rendered).to have_css("button.#{config.button_color_class.split(' ').first}")
       expect(rendered).to have_css(".#{config.bg_color_class}")
       expect(rendered).to have_css(".#{config.css_color_class}")
     end

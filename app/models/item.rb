@@ -46,6 +46,12 @@ class Item < ApplicationRecord
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
 
   def current_stock
+    # Use the database column if it exists and is up to date
+    # Otherwise calculate from transactions
+    read_attribute(:current_stock) || calculate_current_stock
+  end
+
+  def calculate_current_stock
     total = 0
     stock_transactions.each do |transaction|
       case transaction.transaction_type
@@ -93,7 +99,7 @@ class Item < ApplicationRecord
   private
 
   def location_belongs_to_team
-    if location_id.present? && !team.locations.exists?(location_id)
+    if location_id.present? && team.present? && !team.locations.exists?(location_id)
       errors.add(:location_id, :must_belong_to_team)
     end
   end

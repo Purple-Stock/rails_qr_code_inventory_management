@@ -26,8 +26,8 @@ export const TRANSACTION_CONFIGS = {
       quantity_min: 1
     },
     api_endpoints: {
-      search: '/teams/{teamId}/items/search',
-      transaction: '/teams/{teamId}/transactions'
+      search: '/teams/{teamId}/transactions/search',
+      transaction: '/teams/{teamId}/transactions/stock_in'
     },
     validation_messages: {
       no_location: 'Please select a location',
@@ -62,8 +62,8 @@ export const TRANSACTION_CONFIGS = {
       validate_stock_availability: true
     },
     api_endpoints: {
-      search: '/teams/{teamId}/items/search',
-      transaction: '/teams/{teamId}/transactions'
+      search: '/teams/{teamId}/transactions/search',
+      transaction: '/teams/{teamId}/transactions/stock_out'
     },
     validation_messages: {
       no_location: 'Please select a location',
@@ -97,8 +97,8 @@ export const TRANSACTION_CONFIGS = {
       show_adjustment_difference: true
     },
     api_endpoints: {
-      search: '/teams/{teamId}/items/search',
-      transaction: '/teams/{teamId}/transactions'
+      search: '/teams/{teamId}/transactions/search',
+      transaction: '/teams/{teamId}/transactions/adjust'
     },
     validation_messages: {
       no_location: 'Please select a location',
@@ -134,7 +134,7 @@ export const TRANSACTION_CONFIGS = {
       validate_stock_availability: true
     },
     api_endpoints: {
-      search: '/teams/{teamId}/items/search',
+      search: '/teams/{teamId}/transactions/search',
       transaction: '/teams/{teamId}/transactions/move'
     },
     validation_messages: {
@@ -172,8 +172,8 @@ export const TRANSACTION_CONFIGS = {
       show_count_difference: true
     },
     api_endpoints: {
-      search: '/teams/{teamId}/items/search',
-      transaction: '/teams/{teamId}/transactions'
+      search: '/teams/{teamId}/transactions/search',
+      transaction: '/teams/{teamId}/transactions/count'
     },
     validation_messages: {
       no_location: 'Please select a location',

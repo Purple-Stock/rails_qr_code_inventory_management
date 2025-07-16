@@ -209,7 +209,8 @@ en:
     common:
       scan_barcode: "Scan Barcode"
       barcode_scanner: "Barcode Scanner"
-      barcode_scanner_description: "Scan or enter a barcode/QR code to search for an item"
+      barcode_scanner_title: "Barcode Scanner for %{transaction_type}"
+      barcode_scanner_description: "Scan or enter a barcode/QR code to search for an item for %{transaction_type}"
       start_camera: "Start Camera"
       stop_camera: "Stop Camera"
       upload_qr_image: "Upload QR Image"

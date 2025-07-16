@@ -178,7 +178,13 @@ class StockTransactionsController < ApplicationController
   def find_location_from_params(*param_keys)
     param_keys.each do |key|
       location_id = params[key]
-      return @team.locations.find(location_id) if location_id.present?
+      if location_id.present?
+        begin
+          return @team.locations.find(location_id)
+        rescue ActiveRecord::RecordNotFound
+          next
+        end
+      end
     end
     nil
   end
