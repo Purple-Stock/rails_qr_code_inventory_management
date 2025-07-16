@@ -7,6 +7,9 @@ export default class extends Controller {
     "itemsList", 
     "itemTemplate", 
     "totalQuantity",
+    // Search targets
+    "searchInput",
+    "searchResults",
     // Barcode scanner targets
     "barcodeModal",
     "scannerContainer", 
@@ -296,6 +299,118 @@ export default class extends Controller {
       if (this.hasBarcodeInputTarget) {
         this.barcodeInputTarget.value = ''
       }
+    }
+  }
+
+  // Search Methods
+  handleSearch(event) {
+    const query = event.target.value.trim()
+    
+    // Clear existing timeout
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout)
+    }
+    
+    // Hide results if query is empty
+    if (!query) {
+      this.hideSearchResults()
+      return
+    }
+    
+    // Debounce search
+    this.searchTimeout = setTimeout(() => {
+      this.performSearch(query)
+    }, 300)
+  }
+
+  showAllItems() {
+    // Show all items when search input is focused
+    this.performSearch('')
+  }
+
+  async performSearch(query) {
+    try {
+      const searchUrl = this.transactionConfig.api_endpoints.search
+      const response = await fetch(`${searchUrl}?q=${encodeURIComponent(query)}`, {
+        headers: {
+          "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`)
+      }
+      
+      const data = await response.json()
+      this.displaySearchResults(data.items || [])
+    } catch (error) {
+      console.error("Error searching for items:", error)
+      this.showToast("Error searching for items. Please try again.", "red")
+    }
+  }
+
+  displaySearchResults(items) {
+    if (!this.hasSearchResultsTarget) {
+      return
+    }
+    
+    const resultsContainer = this.searchResultsTarget
+    
+    if (items.length === 0) {
+      resultsContainer.innerHTML = '<div class="p-4 text-gray-500">No items found</div>'
+      resultsContainer.classList.remove('hidden')
+      return
+    }
+    
+    const resultsHTML = items.map(item => `
+      <div class="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+           data-action="click->stock-transaction#selectItem"
+           data-item-id="${item.id}"
+           data-item-name="${item.name}"
+           data-item-sku="${item.sku}"
+           data-current-stock="${item.current_stock || 0}">
+        <div class="flex justify-between items-center">
+          <div>
+            <div class="font-medium text-gray-900">${item.name}</div>
+            <div class="text-sm text-gray-500">SKU: ${item.sku}</div>
+          </div>
+          <div class="text-sm text-gray-600">
+            Stock: ${item.current_stock || 0}
+          </div>
+        </div>
+      </div>
+    `).join('')
+    
+    resultsContainer.innerHTML = resultsHTML
+    resultsContainer.classList.remove('hidden')
+  }
+
+  selectItem(event) {
+    const element = event.currentTarget
+    const item = {
+      id: element.dataset.itemId,
+      name: element.dataset.itemName,
+      sku: element.dataset.itemSku,
+      currentStock: parseInt(element.dataset.currentStock) || 0
+    }
+    
+    // Dispatch item-selected event
+    const customEvent = new CustomEvent('item-selected', {
+      detail: item,
+      bubbles: true
+    })
+    this.element.dispatchEvent(customEvent)
+    
+    // Hide search results and clear search input
+    this.hideSearchResults()
+    if (this.hasSearchInputTarget) {
+      this.searchInputTarget.value = ''
+    }
+  }
+
+  hideSearchResults() {
+    if (this.hasSearchResultsTarget) {
+      this.searchResultsTarget.classList.add('hidden')
     }
   }
 

@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     end
     resources :stock_transactions, path: "transactions" do
       collection do
+        get :search
         get :stock_in
         post :stock_in
         get :stock_out

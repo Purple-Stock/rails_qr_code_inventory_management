@@ -99,7 +99,11 @@ class StockTransactionsController < ApplicationController
 
   def search
     @items = @team.items.where("name ILIKE ? OR sku ILIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
-    render partial: "search_results", layout: false
+    
+    respond_to do |format|
+      format.html { render partial: "search_results", layout: false }
+      format.json { render json: { items: @items.as_json(only: [:id, :name, :sku, :current_stock]) } }
+    end
   end
 
   def stock_by_location

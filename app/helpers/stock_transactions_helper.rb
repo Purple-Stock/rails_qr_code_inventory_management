@@ -72,6 +72,11 @@ module StockTransactionsHelper
     }
   end
 
+  def number_with_sign(number)
+    return number if number.zero?
+    number.positive? ? "+#{number}" : number.to_s
+  end
+
   private
 
   def get_validation_messages(transaction_type)
@@ -153,11 +158,6 @@ module StockTransactionsHelper
         hover_color: 'blue-700'
       }
     }
-  end
-
-  def number_with_sign(number)
-    return number if number.zero?
-    number.positive? ? "+#{number}" : number.to_s
   end
 
   def transaction_type_icon(type)

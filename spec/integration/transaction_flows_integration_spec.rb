@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Transaction Flows Integration', type: :system do
+  include Devise::Test::IntegrationHelpers
   let(:user) { create(:user) }
   let(:team) { create(:team, user: user) }
   let(:location1) { create(:location, team: team, name: 'Warehouse A') }

@@ -11,7 +11,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
   end
 
   describe '_transaction_form partial' do
-    let(:config) { TransactionConfig.new('stock_in') }
+    let(:config) { StockTransaction.transaction_config('stock_in') }
     
     before do
       team.locations << [location1, location2]
@@ -65,7 +65,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
 
   describe '_location_selector partial' do
     context 'with single location mode' do
-      let(:config) { TransactionConfig.new('stock_in') }
+      let(:config) { StockTransaction.transaction_config('stock_in') }
       
       before do
         team.locations << location1
@@ -91,7 +91,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
     end
 
     context 'with dual location mode (move)' do
-      let(:config) { TransactionConfig.new('move') }
+      let(:config) { StockTransaction.transaction_config('move') }
       
       before do
         team.locations << [location1, location2]
@@ -128,7 +128,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
     end
 
     context 'with stock_out configuration' do
-      let(:config) { TransactionConfig.new('stock_out') }
+      let(:config) { StockTransaction.transaction_config('stock_out') }
       
       before do
         team.locations << location1
@@ -144,7 +144,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
   end
 
   describe '_item_search partial' do
-    let(:config) { TransactionConfig.new('stock_in') }
+    let(:config) { StockTransaction.transaction_config('stock_in') }
 
     it 'renders search input with correct attributes' do
       render partial: 'stock_transactions/item_search', locals: { config: config, team: team }
@@ -176,7 +176,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
   end
 
   describe '_item_table partial' do
-    let(:config) { TransactionConfig.new('stock_in') }
+    let(:config) { StockTransaction.transaction_config('stock_in') }
 
     it 'renders table structure with correct headers' do
       render partial: 'stock_transactions/item_table', locals: { config: config }
@@ -213,7 +213,7 @@ RSpec.describe 'Stock Transaction Shared Components', type: :view do
   end
 
   describe '_barcode_modal partial' do
-    let(:config) { TransactionConfig.new('stock_in') }
+    let(:config) { StockTransaction.transaction_config('stock_in') }
 
     it 'renders modal with correct structure' do
       render partial: 'stock_transactions/barcode_modal', locals: { config: config }
