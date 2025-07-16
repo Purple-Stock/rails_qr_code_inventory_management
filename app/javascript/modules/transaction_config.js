@@ -190,6 +190,9 @@ export const TRANSACTION_CONFIGS = {
   }
 }
 
+// Cache for processed configurations to avoid repeated deep cloning
+const configCache = new Map()
+
 /**
  * Get configuration for a specific transaction type
  * @param {string} type - Transaction type
@@ -202,8 +205,20 @@ export function getTransactionConfig(type, teamId = null) {
     throw new Error(`Unknown transaction type: ${type}`)
   }
 
-  // Create a deep copy to avoid modifying the original
-  const configCopy = JSON.parse(JSON.stringify(config))
+  // Use cache key to avoid repeated processing
+  const cacheKey = `${type}_${teamId || 'no_team'}`
+  if (configCache.has(cacheKey)) {
+    return configCache.get(cacheKey)
+  }
+
+  // Create optimized copy using structured cloning for better performance
+  const configCopy = {
+    ...config,
+    ui_behavior: { ...config.ui_behavior },
+    api_endpoints: { ...config.api_endpoints },
+    validation_messages: { ...config.validation_messages },
+    css_classes: { ...config.css_classes }
+  }
 
   // Interpolate team ID in API endpoints if provided
   if (teamId) {
@@ -212,6 +227,9 @@ export function getTransactionConfig(type, teamId = null) {
     })
   }
 
+  // Cache the result for future use
+  configCache.set(cacheKey, configCopy)
+  
   return configCopy
 }
 

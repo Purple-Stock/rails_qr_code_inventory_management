@@ -25,6 +25,7 @@ export default class extends Controller {
   connect() {
     this.items = new Map()
     this.barcodeScanner = null
+    this.searchTimeout = null
     
     // Initialize configuration with defaults if not provided
     this.initializeConfiguration()
@@ -32,8 +33,8 @@ export default class extends Controller {
     // Set up event listeners based on configuration
     this.setupEventListeners()
     
-    // Initialize barcode scanner if targets are available
-    this.initializeBarcodeScanner()
+    // Initialize barcode scanner lazily when needed
+    this.scannerInitialized = false
     
     console.log("Stock Transaction Controller connected", {
       type: this.typeValue,
@@ -267,6 +268,13 @@ export default class extends Controller {
   openBarcodeModal() {
     if (this.hasBarcodeModalTarget) {
       this.barcodeModalTarget.classList.remove('hidden')
+      
+      // Initialize barcode scanner lazily when modal is opened
+      if (!this.scannerInitialized) {
+        this.initializeBarcodeScanner()
+        this.scannerInitialized = true
+      }
+      
       // Focus on the barcode input
       if (this.hasBarcodeInputTarget) {
         setTimeout(() => this.barcodeInputTarget.focus(), 100)

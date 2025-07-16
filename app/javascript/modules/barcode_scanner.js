@@ -8,9 +8,13 @@
  * - Camera-based barcode scanning
  * - File upload barcode scanning
  * - Configurable callbacks for success and error handling
- * - Automatic library loading from CDN
+ * - Lazy library loading from CDN
  * - Proper cleanup and error handling
+ * - Singleton library instance to reduce memory usage
  */
+
+// Singleton library loader to avoid multiple script loads
+let libraryLoadPromise = null
 
 export class BarcodeScanner {
   constructor(config = {}) {
@@ -28,7 +32,6 @@ export class BarcodeScanner {
     
     this.scanner = null
     this.isScanning = false
-    this.isLibraryLoaded = false
     
     // Callbacks
     this.onScanSuccess = null
@@ -55,12 +58,23 @@ export class BarcodeScanner {
   }
 
   /**
-   * Load the HTML5-QRCode library from CDN
+   * Load the HTML5-QRCode library from CDN using singleton pattern
    * @returns {Promise} Promise that resolves when library is loaded
    */
   loadLibrary() {
-    return new Promise((resolve, reject) => {
-      // Check if library is already loaded
+    // Use singleton promise to avoid multiple script loads
+    if (libraryLoadPromise) {
+      return libraryLoadPromise
+    }
+
+    // Check if library is already loaded
+    if (window.Html5Qrcode) {
+      libraryLoadPromise = Promise.resolve()
+      return libraryLoadPromise
+    }
+
+    libraryLoadPromise = new Promise((resolve, reject) => {
+      // Check again in case it was loaded while we were waiting
       if (window.Html5Qrcode) {
         resolve()
         return
@@ -75,11 +89,14 @@ export class BarcodeScanner {
       }
       script.onerror = (error) => {
         console.error('Failed to load HTML5-QRCode library:', error)
+        libraryLoadPromise = null // Reset on error to allow retry
         reject(new Error('Failed to load barcode scanning library'))
       }
       
       document.head.appendChild(script)
     })
+
+    return libraryLoadPromise
   }
 
   /**

@@ -261,6 +261,9 @@ class StockTransactionsController < ApplicationController
     @transaction_config = StockTransaction.transaction_config(transaction_type)
     @transaction = @team.stock_transactions.new(transaction_type: transaction_type)
     
+    # Preload locations to avoid N+1 queries in views
+    @team.locations.ordered.load
+    
     render transaction_type.to_s
   end
 
@@ -272,36 +275,7 @@ class StockTransactionsController < ApplicationController
     @transaction = @team.stock_transactions.find(params[:id])
   end
 
-  def transaction_params
-    params.require(:stock_transaction).permit(
-      :item_id,
-      :transaction_type,
-      :quantity,
-      :source_location,
-      :destination_location,
-      :notes
-    )
-  end
 
-  def action_for_transaction_type
-    case @transaction.transaction_type
-    when "stock_in" then :stock_in
-    when "stock_out" then :stock_out
-    when "adjust" then :adjust
-    when "move" then :move
-    when "count" then :count
-    else :new
-    end
-  end
-
-  def move_params
-    params.require(:stock_transaction).permit(
-      :source_location_id,
-      :destination_location_id,
-      :notes,
-      items: [ :id, :quantity ]
-    )
-  end
 
   def generate_csv
     require "csv"
@@ -320,7 +294,7 @@ class StockTransactionsController < ApplicationController
           transaction.transaction_type.titleize,
           transaction.item.name,
           transaction.item.sku,
-          number_with_sign(transaction.quantity),
+          helpers.number_with_sign(transaction.quantity),
           format_location(transaction),
           transaction.user.email,
           transaction.notes
@@ -337,10 +311,7 @@ class StockTransactionsController < ApplicationController
     end
   end
 
-  def number_with_sign(number)
-    return number if number.nil?
-    number.positive? ? "+#{number}" : number.to_s
-  end
+
 
   def trigger_stock_webhook(event, item)
     webhooks = @team.webhooks.where(event: event)

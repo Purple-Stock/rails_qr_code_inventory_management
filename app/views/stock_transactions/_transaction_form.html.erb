@@ -11,7 +11,8 @@
          data-controller="stock-transaction"
          data-stock-transaction-team-id-value="<%= @team.id %>"
          data-stock-transaction-type-value="<%= config.type %>"
-         data-stock-transaction-config-value="<%= config.to_json %>">
+         data-stock-transaction-config-value="<%= config.to_json.html_safe %>"
+         data-turbo-permanent>
       
       <!-- Location Selection Section -->
       <%= render 'stock_transactions/location_selector', config: config, team: @team %>
