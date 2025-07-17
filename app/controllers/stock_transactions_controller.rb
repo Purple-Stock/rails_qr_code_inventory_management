@@ -25,6 +25,7 @@ class StockTransactionsController < ApplicationController
 
   def stock_in
     if request.post?
+      Rails.logger.info "Processing stock_in transaction with params: #{params.inspect}"
       process_transaction(:stock_in)
     else
       render_transaction_form(:stock_in)

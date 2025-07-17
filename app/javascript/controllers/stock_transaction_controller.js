@@ -26,43 +26,77 @@ export default class extends Controller {
   }
 
   connect() {
-    this.items = new Map()
-    this.barcodeScanner = null
-    this.searchTimeout = null
-    
-    // Initialize configuration with defaults if not provided
-    this.initializeConfiguration()
-    
-    // Set up event listeners based on configuration
-    this.setupEventListeners()
-    
-    // Initialize barcode scanner lazily when needed
-    this.scannerInitialized = false
-    
-    console.log("Stock Transaction Controller connected", {
-      type: this.typeValue,
-      config: this.transactionConfig,
-      element: this.element
-    })
+    try {
+      console.log("Stock Transaction Controller connecting...", {
+        element: this.element,
+        hasTeamIdValue: this.hasTeamIdValue,
+        hasTypeValue: this.hasTypeValue,
+        hasConfigValue: this.hasConfigValue,
+        teamIdValue: this.teamIdValue,
+        typeValue: this.typeValue
+      })
+
+      this.items = new Map()
+      this.barcodeScanner = null
+      this.searchTimeout = null
+      
+      // Initialize configuration with defaults if not provided
+      this.initializeConfiguration()
+      
+      // Set up event listeners based on configuration
+      this.setupEventListeners()
+      
+      // Initialize barcode scanner lazily when needed
+      this.scannerInitialized = false
+      
+      console.log("Stock Transaction Controller connected successfully", {
+        type: this.typeValue,
+        config: this.transactionConfig,
+        element: this.element,
+        methods: Object.getOwnPropertyNames(Object.getPrototypeOf(this)).filter(name => typeof this[name] === 'function')
+      })
+    } catch (error) {
+      console.error("Error connecting Stock Transaction Controller:", error)
+      // Set fallback configuration to prevent further errors
+      this.transactionConfig = this.getFallbackConfig()
+    }
   }
 
   initializeConfiguration() {
     try {
+      console.log("Initializing configuration...", {
+        hasConfigValue: this.hasConfigValue,
+        hasTeamIdValue: this.hasTeamIdValue,
+        hasTypeValue: this.hasTypeValue,
+        teamIdValue: this.teamIdValue,
+        typeValue: this.typeValue
+      })
+
       // Use provided config or create configuration from module
       if (this.hasConfigValue) {
+        console.log("Using provided config value")
         this.transactionConfig = this.configValue
       } else {
+        console.log("Creating config from module", {
+          type: this.typeValue,
+          teamId: this.teamIdValue
+        })
         // Use the transaction configuration module
         this.transactionConfig = createStimulusConfig(this.typeValue, this.teamIdValue)
       }
       
-      console.log("Configuration initialized", {
-        type: this.typeValue,
+      console.log("Configuration initialized successfully", {        type: this.typeValue,
         hasProvidedConfig: this.hasConfigValue,
         config: this.transactionConfig
       })
     } catch (error) {
       console.error("Failed to initialize configuration:", error)
+      console.error("Error details:", {
+        message: error.message,
+        stack: error.stack,
+        typeValue: this.typeValue,
+        teamIdValue: this.teamIdValue
+      })
       // Fallback to basic configuration
       this.transactionConfig = this.getFallbackConfig()
     }
@@ -324,8 +358,28 @@ export default class extends Controller {
   }
 
   showAllItems() {
-    // Show all items when search input is focused
-    this.performSearch('')
+    console.log("showAllItems called", {
+      hasTransactionConfig: !!this.transactionConfig,
+      hasSearchResultsTarget: this.hasSearchResultsTarget,
+      controllerConnected: this.isConnected
+    })
+    
+    try {
+      // Ensure controller is properly initialized
+      if (!this.transactionConfig) {
+        console.warn("Transaction config not initialized, initializing now...")
+        this.initializeConfiguration()
+      }
+      
+      // Show all items when search input is focused
+      this.performSearch('')
+    } catch (error) {
+      console.error("Error in showAllItems:", error)
+      // Fallback: just show empty results to prevent further errors
+      if (this.hasSearchResultsTarget) {
+        this.displaySearchResults([])
+      }
+    }
   }
 
   async performSearch(query) {
@@ -740,4 +794,4 @@ export default class extends Controller {
   }
 
 
-} 
+}

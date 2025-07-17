@@ -13,7 +13,7 @@
           <%= t("stock_transactions.#{config.type}.from_location") %><span class="text-red-500">*</span>
         </label>
         <% if locations_count >= 2 %>
-          <select name="source_location_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+          <select name="source_location_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" required>
             <% locations.each_with_index do |location, index| %>
               <option value="<%= location.id %>" <%= 'selected' if index == 0 %>>
                 <%= location.name %>
@@ -33,7 +33,7 @@
           <%= t("stock_transactions.#{config.type}.to_location") %><span class="text-red-500">*</span>
         </label>
         <% if locations_count >= 2 %>
-          <select name="destination_location_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+          <select name="destination_location_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" required>
             <% locations.each_with_index do |location, index| %>
               <option value="<%= location.id %>" <%= 'selected' if index == 1 %>>
                 <%= location.name %>
@@ -57,7 +57,7 @@
         </label>
         <% if locations_count > 0 %>
           <% location_field_name = config.requires_source_location? ? 'source_location_id' : 'destination_location_id' %>
-          <select name="<%= location_field_name %>" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+          <select name="<%= location_field_name %>" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500" required>
             <% locations.each_with_index do |location, index| %>
               <option value="<%= location.id %>" <%= 'selected' if index == 0 %>>
                 <%= location.name %>
