@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  # Enable CSRF protection
+  protect_from_forgery with: :exception
+
   # Require authentication for all pages
   before_action :authenticate_user!
 
@@ -54,5 +57,12 @@ class ApplicationController < ActionController::Base
   # Store current locale in URL
   def default_url_options
     { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
+  end
+
+  # Check if barcode scanner is enabled for the current team/user
+  def barcode_scanner_enabled?
+    # For now, enable barcode scanner for all users
+    # This can be made configurable per team/user in the future
+    true
   end
 end

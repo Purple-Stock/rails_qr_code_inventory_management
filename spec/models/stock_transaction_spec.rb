@@ -35,6 +35,75 @@
 require 'rails_helper'
 
 RSpec.describe StockTransaction, type: :model do
+  describe 'TransactionConfig concern' do
+    it 'includes TransactionConfig module' do
+      expect(StockTransaction.included_modules).to include(TransactionConfig)
+    end
+
+    describe 'class methods' do
+      it 'responds to transaction_config' do
+        expect(StockTransaction).to respond_to(:transaction_config)
+      end
+
+      it 'responds to available_transaction_types' do
+        expect(StockTransaction).to respond_to(:available_transaction_types)
+      end
+
+      it 'responds to valid_transaction_type?' do
+        expect(StockTransaction).to respond_to(:valid_transaction_type?)
+      end
+
+      it 'returns correct configuration for transaction types' do
+        config = StockTransaction.transaction_config(:stock_in)
+        expect(config).to be_a(TransactionConfig::TransactionConfigStruct)
+        expect(config.title).to eq('Stock In')
+        expect(config.color).to eq('green')
+      end
+    end
+
+    describe 'instance methods' do
+      let(:transaction) { build(:stock_transaction, transaction_type: 'stock_in') }
+
+      it 'responds to config' do
+        expect(transaction).to respond_to(:config)
+      end
+
+      it 'returns configuration for the transaction type' do
+        config = transaction.config
+        expect(config).to be_a(TransactionConfig::TransactionConfigStruct)
+        expect(config.type).to eq(:stock_in)
+        expect(config.title).to eq('Stock In')
+      end
+
+      context 'with different transaction types' do
+        it 'returns correct config for stock_out' do
+          transaction.transaction_type = 'stock_out'
+          config = transaction.config
+          expect(config.type).to eq(:stock_out)
+          expect(config.title).to eq('Stock Out')
+          expect(config.requires_source_location?).to be true
+          expect(config.requires_destination_location?).to be false
+        end
+
+        it 'returns correct config for move' do
+          transaction.transaction_type = 'move'
+          config = transaction.config
+          expect(config.type).to eq(:move)
+          expect(config.title).to eq('Move Stock')
+          expect(config.requires_both_locations?).to be true
+        end
+
+        it 'returns correct config for adjust' do
+          transaction.transaction_type = 'adjust'
+          config = transaction.config
+          expect(config.type).to eq(:adjust)
+          expect(config.title).to eq('Adjust Stock')
+          expect(config.requires_adjustment_calculation?).to be true
+        end
+      end
+    end
+  end
+
   describe 'associations' do
     it { should belong_to(:item) }
     it { should belong_to(:team) }
