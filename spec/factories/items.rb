@@ -33,7 +33,6 @@
 FactoryBot.define do
   factory :item do
     association :team
-    association :location
     sequence(:name) { |n| "Item #{n}" }
     sequence(:sku) { |n| "SKU#{n}" }
     sequence(:barcode) { |n| "BC#{n}" }
@@ -42,5 +41,8 @@ FactoryBot.define do
     item_type { 'Type' }
     brand { 'Brand' }
     initial_quantity { 1 }
+    
+    # Create location that belongs to the same team
+    location { association :location, team: team }
   end
 end
