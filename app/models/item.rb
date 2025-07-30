@@ -90,6 +90,28 @@ class Item < ApplicationRecord
     current_stock <= minimum_stock && current_stock > 0
   end
 
+  def stock_status
+    if current_stock <= 0
+      'out_of_stock'
+    elsif low_stock?
+      'low_stock'
+    else
+      'in_stock'
+    end
+  end
+
+  def value_category
+    return 'unknown' unless price.present?
+    
+    if price >= 100
+      'high_value'
+    elsif price >= 20
+      'medium_value'
+    else
+      'low_value'
+    end
+  end
+
   private
 
   def location_belongs_to_team

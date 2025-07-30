@@ -1,25 +1,60 @@
-<header class="bg-white shadow-sm">
-    <div class="flex items-center justify-between h-16">
-      <div class="flex items-center">
-        <%= link_to root_path, class: "flex items-center" do %>
-          <%= tag.svg xmlns: "http://www.w3.org/2000/svg", width: "300", height: "60", viewBox: "0 0 1500 360" do %>
-            <g transform="translate(100, 200) scale(1.2)">
-              <path fill="#7D3C98" d="M0,-100 L86,-50 L86,50 L0,100 L-86,50 L-86,-50 Z"></path>
-              <path fill="#FFFFFF" d="M30,-50 L-15,10 H15 L-10,55 L40,0 H15 Z"></path>
-            </g>
-            <text x="270" y="230" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#7D3C98">PURPLE STOCK</text>
-          <% end %>
-        <% end %>
+<header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <div class="mobile-container tablet:tablet-container desktop:desktop-container">
+      <div class="flex items-center justify-between h-16 mobile:h-14 tablet:h-16 desktop:h-16">
+        <!-- Mobile menu button -->
+        <div class="mobile:flex tablet:hidden desktop:hidden items-center">
+          <button 
+            type="button"
+            data-action="click->responsive-nav#toggleMobile"
+            class="touch-target text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-brand-500 rounded-md"
+            aria-label="Open navigation menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
         
-        <%# if @team.present? %>
-          <%# <div class="ml-6 flex items-center"> %>
-            <%# <span class="text-gray-400 mx-2">/</span> %>
-            <%# <span class="text-gray-900 font-medium"><%# @team.name %>
-          <%# </div> %>
-        <%# end %>
-      </div>
+        <!-- Logo - responsive sizing -->
+        <div class="flex items-center flex-1 mobile:justify-center tablet:justify-start desktop:justify-start mobile:ml-0 tablet:ml-0 desktop:ml-0">
+          <%= link_to root_path, class: "flex items-center" do %>
+            <!-- Mobile logo - compact version -->
+            <div class="mobile:block tablet:hidden desktop:hidden">
+              <%= tag.svg xmlns: "http://www.w3.org/2000/svg", width: "120", height: "32", viewBox: "0 0 600 160", class: "h-8" do %>
+                <g transform="translate(40, 80) scale(0.5)">
+                  <path fill="#7D3C98" d="M0,-100 L86,-50 L86,50 L0,100 L-86,50 L-86,-50 Z"></path>
+                  <path fill="#FFFFFF" d="M30,-50 L-15,10 H15 L-10,55 L40,0 H15 Z"></path>
+                </g>
+                <text x="120" y="100" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#7D3C98">PURPLE</text>
+              <% end %>
+            </div>
+            
+            <!-- Tablet logo - medium version -->
+            <div class="mobile:hidden tablet:block desktop:hidden">
+              <%= tag.svg xmlns: "http://www.w3.org/2000/svg", width: "200", height: "40", viewBox: "0 0 1000 200", class: "h-10" do %>
+                <g transform="translate(60, 100) scale(0.8)">
+                  <path fill="#7D3C98" d="M0,-100 L86,-50 L86,50 L0,100 L-86,50 L-86,-50 Z"></path>
+                  <path fill="#FFFFFF" d="M30,-50 L-15,10 H15 L-10,55 L40,0 H15 Z"></path>
+                </g>
+                <text x="180" y="130" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="#7D3C98">PURPLE STOCK</text>
+              <% end %>
+            </div>
+            
+            <!-- Desktop logo - full version -->
+            <div class="mobile:hidden tablet:hidden desktop:block">
+              <%= tag.svg xmlns: "http://www.w3.org/2000/svg", width: "300", height: "60", viewBox: "0 0 1500 360", class: "h-12" do %>
+                <g transform="translate(100, 200) scale(1.2)">
+                  <path fill="#7D3C98" d="M0,-100 L86,-50 L86,50 L0,100 L-86,50 L-86,-50 Z"></path>
+                  <path fill="#FFFFFF" d="M30,-50 L-15,10 H15 L-10,55 L40,0 H15 Z"></path>
+                </g>
+                <text x="270" y="230" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#7D3C98">PURPLE STOCK</text>
+              <% end %>
+            </div>
+          <% end %>
+        
+        </div>
 
-      <div class="flex items-center space-x-4">
+        <!-- Header actions - responsive layout -->
+        <div class="flex items-center mobile:space-x-2 tablet:space-x-3 desktop:space-x-4">
         <% if @team.present? && @team.persisted? && !@hide_team_settings %>
           <%= link_to team_settings_path(@team, section: 'billing'), 
               class: "text-gray-600 hover:text-gray-900" do %>
@@ -33,6 +68,9 @@
         <% end %>
         
         <div class="flex items-center space-x-2">
+          <!-- Theme Toggle -->
+          <%= render 'shared/theme_toggle' %>
+          
           <!-- Language Switcher -->
           <%= render 'shared/language_switcher' %>
           

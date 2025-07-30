@@ -1,0 +1,121 @@
+<!-- Theme Toggle Component -->
+<div data-controller="theme" class="theme-toggle-container">
+  <!-- Theme Toggle Button -->
+  <button data-theme-target="toggle"
+          data-action="click->theme#toggle"
+          class="<%= focus_classes('theme-toggle touch-target') %>"
+          type="button"
+          aria-pressed="false"
+          aria-label="<%= t('theme.toggle_theme') %>"
+          title="<%= t('theme.toggle_theme') %>">
+    
+    <!-- Theme Icon -->
+    <span data-theme-target="themeIcon" class="theme-icon">
+      <!-- Default sun icon (will be updated by controller) -->
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+      </svg>
+    </span>
+    
+    <!-- Screen reader text -->
+    <span class="sr-only" data-theme-target="themeText">
+      <%= t('theme.system') %>
+    </span>
+  </button>
+  
+  <!-- Theme Options Dropdown (optional, for advanced theme selection) -->
+  <div class="theme-options hidden absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50"
+       data-theme-target="dropdown"
+       role="menu"
+       aria-label="<%= t('theme.select_theme') %>">
+    
+    <!-- Light Theme Option -->
+    <button data-action="click->theme#setTheme"
+            data-theme-param="light"
+            class="<%= focus_classes('w-full px-4 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-3') %>"
+            role="menuitem">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+      </svg>
+      <span><%= t('theme.light') %></span>
+    </button>
+    
+    <!-- Dark Theme Option -->
+    <button data-action="click->theme#setTheme"
+            data-theme-param="dark"
+            class="<%= focus_classes('w-full px-4 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-3') %>"
+            role="menuitem">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+      </svg>
+      <span><%= t('theme.dark') %></span>
+    </button>
+    
+    <!-- System Theme Option -->
+    <button data-action="click->theme#setTheme"
+            data-theme-param="system"
+            class="<%= focus_classes('w-full px-4 py-2 text-left text-sm hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center space-x-3') %>"
+            role="menuitem">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      <span><%= t('theme.system') %></span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .theme-toggle-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .theme-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .theme-toggle:hover .theme-icon {
+    transform: scale(1.1);
+  }
+  
+  .theme-toggle.theme-dark .theme-icon {
+    color: var(--color-primary);
+  }
+  
+  /* Animation for theme icon changes */
+  .theme-icon svg {
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  /* Dropdown animation */
+  .theme-options {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .theme-options.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 767px) {
+    .theme-toggle {
+      min-width: 48px;
+      min-height: 48px;
+    }
+    
+    .theme-options {
+      right: -1rem;
+      width: 12rem;
+    }
+  }
+</style>

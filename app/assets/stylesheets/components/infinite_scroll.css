@@ -1,0 +1,205 @@
+/* Infinite Scroll Component Styles */
+
+.infinite-scroll-container {
+  @apply relative overflow-y-auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.infinite-scroll-loading {
+  @apply flex items-center justify-center py-8;
+}
+
+.infinite-scroll-loading-spinner {
+  @apply animate-spin h-8 w-8 text-purple-600;
+}
+
+.infinite-scroll-end-message {
+  @apply text-center py-8 text-gray-500 text-sm;
+}
+
+/* Pull to Refresh Styles */
+.pull-to-refresh-indicator {
+  @apply absolute top-0 left-0 right-0 z-10;
+  @apply flex items-center justify-center;
+  @apply bg-white shadow-sm border-b border-gray-200;
+  @apply h-16 opacity-0;
+  transform: translateY(-60px);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.pull-to-refresh-content {
+  @apply flex items-center space-x-3;
+}
+
+.pull-to-refresh-arrow svg {
+  transition: transform 0.2s ease-in-out;
+}
+
+.pull-to-refresh-spinner {
+  @apply flex items-center justify-center;
+}
+
+/* Virtual Scroll Optimizations */
+.virtual-scroll-container {
+  @apply relative;
+}
+
+.virtual-scroll-spacer {
+  @apply absolute top-0 left-0 w-full pointer-events-none;
+}
+
+.virtual-scroll-item {
+  @apply transition-opacity duration-200;
+}
+
+.virtual-scroll-item.virtual-scroll-hidden {
+  @apply opacity-0 pointer-events-none;
+}
+
+.infinite-scroll-item {
+  @apply transition-transform duration-200;
+  contain: layout style;
+}
+
+/* Loading States */
+.infinite-scroll-item-skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.infinite-scroll-item-skeleton .skeleton-line {
+  @apply bg-gray-300 rounded h-4 mb-2;
+}
+
+.infinite-scroll-item-skeleton .skeleton-line:last-child {
+  @apply mb-0 w-3/4;
+}
+
+/* Error States */
+.infinite-scroll-error {
+  @apply bg-red-50 border border-red-200 rounded-md p-4 m-4;
+}
+
+.infinite-scroll-error-icon {
+  @apply h-5 w-5 text-red-400 flex-shrink-0;
+}
+
+.infinite-scroll-error-content {
+  @apply ml-3;
+}
+
+.infinite-scroll-error-message {
+  @apply text-sm text-red-700;
+}
+
+.infinite-scroll-retry-button {
+  @apply mt-2 text-sm text-red-600 hover:text-red-500 underline;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 767px) {
+  .infinite-scroll-container {
+    @apply h-full;
+  }
+  
+  .pull-to-refresh-indicator {
+    @apply px-4;
+  }
+  
+  .infinite-scroll-loading {
+    @apply py-6;
+  }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .infinite-scroll-container {
+    @apply max-h-screen;
+  }
+}
+
+/* Smooth Scrolling */
+.infinite-scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Focus Management */
+.infinite-scroll-container:focus {
+  @apply outline-none ring-2 ring-purple-500 ring-offset-2;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .pull-to-refresh-indicator {
+    @apply border-2 border-gray-900;
+  }
+  
+  .infinite-scroll-loading-spinner {
+    @apply text-gray-900;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .infinite-scroll-loading-spinner {
+    @apply animate-none;
+  }
+  
+  .pull-to-refresh-arrow svg,
+  .virtual-scroll-item {
+    transition: none;
+  }
+}
+
+/* Touch Enhancements */
+.infinite-scroll-container {
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
+.pull-to-refresh-enabled {
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+/* Sticky header support */
+.infinite-scroll-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+}
+
+/* Performance Optimizations */
+.infinite-scroll-container {
+  contain: layout style paint;
+}
+
+.infinite-scroll-item {
+  contain: layout style;
+}
+
+/* Accessibility */
+.infinite-scroll-loading[aria-live="polite"] {
+  @apply sr-only;
+}
+
+.infinite-scroll-loading[aria-live="polite"].visible {
+  @apply not-sr-only;
+}
+
+/* Custom Scrollbar */
+.infinite-scroll-container::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.infinite-scroll-container::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+.infinite-scroll-container::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+.infinite-scroll-container::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}

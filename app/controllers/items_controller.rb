@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
 
   def index
     @categories = @team.items.pluck(:item_type).uniq
-    @items = @team.items
+    @items = @team.items.order(:name)
 
     if params[:query].present?
       query = "%#{params[:query]}%"
@@ -20,9 +20,49 @@ class ItemsController < ApplicationController
       @items = @items.where(item_type: params[:category])
     end
 
+    # Enhanced pagination for infinite scroll
+    page = params[:page]&.to_i || 1
+    per_page = params[:per_page]&.to_i || 20
+    
+    # Get total count before pagination for accurate has_more calculation
+    total_count = @items.count
+    @items = @items.limit(per_page).offset((page - 1) * per_page)
+    @has_more = total_count > page * per_page
+    @total_pages = (total_count.to_f / per_page).ceil
+
     respond_to do |format|
       format.html
-      format.turbo_stream
+      format.turbo_stream do
+        if request.xhr?
+          # Return partial for infinite scroll
+          render partial: 'items_list', locals: { 
+            items: @items, 
+            has_more: @has_more,
+            page: page,
+            per_page: per_page
+          }
+        else
+          render :index
+        end
+      end
+      format.json do
+        render json: {
+          items: @items.as_json(
+            only: [:id, :name, :sku, :barcode, :current_stock, :item_type, :brand, :price, :cost, :minimum_stock],
+            include: {
+              location: { only: [:id, :name] }
+            },
+            methods: [:stock_status, :value_category]
+          ),
+          has_more: @has_more,
+          page: page,
+          per_page: per_page,
+          total_count: total_count,
+          total_pages: @total_pages,
+          query: params[:query],
+          suggestions: generate_search_suggestions(@items, params[:query])
+        }
+      end
     end
   end
 
@@ -187,6 +227,34 @@ class ItemsController < ApplicationController
   end
 
   private
+
+  def generate_search_suggestions(items, query)
+    return [] unless query.present?
+    
+    suggestions = Set.new
+    query_lower = query.downcase
+    
+    # Add category suggestions
+    items.pluck(:item_type).compact.uniq.each do |type|
+      suggestions.add(type) if type.downcase.include?(query_lower)
+    end
+    
+    # Add brand suggestions  
+    items.pluck(:brand).compact.uniq.each do |brand|
+      suggestions.add(brand) if brand.downcase.include?(query_lower)
+    end
+    
+    # Add contextual suggestions
+    if query_lower.include?('low') || query_lower.include?('stock')
+      suggestions.add('low stock items')
+    end
+    
+    if query_lower.include?('out') || query_lower.include?('zero')
+      suggestions.add('out of stock items')
+    end
+    
+    suggestions.to_a.first(6)
+  end
 
   def set_team
     @team = current_user.teams.find(params[:team_id])

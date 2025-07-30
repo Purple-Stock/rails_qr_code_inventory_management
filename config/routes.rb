@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  
+  # Deep linking routes for PWA
+  get "deep-link/barcode/:barcode", to: "items#index", as: :deep_link_barcode
+  get "deep-link/item/:id", to: "items#show", as: :deep_link_item
+  get "deep-link/transaction/:type", to: "stock_transactions#new", as: :deep_link_transaction
 
   resources :teams do
     resources :items do

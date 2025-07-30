@@ -1,0 +1,196 @@
+<%# Touch-optimized input component %>
+<%# Usage: render 'shared/touch_input', form: f, field: :name, options: {} %>
+
+<%
+  # Default options
+  default_options = {
+    type: 'text',
+    size: 'default', # 'default', 'large'
+    input_type: 'text', # 'text', 'number', 'decimal', 'email', 'search', 'tel', 'url'
+    placeholder: '',
+    required: false,
+    disabled: false,
+    readonly: false,
+    autocomplete: 'off',
+    haptic_enabled: true,
+    show_feedback: true,
+    container_class: '',
+    input_class: '',
+    label_class: '',
+    help_text: '',
+    error_message: '',
+    success_message: ''
+  }
+  
+  # Merge provided options with defaults
+  opts = default_options.merge(options || {})
+  
+  # Determine input classes based on size and type
+  input_classes = ['touch-input']
+  input_classes << 'touch-input-lg' if opts[:size] == 'large'
+  input_classes << 'touch-input-number' if opts[:input_type] == 'number' || opts[:input_type] == 'decimal'
+  input_classes << 'touch-input-search' if opts[:input_type] == 'search'
+  input_classes << opts[:input_class] if opts[:input_class].present?
+  
+  # Container classes
+  container_classes = ['touch-form-group relative']
+  container_classes << opts[:container_class] if opts[:container_class].present?
+  
+  # Label classes
+  label_classes = ['form-label']
+  label_classes << opts[:label_class] if opts[:label_class].present?
+  
+  # Controller data attributes
+  controller_data = {
+    controller: 'touch-input',
+    'touch-input-haptic-enabled-value': opts[:haptic_enabled],
+    'touch-input-input-type-value': opts[:input_type]
+  }
+  
+  # Field name and value
+  field_name = field
+  field_value = form.object.send(field_name) if form.object.respond_to?(field_name)
+  has_errors = form.object.errors[field_name].any? if form.object.respond_to?(:errors)
+  
+  # Add error classes if field has errors
+  if has_errors
+    input_classes << 'touch-input-error'
+  end
+%>
+
+<div class="<%= container_classes.join(' ') %>" <%= controller_data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe %>>
+  <%# Label %>
+  <% if opts[:label] != false %>
+    <%= form.label field_name, opts[:label] || field_name.to_s.humanize, class: label_classes.join(' ') %>
+  <% end %>
+  
+  <%# Help text %>
+  <% if opts[:help_text].present? %>
+    <p class="text-sm text-gray-600 mb-2"><%= opts[:help_text] %></p>
+  <% end %>
+  
+  <%# Input field %>
+  <div class="relative">
+    <% case opts[:type] %>
+    <% when 'text' %>
+      <%= form.text_field field_name,
+            class: input_classes.join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            autocomplete: opts[:autocomplete],
+            data: { 'touch-input-target': 'input' } %>
+    
+    <% when 'email' %>
+      <%= form.email_field field_name,
+            class: input_classes.join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            autocomplete: opts[:autocomplete],
+            data: { 'touch-input-target': 'input' } %>
+    
+    <% when 'number' %>
+      <%= form.number_field field_name,
+            class: input_classes.join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            step: opts[:step] || (opts[:input_type] == 'decimal' ? '0.01' : '1'),
+            min: opts[:min],
+            max: opts[:max],
+            data: { 'touch-input-target': 'input' } %>
+    
+    <% when 'search' %>
+      <%= form.search_field field_name,
+            class: input_classes.join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            autocomplete: opts[:autocomplete],
+            data: { 'touch-input-target': 'input' } %>
+      
+      <%# Search icon %>
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    
+    <% when 'tel' %>
+      <%= form.telephone_field field_name,
+            class: input_classes.join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            autocomplete: opts[:autocomplete],
+            data: { 'touch-input-target': 'input' } %>
+    
+    <% when 'url' %>
+      <%= form.url_field field_name,
+            class: input_classes.join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            autocomplete: opts[:autocomplete],
+            data: { 'touch-input-target': 'input' } %>
+    
+    <% when 'textarea' %>
+      <%= form.text_area field_name,
+            class: (input_classes - ['touch-input'] + ['touch-textarea']).join(' '),
+            placeholder: opts[:placeholder],
+            required: opts[:required],
+            disabled: opts[:disabled],
+            readonly: opts[:readonly],
+            rows: opts[:rows] || 4,
+            data: { 'touch-input-target': 'input' } %>
+    
+    <% when 'select' %>
+      <%= form.collection_select field_name,
+            opts[:collection] || [],
+            opts[:value_method] || :id,
+            opts[:text_method] || :name,
+            { prompt: opts[:prompt] || "Select #{field_name.to_s.humanize}" },
+            { 
+              class: (input_classes - ['touch-input'] + ['touch-select']).join(' '),
+              required: opts[:required],
+              disabled: opts[:disabled],
+              data: { 'touch-input-target': 'input' }
+            } %>
+    <% end %>
+    
+    <%# Touch feedback overlay %>
+    <% if opts[:show_feedback] %>
+      <div class="touch-feedback" data-touch-input-target="feedback"></div>
+    <% end %>
+  </div>
+  
+  <%# Error messages %>
+  <% if has_errors %>
+    <div class="mt-2 text-sm text-red-600">
+      <% form.object.errors[field_name].each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    </div>
+  <% end %>
+  
+  <%# Success message %>
+  <% if opts[:success_message].present? %>
+    <div class="mt-2 text-sm text-green-600">
+      <p><%= opts[:success_message] %></p>
+    </div>
+  <% end %>
+  
+  <%# Custom error message %>
+  <% if opts[:error_message].present? %>
+    <div class="mt-2 text-sm text-red-600">
+      <p><%= opts[:error_message] %></p>
+    </div>
+  <% end %>
+</div>

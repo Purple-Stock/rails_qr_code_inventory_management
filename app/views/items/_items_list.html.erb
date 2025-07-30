@@ -1,0 +1,79 @@
+<% items.each_with_index do |item, index| %>
+  <tr data-infinite-scroll-item="true" data-item-index="<%= index %>" class="infinite-scroll-item">
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="h-10 w-10 flex items-center justify-center">
+        <%= qr_code_tag item.barcode, size: '40x40' %>
+      </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="flex items-center">
+        <div class="ml-4">
+          <div class="text-sm font-medium text-gray-900">
+            <%= link_to item.name, team_item_path(@team, item), 
+                class: "hover:text-purple-600", data: { turbo_frame: "_top" } %>
+          </div>
+          <div class="text-sm text-gray-500"><%= item.barcode %></div>
+        </div>
+      </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <%= item.sku %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+        <%= item.item_type %>
+      </span>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="flex items-center">
+        <% stock_class = item.current_stock == 0 ? 'text-red-600' : 'text-gray-900' %>
+        <span class="<%= stock_class %> text-sm font-medium"><%= item.current_stock %></span>
+        <% if item.low_stock? %>
+          <span class="ml-2 flex-shrink-0">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+              <%= t('items.index.low_stock') %>
+            </span>
+          </span>
+        <% end %>
+      </div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <%= number_to_currency(item.price, unit: "R$") %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+      <div class="flex justify-end space-x-3">
+        <%= link_to edit_team_item_path(@team, item), 
+            class: "text-purple-600 hover:text-purple-900 inline-flex items-center min-h-11 min-w-11",
+            data: { turbo_frame: "_top" } do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+        <% end %>
+        
+        <%= button_to duplicate_team_item_path(@team, item),
+            method: :post,
+            class: "text-blue-600 hover:text-blue-900 inline-flex items-center min-h-11 min-w-11",
+            data: { 
+              turbo_confirm: t('items.index.duplicate_confirm'),
+              turbo_frame: "_top"
+            } do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+        <% end %>
+        
+        <%= button_to team_item_path(@team, item), 
+            method: :delete,
+            class: "text-red-600 hover:text-red-900 inline-flex items-center min-h-11 min-w-11",
+            data: { 
+              turbo_confirm: t('items.index.delete_confirm'),
+              turbo_frame: "_top"
+            } do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+<% end %>

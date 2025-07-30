@@ -2,7 +2,8 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-between items-center mb-6">
       <div class="flex-1 min-w-0">
-        <div class="relative rounded-md shadow-sm">
+        <!-- Desktop Search -->
+        <div class="hidden lg:block relative rounded-md shadow-sm">
           <%= form_with(url: team_items_path(@team), 
               method: :get,
               html: { autocomplete: "off" }, 
@@ -26,6 +27,11 @@
               </svg>
             </div>
           <% end %>
+        </div>
+        
+        <!-- Mobile Search -->
+        <div class="lg:hidden">
+          <%= render 'shared/mobile_search', search_url: team_items_path(@team) %>
         </div>
       </div>
       
@@ -55,110 +61,58 @@
     <div class="bg-white shadow rounded-lg">
       <div class="p-6">
         <%= turbo_frame_tag "items_list" do %>
-          <div class="flex flex-col">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('items.index.qr_code') %></th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('items.index.item') %></th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('items.index.sku') %></th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('items.index.type') %></th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('items.index.current_stock') %></th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('items.index.price') %></th>
-                        <th scope="col" class="relative px-6 py-3">
-                          <span class="sr-only"><%= t('items.index.actions') %></span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                      <% @items.each do |item| %>
-                        <tr>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="h-10 w-10 flex items-center justify-center">
-                              <%= qr_code_tag item.barcode, size: '40x40' %>
-                            </div>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                              <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-900">
-                                  <%= link_to item.name, 
-                                      team_item_path(@team, item), 
-                                      class: "hover:text-purple-600",
-                                      data: { turbo_frame: "_top" } %>
-                                </div>
-                                <div class="text-sm text-gray-500"><%= item.barcode %></div>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <%= item.sku %>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                              <%= item.item_type %>
-                            </span>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                              <span class="<%= item.current_stock == 0 ? 'text-red-600' : 'text-gray-900' %> text-sm font-medium">
-                                <%= item.current_stock %>
-                              </span>
-                              <% if item.low_stock? %>
-                                <span class="ml-2 flex-shrink-0">
-                                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    <%= t('items.index.low_stock') %>
-                                  </span>
-                                </span>
-                              <% end %>
-                            </div>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <%= number_to_currency(item.price, unit: "R$") %>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end space-x-3">
-                              <%= link_to edit_team_item_path(@team, item), 
-                                  class: "text-purple-600 hover:text-purple-900 inline-flex items-center",
-                                  data: { turbo_frame: "_top" } do %>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                </svg>
-                              <% end %>
-                              
-                              <%= button_to duplicate_team_item_path(@team, item),
-                                  method: :post,
-                                  class: "text-blue-600 hover:text-blue-900 inline-flex items-center",
-                                  data: { 
-                                    turbo_confirm: t('items.index.duplicate_confirm'),
-                                    turbo_frame: "_top"
-                                  } do %>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                              <% end %>
-                              
-                              <%= button_to team_item_path(@team, item), 
-                                  method: :delete,
-                                  class: "text-red-600 hover:text-red-900 inline-flex items-center",
-                                  data: { 
-                                    turbo_confirm: t('items.index.delete_confirm'),
-                                    turbo_frame: "_top"
-                                  } do %>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                              <% end %>
-                            </div>
-                          </td>
-                        </tr>
-                      <% end %>
-                    </tbody>
-                  </table>
-                </div>
+          <div data-controller="infinite-scroll" 
+               data-infinite-scroll-url-value="<%= team_items_path(@team) %>"
+               data-infinite-scroll-has-more-value="<%= @has_more %>"
+               data-infinite-scroll-page-value="1"
+               data-infinite-scroll-virtual-scroll-enabled-value="true"
+               data-infinite-scroll-item-height-value="80"
+               data-infinite-scroll-buffer-size-value="5"
+               data-infinite-scroll-pull-to-refresh-enabled-value="true"
+               class="infinite-scroll-container max-h-96 lg:max-h-screen">
+            
+            <%= responsive_table do %>
+              <%= responsive_table_wrapper(
+                content_tag(:div, class: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg") do
+                  content_tag(:table, class: "min-w-full divide-y divide-gray-200") do
+                    content_tag(:thead, class: "bg-gray-50 sticky top-0 z-10") do
+                      content_tag(:tr) do
+                        concat content_tag(:th, t('items.index.qr_code'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                        concat content_tag(:th, t('items.index.item'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                        concat content_tag(:th, t('items.index.sku'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                        concat content_tag(:th, t('items.index.type'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                        concat content_tag(:th, t('items.index.current_stock'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                        concat content_tag(:th, t('items.index.price'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                        concat content_tag(:th, content_tag(:span, t('items.index.actions'), class: "sr-only"), scope: "col", class: "relative px-6 py-3")
+                      end
+                    end +
+                    content_tag(:tbody, class: "bg-white divide-y divide-gray-200", data: { infinite_scroll_target: "container" }) do
+                      render partial: 'items_list', locals: { items: @items }
+                    end
+                  end
+                end
+              ) %>
+            <% end %>
+            
+            <!-- Virtual scroll container for height calculation -->
+            <div data-infinite-scroll-target="virtualContainer" class="virtual-scroll-spacer"></div>
+            
+            <!-- Loading indicator -->
+            <div data-infinite-scroll-target="loadingIndicator" class="infinite-scroll-loading hidden" aria-live="polite">
+              <svg class="infinite-scroll-loading-spinner" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="ml-2 text-sm text-gray-500">Loading more items...</span>
+            </div>
+            
+            <!-- End message -->
+            <div data-infinite-scroll-target="endMessage" class="infinite-scroll-end-message hidden" role="status" aria-live="polite">
+              <div class="text-center py-8">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <p class="mt-2 text-sm text-gray-500">All items loaded</p>
               </div>
             </div>
           </div>

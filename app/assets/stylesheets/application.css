@@ -8,3 +8,12 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+@import "components/responsive_table.css";
+@import "components/infinite_scroll.css";
+@import "components/mobile_search.css";
+@import "components/offline_indicator.css";
+@import "components/accessibility.css";
+@import "components/dark_theme.css";
+@import "components/pwa_install.css";
+@import "components/page_transitions.css";
