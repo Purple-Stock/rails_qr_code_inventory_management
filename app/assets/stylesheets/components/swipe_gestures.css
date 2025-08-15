@@ -1,0 +1,253 @@
+/* Swipe Gesture Styles */
+
+.swipe-active {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.swipe-item {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-out;
+}
+
+.swipe-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1));
+  padding: 0 1rem;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.swipe-actions.swipe-action-visible {
+  transform: translateX(0);
+}
+
+.swipe-delete-action {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent);
+  padding: 0 1rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+}
+
+.swipe-delete-action.swipe-action-visible {
+  transform: translateX(0);
+}
+
+.swipe-action-button {
+  @apply inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200;
+  @apply bg-white shadow-md border border-gray-200;
+  @apply hover:bg-gray-50 active:bg-gray-100;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+}
+
+.swipe-action-button.danger {
+  @apply bg-red-50 border-red-200 text-red-600;
+  @apply hover:bg-red-100 active:bg-red-200;
+  @apply focus:ring-red-500;
+}
+
+.swipe-action-button.primary {
+  @apply bg-blue-50 border-blue-200 text-blue-600;
+  @apply hover:bg-blue-100 active:bg-blue-200;
+  @apply focus:ring-blue-500;
+}
+
+/* Context Menu Styles */
+.swipe-context-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+.swipe-context-menu.swipe-context-menu-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.swipe-context-menu-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.swipe-context-menu-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 1rem 1rem 0 0;
+  padding: 1.5rem;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.swipe-context-menu.swipe-context-menu-visible .swipe-context-menu-content {
+  transform: translateY(0);
+}
+
+.swipe-context-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.swipe-context-menu-header h3 {
+  @apply text-lg font-semibold text-gray-900;
+  margin: 0;
+}
+
+.swipe-context-menu-close {
+  @apply w-8 h-8 rounded-full bg-gray-100 text-gray-500;
+  @apply hover:bg-gray-200 hover:text-gray-700;
+  @apply focus:outline-none focus:ring-2 focus:ring-gray-500;
+  @apply flex items-center justify-center;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.swipe-context-menu-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.swipe-context-menu-action {
+  @apply flex items-center space-x-3 p-3 rounded-lg;
+  @apply bg-gray-50 hover:bg-gray-100 active:bg-gray-200;
+  @apply text-gray-700 hover:text-gray-900;
+  @apply transition-colors duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  min-height: 3rem;
+}
+
+.swipe-context-menu-action.swipe-context-menu-action-danger {
+  @apply bg-red-50 hover:bg-red-100 active:bg-red-200;
+  @apply text-red-700 hover:text-red-900;
+  @apply focus:ring-red-500;
+}
+
+.swipe-context-menu-action svg {
+  flex-shrink: 0;
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  .swipe-item {
+    touch-action: pan-y;
+  }
+  
+  .swipe-actions,
+  .swipe-delete-action {
+    padding: 0 0.75rem;
+  }
+  
+  .swipe-action-button {
+    @apply w-12 h-12;
+  }
+  
+  .swipe-context-menu-content {
+    padding: 1rem;
+  }
+  
+  .swipe-context-menu-action {
+    min-height: 3.5rem;
+    padding: 1rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .swipe-item,
+  .swipe-actions,
+  .swipe-delete-action,
+  .swipe-context-menu,
+  .swipe-context-menu-content {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .swipe-action-button {
+    border-width: 2px;
+  }
+  
+  .swipe-context-menu-content {
+    border: 2px solid #000;
+  }
+  
+  .swipe-context-menu-action {
+    border: 1px solid #666;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .swipe-actions {
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2));
+  }
+  
+  .swipe-delete-action {
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), transparent);
+  }
+  
+  .swipe-action-button {
+    @apply bg-gray-800 border-gray-600 text-gray-200;
+    @apply hover:bg-gray-700 active:bg-gray-600;
+  }
+  
+  .swipe-context-menu-content {
+    @apply bg-gray-800 text-gray-200;
+  }
+  
+  .swipe-context-menu-header {
+    border-bottom-color: #374151;
+  }
+  
+  .swipe-context-menu-close {
+    @apply bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-gray-100;
+  }
+  
+  .swipe-context-menu-action {
+    @apply bg-gray-700 hover:bg-gray-600 active:bg-gray-500;
+    @apply text-gray-200 hover:text-gray-100;
+  }
+  
+  .swipe-context-menu-action.swipe-context-menu-action-danger {
+    @apply bg-red-900 hover:bg-red-800 active:bg-red-700;
+    @apply text-red-200 hover:text-red-100;
+  }
+}

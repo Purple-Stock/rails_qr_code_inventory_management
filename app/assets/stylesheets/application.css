@@ -17,3 +17,6 @@
 @import "components/dark_theme.css";
 @import "components/pwa_install.css";
 @import "components/page_transitions.css";
+@import "components/swipe_gestures.css";
+@import "components/haptic_feedback.css";
+@import "components/mobile_keyboard_shortcuts.css";

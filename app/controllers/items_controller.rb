@@ -226,6 +226,21 @@ class ItemsController < ApplicationController
     end
   end
 
+  def reorder
+    item_ids = params[:item_ids]
+    
+    if item_ids.present?
+      item_ids.each_with_index do |id, index|
+        item = @team.items.find(id)
+        item.update_column(:sort_order, index + 1) if item
+      end
+      
+      render json: { success: true, message: 'Items reordered successfully' }
+    else
+      render json: { success: false, message: 'No item IDs provided' }, status: :bad_request
+    end
+  end
+
   private
 
   def generate_search_suggestions(items, query)

@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         get :import
         post :import
         get :export
+        post :reorder
       end
 
       member do
