@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/drwl/annotaterb
-  revision: 663fa08aadcc2ca54327d8838603d788cd86f40d
+  revision: dae7895a135855e2510fd618181f04b8a5b4eb0c
   specs:
-    annotaterb (4.16.0)
+    annotaterb (4.19.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
 
