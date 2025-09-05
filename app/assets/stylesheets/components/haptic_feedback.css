@@ -1,0 +1,300 @@
+/* Haptic Feedback and Touch Enhancement Styles */
+
+/* Ripple Effect Styles */
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(0);
+  animation: ripple-animation 0.6s linear;
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Dark mode ripple effect */
+@media (prefers-color-scheme: dark) {
+  .ripple-effect {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Pressed State Styles */
+.pressed {
+  transform: scale(0.95);
+  transition: transform 0.1s ease-out;
+}
+
+/* Button Enhancement Styles */
+button, [role="button"], .haptic-enabled {
+  transition: all 0.2s ease-out;
+  position: relative;
+}
+
+button:active, [role="button"]:active, .haptic-enabled:active {
+  transform: scale(0.95);
+}
+
+/* Touch-friendly button styles */
+@media (max-width: 768px) {
+  button, [role="button"], .haptic-enabled {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem;
+  }
+}
+
+/* Drag and Drop Styles */
+.draggable {
+  cursor: grab;
+  transition: all 0.2s ease-out;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.dragging {
+  opacity: 0.8;
+  transform: rotate(5deg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: none;
+}
+
+.drop-zone {
+  transition: all 0.3s ease-out;
+  border: 2px dashed transparent;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  position: relative;
+}
+
+.drop-zone.drag-over {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: scale(1.02);
+}
+
+.drop-zone.drag-over::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.1) 50%, transparent 70%);
+  animation: shimmer 2s infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Sortable List Styles */
+.sortable-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sortable-item {
+  @apply bg-white border border-gray-200 rounded-lg p-4 mb-2;
+  @apply transition-all duration-200 ease-out;
+  @apply cursor-grab active:cursor-grabbing;
+  position: relative;
+  touch-action: manipulation;
+}
+
+.sortable-item:hover {
+  @apply shadow-md border-gray-300;
+  transform: translateY(-1px);
+}
+
+.sortable-item.dragging {
+  @apply shadow-xl border-blue-300;
+  transform: rotate(2deg) scale(1.05);
+  z-index: 1000;
+}
+
+.sortable-item.drag-placeholder {
+  @apply bg-gray-100 border-dashed border-gray-300;
+  opacity: 0.5;
+  height: 60px;
+}
+
+/* Drag Handle Styles */
+.drag-handle {
+  @apply text-gray-400 hover:text-gray-600;
+  @apply cursor-grab active:cursor-grabbing;
+  @apply p-2 rounded;
+  @apply transition-colors duration-200;
+  touch-action: none;
+}
+
+.drag-handle:hover {
+  @apply bg-gray-100;
+}
+
+.drag-handle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Touch Feedback Enhancements */
+.touch-feedback {
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-feedback::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease-out, height 0.3s ease-out;
+  pointer-events: none;
+}
+
+.touch-feedback:active::before {
+  width: 200%;
+  height: 200%;
+}
+
+/* Haptic Button Variants */
+.haptic-button-primary {
+  @apply bg-blue-600 hover:bg-blue-700 active:bg-blue-800;
+  @apply text-white font-medium py-2 px-4 rounded-lg;
+  @apply transition-all duration-200 ease-out;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+.haptic-button-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 active:bg-gray-400;
+  @apply text-gray-800 font-medium py-2 px-4 rounded-lg;
+  @apply transition-all duration-200 ease-out;
+  @apply focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+}
+
+.haptic-button-danger {
+  @apply bg-red-600 hover:bg-red-700 active:bg-red-800;
+  @apply text-white font-medium py-2 px-4 rounded-lg;
+  @apply transition-all duration-200 ease-out;
+  @apply focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+}
+
+/* Mobile-specific enhancements */
+@media (max-width: 768px) {
+  .sortable-item {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .drag-handle {
+    padding: 0.75rem;
+  }
+  
+  .drop-zone {
+    padding: 1.5rem;
+    min-height: 80px;
+  }
+  
+  .ripple-effect {
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .ripple-effect,
+  .dragging,
+  .sortable-item,
+  .drop-zone,
+  .pressed,
+  .touch-feedback::before {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .drop-zone.drag-over {
+    border-color: #000;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .sortable-item.dragging {
+    border-color: #000;
+    border-width: 3px;
+  }
+  
+  .ripple-effect {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .sortable-item {
+    @apply bg-gray-800 border-gray-600;
+  }
+  
+  .sortable-item:hover {
+    @apply border-gray-500;
+  }
+  
+  .sortable-item.dragging {
+    @apply border-blue-400;
+  }
+  
+  .sortable-item.drag-placeholder {
+    @apply bg-gray-700 border-gray-500;
+  }
+  
+  .drag-handle {
+    @apply text-gray-400 hover:text-gray-200;
+  }
+  
+  .drag-handle:hover {
+    @apply bg-gray-700;
+  }
+  
+  .drop-zone.drag-over {
+    border-color: #60a5fa;
+    background-color: rgba(96, 165, 250, 0.1);
+  }
+  
+  .touch-feedback::before {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .haptic-button-secondary {
+    @apply bg-gray-700 hover:bg-gray-600 active:bg-gray-500;
+    @apply text-gray-200;
+  }
+}

@@ -1,0 +1,190 @@
+/* Offline Indicator Component Styles */
+
+/* Ensure proper z-index layering */
+.offline-indicator {
+  z-index: 9999;
+}
+
+/* Smooth transitions for status changes */
+.offline-indicator .status-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Pulse animation for sync indicator */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.offline-indicator .sync-pulse {
+  animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Toast notification styles */
+.offline-toast {
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .offline-indicator .sync-panel {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .offline-indicator .sync-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .offline-indicator .sync-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .offline-indicator .sync-panel {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1024px) {
+  .offline-indicator .sync-panel {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .offline-indicator .status-bar {
+    border: 2px solid currentColor;
+  }
+  
+  .offline-indicator .sync-indicator {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .offline-indicator * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .offline-indicator .sync-panel {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .offline-indicator .queue-item {
+    background-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .offline-indicator .sync-button {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .offline-indicator .sync-button:hover {
+    background-color: #4b5563;
+  }
+}
+
+/* Focus styles for accessibility */
+.offline-indicator button:focus {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+/* Loading state styles */
+.offline-indicator .loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.offline-indicator .loading .sync-button {
+  cursor: not-allowed;
+}
+
+/* Queue item hover effects */
+.offline-indicator .queue-item:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .offline-indicator .queue-item:hover {
+    background-color: #4b5563;
+  }
+}
+
+/* Status indicator colors */
+.offline-indicator .status-pending {
+  background-color: #fbbf24;
+}
+
+.offline-indicator .status-retrying {
+  background-color: #f97316;
+}
+
+.offline-indicator .status-synced {
+  background-color: #10b981;
+}
+
+.offline-indicator .status-failed {
+  background-color: #ef4444;
+}
+
+/* Responsive text sizing */
+.offline-indicator .text-responsive-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.offline-indicator .text-responsive-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .offline-indicator .text-responsive-xs {
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+  }
+  
+  .offline-indicator .text-responsive-sm {
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .offline-indicator .text-responsive-xs {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .offline-indicator .text-responsive-sm {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}

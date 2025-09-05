@@ -224,12 +224,44 @@
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-current-stock></td>
           <td class="px-6 py-4 whitespace-nowrap">
-            <input type="number" 
-                   name="items[][quantity]"
-                   min="1"
-                   class="w-24 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
-                   data-quantity
-                   data-action="input->stock-transaction#updateTotal">
+            <div class="mobile:hidden tablet:block desktop:block">
+              <!-- Desktop/tablet: standard input -->
+              <input type="number" 
+                     name="items[][quantity]"
+                     min="1"
+                     class="w-24 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                     data-quantity
+                     data-action="input->stock-transaction#updateTotal">
+            </div>
+            <div class="mobile:block tablet:hidden desktop:hidden">
+              <!-- Mobile: touch-optimized number input -->
+              <div data-controller="mobile-number-input"
+                   data-mobile-number-input-min-value="1"
+                   data-mobile-number-input-max-value="999999"
+                   data-mobile-number-input-step-value="1"
+                   data-mobile-number-input-decimals-value="0"
+                   data-mobile-number-input-quick-increments-value="[1,5,10]"
+                   data-mobile-number-input-gestures-enabled-value="true"
+                   data-mobile-number-input-haptic-enabled-value="true"
+                   data-mobile-number-input-show-number-pad-value="true">
+                <input type="number" 
+                       name="items[][quantity]"
+                       min="1"
+                       class="sr-only"
+                       data-quantity
+                       data-mobile-number-input-target="input"
+                       data-action="input->stock-transaction#updateTotal">
+                <div class="gesture-area w-20 h-16" 
+                     data-mobile-number-input-target="gestureArea"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Tap to enter quantity">
+                  <div class="text-lg font-mono font-bold text-gray-900" 
+                       data-mobile-number-input-target="display">1</div>
+                </div>
+                <div data-mobile-number-input-target="quickActions" class="mt-1"></div>
+              </div>
+            </div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <button type="button" 
@@ -242,6 +274,14 @@
       </template>
     </div>
   </div>
+</div>
+
+<!-- Mobile number pad overlay for quantity inputs -->
+<div class="number-pad-overlay hidden" 
+     data-mobile-number-input-target="numberPad"
+     role="dialog"
+     aria-label="Number pad for quantity input">
+  <!-- Number pad content will be populated by the mobile-number-input controller -->
 </div>
 
 <script>

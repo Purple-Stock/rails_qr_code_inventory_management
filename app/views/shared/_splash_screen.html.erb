@@ -1,0 +1,122 @@
+<!-- Custom Splash Screen for PWA -->
+<div id="pwa-splash-screen" 
+     class="fixed inset-0 z-[9999] bg-gradient-to-br from-purple-600 to-purple-800 flex items-center justify-center"
+     style="display: none;">
+  
+  <!-- Splash Content -->
+  <div class="text-center text-white">
+    <!-- App Icon -->
+    <div class="mb-8">
+      <div class="w-24 h-24 mx-auto bg-white rounded-2xl shadow-2xl flex items-center justify-center">
+        <svg class="w-16 h-16 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- App Name -->
+    <h1 class="text-3xl font-bold mb-2">Purple Stock</h1>
+    <p class="text-purple-200 text-lg mb-8">Inventory Management</p>
+    
+    <!-- Loading Animation -->
+    <div class="flex justify-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+    </div>
+    
+    <!-- Loading Text -->
+    <p class="text-purple-200 text-sm mt-4">Loading your inventory...</p>
+  </div>
+  
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="splash-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="20" height="20" fill="none"/>
+          <circle cx="10" cy="10" r="1" fill="currentColor"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#splash-pattern)"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  // Splash Screen Controller
+  (function() {
+    'use strict';
+    
+    // Show splash screen for PWA launches
+    function showSplashScreen() {
+      const splashScreen = document.getElementById('pwa-splash-screen');
+      if (!splashScreen) return;
+      
+      // Check if launched as PWA
+      const isPWA = window.matchMedia('(display-mode: standalone)').matches ||
+                    window.navigator.standalone === true;
+      
+      // Check if this is a fresh launch (not a navigation)
+      const isFreshLaunch = !document.referrer || 
+                           document.referrer.indexOf(window.location.origin) !== 0;
+      
+      if (isPWA && isFreshLaunch) {
+        console.log('PWA Splash: Showing splash screen');
+        splashScreen.style.display = 'flex';
+        
+        // Hide splash screen after content loads
+        const hideTimeout = setTimeout(() => {
+          hideSplashScreen();
+        }, 3000); // Maximum 3 seconds
+        
+        // Hide when page is fully loaded
+        if (document.readyState === 'complete') {
+          setTimeout(() => {
+            hideSplashScreen();
+            clearTimeout(hideTimeout);
+          }, 1500); // Minimum 1.5 seconds for branding
+        } else {
+          window.addEventListener('load', () => {
+            setTimeout(() => {
+              hideSplashScreen();
+              clearTimeout(hideTimeout);
+            }, 1500);
+          });
+        }
+      }
+    }
+    
+    function hideSplashScreen() {
+      const splashScreen = document.getElementById('pwa-splash-screen');
+      if (!splashScreen) return;
+      
+      console.log('PWA Splash: Hiding splash screen');
+      
+      // Fade out animation
+      splashScreen.style.transition = 'opacity 0.5s ease-out';
+      splashScreen.style.opacity = '0';
+      
+      setTimeout(() => {
+        splashScreen.style.display = 'none';
+      }, 500);
+    }
+    
+    // Initialize splash screen
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', showSplashScreen);
+    } else {
+      showSplashScreen();
+    }
+    
+    // Handle page visibility changes (for PWA app switching)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        const splashScreen = document.getElementById('pwa-splash-screen');
+        if (splashScreen && splashScreen.style.display !== 'none') {
+          // If splash is still showing and page becomes visible, hide it
+          setTimeout(hideSplashScreen, 500);
+        }
+      }
+    });
+    
+  })();
+</script>

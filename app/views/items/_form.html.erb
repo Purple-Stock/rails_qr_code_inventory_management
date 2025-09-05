@@ -10,41 +10,72 @@
     </div>
   <% end %>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div>
-      <%= f.label :name, t('items.form.fields.name'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+  <div class="touch-form-row">
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :name, 
+        options: { 
+          label: t('items.form.fields.name'),
+          required: true,
+          placeholder: t('items.form.placeholders.name', default: 'Enter item name')
+        } %>
 
-    <div>
-      <%= f.label :sku, t('items.form.fields.sku'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :sku, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :sku, 
+        options: { 
+          label: t('items.form.fields.sku'),
+          placeholder: t('items.form.placeholders.sku', default: 'Enter SKU')
+        } %>
 
-    <div>
-      <%= f.label :barcode, t('items.form.fields.barcode'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :barcode, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :barcode, 
+        options: { 
+          label: t('items.form.fields.barcode'),
+          input_type: 'number',
+          placeholder: t('items.form.placeholders.barcode', default: 'Scan or enter barcode')
+        } %>
 
-    <div>
-      <%= f.label :item_type, t('items.form.fields.item_type'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :item_type, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :item_type, 
+        options: { 
+          label: t('items.form.fields.item_type'),
+          placeholder: t('items.form.placeholders.item_type', default: 'Enter item type')
+        } %>
 
-    <div>
-      <%= f.label :brand, t('items.form.fields.brand'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :brand, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :brand, 
+        options: { 
+          label: t('items.form.fields.brand'),
+          placeholder: t('items.form.placeholders.brand', default: 'Enter brand name')
+        } %>
 
-    <div>
-      <%= f.label :cost, t('items.form.fields.cost'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.number_field :cost, step: '0.01', class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :cost, 
+        options: { 
+          type: 'number',
+          input_type: 'decimal',
+          label: t('items.form.fields.cost'),
+          step: '0.01',
+          min: '0',
+          placeholder: t('items.form.placeholders.cost', default: '0.00')
+        } %>
 
-    <div>
-      <%= f.label :price, t('items.form.fields.price'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.number_field :price, step: '0.01', class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-    </div>
+    <%= render 'shared/touch_input', 
+        form: f, 
+        field: :price, 
+        options: { 
+          type: 'number',
+          input_type: 'decimal',
+          label: t('items.form.fields.price'),
+          step: '0.01',
+          min: '0',
+          placeholder: t('items.form.placeholders.price', default: '0.00')
+        } %>
   </div>
 
   <div class="mt-8">
@@ -52,29 +83,33 @@
     
     <div class="bg-gray-50 p-4 rounded-lg">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <%= f.label :location_id, t('items.form.fields.location'), class: "block text-sm font-medium text-gray-700" %>
-          <% if @locations.present? %>
-            <p class="text-xs text-gray-500 mb-1"><%= t('items.form.location.available', count: @locations.count) %></p>
-          <% else %>
-            <p class="text-xs text-red-500 mb-1"><%= t('items.form.location.none') %></p>
-          <% end %>
-          <%= f.collection_select :location_id, 
-                                @locations || [], 
-                                :id, 
-                                :name, 
-                                { prompt: t('items.form.location.select') },
-                                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-        </div>
+        <%= render 'shared/touch_input', 
+            form: f, 
+            field: :location_id, 
+            options: { 
+              type: 'select',
+              label: t('items.form.fields.location'),
+              collection: @locations || [],
+              value_method: :id,
+              text_method: :name,
+              prompt: t('items.form.location.select'),
+              help_text: @locations.present? ? 
+                t('items.form.location.available', count: @locations.count) : 
+                t('items.form.location.none'),
+              required: true
+            } %>
 
-        <div>
-          <%= f.label :initial_quantity, t('items.form.fields.initial_quantity'), class: "block text-sm font-medium text-gray-700" %>
-          <%= f.number_field :initial_quantity, 
-                            value: 0,
-                            min: 0,
-                            step: '0.01', 
-                            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-        </div>
+        <%= render 'shared/touch_input', 
+            form: f, 
+            field: :initial_quantity, 
+            options: { 
+              type: 'number',
+              input_type: 'decimal',
+              label: t('items.form.fields.initial_quantity'),
+              step: '0.01',
+              min: '0',
+              placeholder: '0.00'
+            } %>
       </div>
     </div>
   </div>

@@ -16,48 +16,55 @@
       </div>
     </div>
 
-    <div class="bg-white shadow overflow-x-auto rounded-lg">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead>
-          <tr>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sticky left-0 bg-white">
-              <%= t('stock_transactions.stock_by_location.table.item') %>
-            </th>
-            <% @locations.each do |location| %>
-              <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                <%= location.name %>
-              </th>
-            <% end %>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <%= t('stock_transactions.stock_by_location.table.total') %>
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <% @items.each do |item| %>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 sticky left-0 bg-white">
-                <div>
-                  <%= item.name %>
-                  <div class="text-xs text-gray-500"><%= item.sku %></div>
-                </div>
-              </td>
-              <% @locations.each do |location| %>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <% stock = @stock_levels[item.id][location.id] %>
-                  <span class="<%= stock.to_f == 0 ? 'text-red-500' : '' %>">
-                    <%= number_with_precision(stock, precision: 2, strip_insignificant_zeros: true) %>
-                  </span>
-                </td>
-              <% end %>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                <% total = @stock_levels[item.id].values.sum { |v| v.to_f } %>
-                <%= number_with_precision(total, precision: 2, strip_insignificant_zeros: true) %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+    <%= responsive_table(preserve_table: true, class: "bg-white shadow rounded-lg") do %>
+      <%= responsive_table_wrapper(
+        content_tag(:table, class: "min-w-full divide-y divide-gray-200") do
+          content_tag(:thead) do
+            content_tag(:tr) do
+              item_header = content_tag(:th, t('stock_transactions.stock_by_location.table.item'), 
+                scope: "col", 
+                class: "px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sticky-column")
+              
+              location_headers = @locations.map do |location|
+                content_tag(:th, location.name, 
+                  scope: "col", 
+                  class: "px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+              end.join.html_safe
+              
+              total_header = content_tag(:th, t('stock_transactions.stock_by_location.table.total'), 
+                scope: "col", 
+                class: "px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+              
+              item_header + location_headers + total_header
+            end
+          end +
+          content_tag(:tbody, class: "bg-white divide-y divide-gray-200") do
+            @items.map do |item|
+              content_tag(:tr) do
+                item_cell = content_tag(:td, class: "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 sticky-column") do
+                  content_tag(:div) do
+                    item.name + content_tag(:div, item.sku, class: "text-xs text-gray-500")
+                  end
+                end
+                
+                location_cells = @locations.map do |location|
+                  stock = @stock_levels[item.id][location.id]
+                  stock_class = stock.to_f == 0 ? 'text-red-500' : ''
+                  content_tag(:td, class: "px-6 py-4 whitespace-nowrap text-sm text-gray-500") do
+                    content_tag(:span, number_with_precision(stock, precision: 2, strip_insignificant_zeros: true), class: stock_class)
+                  end
+                end.join.html_safe
+                
+                total = @stock_levels[item.id].values.sum { |v| v.to_f }
+                total_cell = content_tag(:td, number_with_precision(total, precision: 2, strip_insignificant_zeros: true), 
+                  class: "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900")
+                
+                item_cell + location_cells + total_cell
+              end
+            end.join.html_safe
+          end
+        end
+      ) %>
+    <% end %>
   </div>
 </div> 

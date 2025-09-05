@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Search Test</title>
+    <script src="https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"></script>
+    <style>
+        /* Basic test styles */
+        .mobile-search-overlay { position: fixed; inset: 0; background: white; z-index: 50; }
+        .mobile-search-overlay.hidden { display: none; }
+        .mobile-search-input { width: 100%; padding: 12px; border: 1px solid #ccc; }
+        .mobile-search-suggestion { display: inline-block; padding: 8px 12px; margin: 4px; background: #f0f0f0; border-radius: 20px; cursor: pointer; }
+        .mobile-search-result-item { padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Mobile Search Test</h1>
+    
+    <!-- Test the mobile search component -->
+    <div data-controller="mobile-search" 
+         data-mobile-search-url-value="/test-search"
+         data-mobile-search-debounce-delay-value="300"
+         data-mobile-search-min-query-length-value="2">
+      
+      <button data-action="click->mobile-search#openSearch">Open Search</button>
+      
+      <div data-mobile-search-target="overlay" class="mobile-search-overlay hidden">
+        <div>
+          <input data-mobile-search-target="input"
+                 class="mobile-search-input"
+                 type="search"
+                 placeholder="Search items..."
+                 data-action="input->mobile-search#search keydown.escape->mobile-search#closeSearch">
+          
+          <button data-action="click->mobile-search#closeSearch">Close</button>
+        </div>
+        
+        <div data-mobile-search-target="results" class="hidden"></div>
+        <div data-mobile-search-target="suggestions" class="hidden"></div>
+        <div data-mobile-search-target="recentSearches" class="hidden"></div>
+      </div>
+    </div>
+
+    <script>
+        // Test that the controller methods exist and work
+        console.log('Mobile Search Test Page Loaded');
+        
+        // Mock fetch for testing
+        window.fetch = function(url) {
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({
+                    items: [
+                        { id: 1, name: 'Test Item 1', sku: 'TEST-001', current_stock: 10 },
+                        { id: 2, name: 'Test Item 2', sku: 'TEST-002', current_stock: 5 }
+                    ]
+                })
+            });
+        };
+    </script>
+</body>
+</html>

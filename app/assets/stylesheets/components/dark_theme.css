@@ -1,0 +1,436 @@
+/* Dark Theme Styles */
+
+/* CSS Custom Properties for Theme Colors */
+:root {
+  --color-primary: #7c3aed;
+  --color-primary-dark: #6b21a8;
+  --color-primary-light: #a78bfa;
+  --color-background: #ffffff;
+  --color-surface: #f9fafb;
+  --color-surface-elevated: #ffffff;
+  --color-text: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow-lg: rgba(0, 0, 0, 0.15);
+}
+
+/* Dark theme color overrides */
+.dark,
+:root.dark {
+  --color-primary: #a78bfa;
+  --color-primary-dark: #8b5cf6;
+  --color-primary-light: #c4b5fd;
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-surface-elevated: #374151;
+  --color-text: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+  --color-border: #374151;
+  --color-border-light: #4b5563;
+  --color-shadow: rgba(0, 0, 0, 0.5);
+  --color-shadow-lg: rgba(0, 0, 0, 0.7);
+}
+
+/* Base dark theme styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Typography in dark theme */
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: var(--color-text);
+}
+
+.dark p,
+.dark span,
+.dark div {
+  color: var(--color-text);
+}
+
+.dark .text-gray-500 {
+  color: var(--color-text-muted);
+}
+
+.dark .text-gray-600 {
+  color: var(--color-text-secondary);
+}
+
+.dark .text-gray-700 {
+  color: var(--color-text-secondary);
+}
+
+.dark .text-gray-900 {
+  color: var(--color-text);
+}
+
+/* Background colors in dark theme */
+.dark .bg-white {
+  background-color: var(--color-surface);
+}
+
+.dark .bg-gray-50 {
+  background-color: var(--color-background);
+}
+
+.dark .bg-gray-100 {
+  background-color: var(--color-surface);
+}
+
+.dark .bg-gray-200 {
+  background-color: var(--color-surface-elevated);
+}
+
+/* Border colors in dark theme */
+.dark .border-gray-200 {
+  border-color: var(--color-border);
+}
+
+.dark .border-gray-300 {
+  border-color: var(--color-border-light);
+}
+
+/* Button styles in dark theme */
+.dark .btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+.dark .btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.dark .btn-secondary {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.dark .btn-secondary:hover {
+  background-color: var(--color-border-light);
+}
+
+/* Form elements in dark theme */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Navigation styles in dark theme */
+.dark .sidebar {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.dark .nav-link {
+  color: var(--color-text-secondary);
+}
+
+.dark .nav-link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-elevated);
+}
+
+.dark .nav-link.active {
+  color: var(--color-primary);
+  background-color: rgba(167, 139, 250, 0.1);
+}
+
+/* Mobile navigation in dark theme */
+.dark .mobile-navigation {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.dark .mobile-navigation .backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Bottom tab bar in dark theme */
+.dark .bottom-tab-bar {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.dark .tab-item {
+  color: var(--color-text-muted);
+}
+
+.dark .tab-item.active {
+  color: var(--color-primary);
+}
+
+/* Card styles in dark theme */
+.dark .card {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: 0 4px 6px var(--color-shadow);
+}
+
+.dark .card-header {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+}
+
+/* Table styles in dark theme */
+.dark table {
+  background-color: var(--color-surface);
+}
+
+.dark th {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.dark td {
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.dark tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.dark tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Modal styles in dark theme */
+.dark .modal {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.dark .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dark .modal-header {
+  border-color: var(--color-border);
+}
+
+.dark .modal-footer {
+  border-color: var(--color-border);
+}
+
+/* Alert styles in dark theme */
+.dark .alert-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.dark .alert-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.dark .alert-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.dark .alert-info {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+/* Loading states in dark theme */
+.dark .loading-skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+.dark .spinner {
+  border-color: var(--color-border);
+  border-top-color: var(--color-primary);
+}
+
+/* Scrollbar styles in dark theme */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: var(--color-surface);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-light);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-muted);
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.theme-toggle.theme-dark {
+  color: var(--color-primary);
+}
+
+/* Theme transition animations */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Smooth theme transitions for all elements */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Disable transitions during theme initialization */
+.theme-initializing * {
+  transition: none !important;
+}
+
+/* High contrast mode support in dark theme */
+@media (prefers-contrast: high) {
+  .dark {
+    --color-background: #000000;
+    --color-surface: #1a1a1a;
+    --color-text: #ffffff;
+    --color-border: #666666;
+  }
+  
+  .dark .high-contrast-border {
+    border: 2px solid #ffffff !important;
+  }
+  
+  .dark .high-contrast-text {
+    color: #ffffff !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dark * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Print styles for dark theme */
+@media print {
+  .dark {
+    --color-background: #ffffff;
+    --color-surface: #ffffff;
+    --color-text: #000000;
+    --color-text-secondary: #333333;
+    --color-border: #cccccc;
+  }
+  
+  .dark body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .dark * {
+    background-color: transparent !important;
+    color: black !important;
+    border-color: #cccccc !important;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+.dark {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-light) var(--color-surface);
+}
+
+/* Selection colors in dark theme */
+.dark ::selection {
+  background-color: rgba(167, 139, 250, 0.3);
+  color: var(--color-text);
+}
+
+.dark ::-moz-selection {
+  background-color: rgba(167, 139, 250, 0.3);
+  color: var(--color-text);
+}
+
+/* Focus indicators in dark theme */
+.dark .focus-visible {
+  outline-color: var(--color-primary);
+}
+
+.dark .focus-ring:focus {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+}
+
+/* Status indicators in dark theme */
+.dark .status-success::before {
+  background-color: #10b981;
+}
+
+.dark .status-warning::before {
+  background-color: #f59e0b;
+}
+
+.dark .status-error::before {
+  background-color: #ef4444;
+}
+
+.dark .status-info::before {
+  background-color: #3b82f6;
+}

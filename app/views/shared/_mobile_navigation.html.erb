@@ -1,0 +1,281 @@
+<!-- Mobile Navigation Overlay -->
+<div data-controller="mobile-navigation accessibility" 
+     data-mobile-navigation-open-value="false"
+     data-mobile-navigation-swipe-threshold-value="50"
+     data-mobile-navigation-animation-duration-value="300"
+     class="mobile:block tablet:hidden desktop:hidden"
+     role="navigation"
+     aria-label="<%= t('navigation.main_navigation') %>">
+  
+  <!-- Skip Link -->
+  <%= skip_link('main-content', t('accessibility.skip_to_main_content')) %>
+  
+  <!-- Hamburger Menu Button -->
+  <button data-mobile-navigation-target="hamburger"
+          data-action="click->mobile-navigation#toggle touchstart->mobile-navigation#handleTouchStart touchmove->mobile-navigation#handleTouchMove touchend->mobile-navigation#handleTouchEnd"
+          class="<%= focus_classes('fixed top-4 left-4 z-50 touch-target bg-white border border-gray-200 rounded-lg shadow-mobile p-2 transition-all duration-200 hover:bg-gray-50 active:bg-gray-100') %>"
+          aria-label="<%= t('navigation.toggle_menu') %>"
+          aria-expanded="false"
+          aria-controls="mobile-navigation-menu"
+          aria-haspopup="true"
+          type="button">
+    
+    <!-- Hamburger Icon with Animation -->
+    <div class="w-6 h-6 flex flex-col justify-center items-center space-y-1">
+      <span class="hamburger-line block w-5 h-0.5 bg-gray-600 transition-all duration-300 transform origin-center"></span>
+      <span class="hamburger-line block w-5 h-0.5 bg-gray-600 transition-all duration-300 transform origin-center"></span>
+      <span class="hamburger-line block w-5 h-0.5 bg-gray-600 transition-all duration-300 transform origin-center"></span>
+    </div>
+  </button>
+
+  <!-- Mobile Navigation Overlay -->
+  <div data-mobile-navigation-target="overlay" 
+       class="hidden fixed inset-0 z-overlay">
+    
+    <!-- Backdrop -->
+    <div data-mobile-navigation-target="backdrop"
+         data-action="click->mobile-navigation#closeOnBackdrop touchstart->mobile-navigation#handleTouchStart touchmove->mobile-navigation#handleTouchMove touchend->mobile-navigation#handleTouchEnd"
+         class="absolute inset-0 bg-black opacity-0 transition-opacity duration-300"></div>
+    
+    <!-- Slide-in Menu -->
+    <div data-mobile-navigation-target="menu"
+         id="mobile-navigation-menu"
+         class="absolute left-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-mobile-lg transform -translate-x-full transition-transform duration-300 ease-out focus-trap"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="mobile-menu-title"
+         aria-hidden="true">
+      
+      <!-- Menu Header -->
+      <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+        <div class="flex items-center space-x-3">
+          <div class="h-8 w-8 rounded-md bg-purple-100 flex items-center justify-center" aria-hidden="true">
+            <svg class="h-5 w-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <div>
+            <% if @team&.persisted? %>
+              <h2 id="mobile-menu-title" class="text-sm font-medium text-gray-900"><%= @team.name %></h2>
+              <p class="text-xs text-gray-500"><%= t('sidebar.change_team') %></p>
+            <% else %>
+              <h2 id="mobile-menu-title" class="text-sm font-medium text-gray-900"><%= t('sidebar.select_team') %></h2>
+              <p class="text-xs text-gray-500"><%= t('sidebar.choose_team') %></p>
+            <% end %>
+          </div>
+        </div>
+        
+        <!-- Close Button -->
+        <button data-action="click->mobile-navigation#close"
+                class="<%= focus_classes('touch-target p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200') %>"
+                aria-label="<%= t('navigation.close_menu') %>"
+                type="button">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Team Selection Link -->
+      <div class="p-4 border-b border-gray-100">
+        <%= link_to team_selection_path, 
+            class: "flex items-center p-3 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors duration-200 touch-target",
+            data: { action: "click->mobile-navigation#close" } do %>
+          <div class="flex items-center w-full">
+            <div class="flex-shrink-0">
+              <div class="h-8 w-8 rounded-md bg-purple-100 flex items-center justify-center">
+                <svg class="h-5 w-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                </svg>
+              </div>
+            </div>
+            <div class="ml-3 flex-1">
+              <p class="text-sm font-medium text-gray-900"><%= t('navigation.switch_team') %></p>
+              <p class="text-xs text-gray-500"><%= t('navigation.manage_teams') %></p>
+            </div>
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="flex-1 px-4 py-2 space-y-1 overflow-y-auto" 
+           role="menu" 
+           aria-label="<%= t('navigation.main_menu') %>">
+        <% if @team.present? && @team.persisted? %>
+          
+          <!-- Items -->
+          <%= link_to team_items_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(team_items_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(team_items_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.item_list') %></span>
+            <% if current_page?(team_items_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Locations -->
+          <%= link_to team_locations_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(team_locations_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(team_locations_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.locations') %></span>
+            <% if current_page?(team_locations_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Stock Transactions Section -->
+          <div class="pt-4 pb-2">
+            <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"><%= t('navigation.stock_transactions') %></h3>
+          </div>
+
+          <!-- Stock In -->
+          <%= link_to stock_in_team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(stock_in_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(stock_in_team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.stock_in') %></span>
+            <% if current_page?(stock_in_team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Stock Out -->
+          <%= link_to stock_out_team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(stock_out_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(stock_out_team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.stock_out') %></span>
+            <% if current_page?(stock_out_team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Adjust -->
+          <%= link_to adjust_team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(adjust_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(adjust_team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.adjust') %></span>
+            <% if current_page?(adjust_team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Move -->
+          <%= link_to move_team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(move_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(move_team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.move') %></span>
+            <% if current_page?(move_team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Reports Section -->
+          <div class="pt-4 pb-2">
+            <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"><%= t('navigation.reports') %></h3>
+          </div>
+
+          <!-- Transactions -->
+          <%= link_to team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.transactions') %></span>
+            <% if current_page?(team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Stock by Location -->
+          <%= link_to stock_by_location_team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(stock_by_location_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(stock_by_location_team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.stock_by_location') %></span>
+            <% if current_page?(stock_by_location_team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Report -->
+          <%= link_to report_team_stock_transactions_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(report_team_stock_transactions_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(report_team_stock_transactions_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.reports') %></span>
+            <% if current_page?(report_team_stock_transactions_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Tools Section -->
+          <div class="pt-4 pb-2">
+            <h3 class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"><%= t('navigation.tools') %></h3>
+          </div>
+
+          <!-- Labels -->
+          <%= link_to new_team_label_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(new_team_label_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(new_team_label_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.labels') %></span>
+            <% if current_page?(new_team_label_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+          <!-- Settings -->
+          <%= link_to team_settings_path(@team), 
+              class: "group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors duration-200 touch-target #{current_page?(team_settings_path(@team)) ? 'bg-purple-50 text-purple-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 active:bg-gray-100'}",
+              data: { action: "click->mobile-navigation#close" } do %>
+            <svg class="#{current_page?(team_settings_path(@team)) ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500'} mr-3 h-6 w-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span class="flex-1"><%= t('sidebar.settings') %></span>
+            <% if current_page?(team_settings_path(@team)) %>
+              <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <% end %>
+          <% end %>
+
+        <% end %>
+      </nav>
+
+      <!-- Menu Footer -->
+      <div class="p-4 border-t border-gray-200 bg-gray-50">
+        <div class="flex items-center justify-between text-xs text-gray-500">
+          <span>Purple Stock</span>
+          <span>v1.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

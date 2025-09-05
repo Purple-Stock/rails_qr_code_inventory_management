@@ -1,0 +1,119 @@
+<%# Mobile-optimized number input component %>
+<%# Usage: render 'shared/mobile_number_input', form: f, field: :quantity, options: {} %>
+
+<%
+  # Default options
+  default_options = {
+    min: 0,
+    max: 999999,
+    step: 1,
+    decimals: 0,
+    quick_increments: [1, 5, 10],
+    gestures_enabled: true,
+    haptic_enabled: true,
+    show_number_pad: true,
+    size: 'default', # 'default', 'large'
+    label: '',
+    help_text: '',
+    placeholder: '0',
+    required: false,
+    container_class: '',
+    input_class: ''
+  }
+  
+  # Merge provided options with defaults
+  opts = default_options.merge(options || {})
+  
+  # Determine classes
+  container_classes = ['mobile-number-input']
+  container_classes << opts[:container_class] if opts[:container_class].present?
+  
+  input_classes = ['touch-input', 'touch-input-number', 'text-center']
+  input_classes << 'touch-input-lg' if opts[:size] == 'large'
+  input_classes << opts[:input_class] if opts[:input_class].present?
+  
+  # Controller data attributes
+  controller_data = {
+    controller: 'mobile-number-input',
+    'mobile-number-input-min-value': opts[:min],
+    'mobile-number-input-max-value': opts[:max],
+    'mobile-number-input-step-value': opts[:step],
+    'mobile-number-input-decimals-value': opts[:decimals],
+    'mobile-number-input-quick-increments-value': opts[:quick_increments].to_json,
+    'mobile-number-input-gestures-enabled-value': opts[:gestures_enabled],
+    'mobile-number-input-haptic-enabled-value': opts[:haptic_enabled],
+    'mobile-number-input-show-number-pad-value': opts[:show_number_pad]
+  }
+  
+  # Field name and value
+  field_name = field
+  field_value = form.object.send(field_name) if form.object.respond_to?(field_name)
+  has_errors = form.object.errors[field_name].any? if form.object.respond_to?(:errors)
+%>
+
+<div class="<%= container_classes.join(' ') %>" <%= controller_data.map { |k, v| "data-#{k}=\"#{v}\"" }.join(' ').html_safe %>>
+  <%# Label %>
+  <% if opts[:label].present? %>
+    <%= form.label field_name, opts[:label], class: "form-label" %>
+  <% end %>
+  
+  <%# Help text %>
+  <% if opts[:help_text].present? %>
+    <p class="text-sm text-gray-600 mb-2"><%= opts[:help_text] %></p>
+  <% end %>
+  
+  <%# Input field with gesture area %>
+  <div class="space-y-3">
+    <%# Hidden input for form submission %>
+    <%= form.number_field field_name,
+          class: (input_classes + ['sr-only']).join(' '),
+          min: opts[:min],
+          max: opts[:max],
+          step: opts[:step],
+          placeholder: opts[:placeholder],
+          required: opts[:required],
+          data: { 'mobile-number-input-target': 'input' } %>
+    
+    <%# Visual display with gesture support %>
+    <div class="gesture-area" 
+         data-mobile-number-input-target="gestureArea"
+         role="button"
+         tabindex="0"
+         aria-label="Swipe up to increase, down to decrease quantity">
+      <div class="space-y-2">
+        <div class="text-sm text-gray-600 font-medium">
+          <%= opts[:label].present? ? opts[:label] : field_name.to_s.humanize %>
+        </div>
+        <div class="text-3xl font-mono font-bold text-gray-900" 
+             data-mobile-number-input-target="display">
+          <%= field_value || opts[:placeholder] %>
+        </div>
+        <div class="text-xs text-gray-500">
+          Tap to open number pad • Swipe to adjust
+        </div>
+      </div>
+    </div>
+    
+    <%# Quick increment actions %>
+    <div data-mobile-number-input-target="quickActions">
+      <!-- Quick actions will be populated by the controller -->
+    </div>
+  </div>
+  
+  <%# Error messages %>
+  <% if has_errors %>
+    <div class="mt-2 text-sm text-red-600">
+      <% form.object.errors[field_name].each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%# Mobile number pad overlay %>
+<div class="number-pad-overlay hidden" 
+     data-mobile-number-input-target="numberPad"
+     role="dialog"
+     aria-label="Number pad for quantity input">
+  <!-- Number pad content will be populated by the controller -->
+</div>

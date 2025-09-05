@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
     <title>Purple Stock</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <!-- Enhanced viewport configuration for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    
+    <!-- Resource hints for performance -->
+    <%= resource_hints %>
+    
+    <!-- PWA and mobile app configuration -->
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Purple Stock">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- Enhanced theme colors for different contexts -->
+    <meta name="theme-color" content="#7c3aed" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#6b21a8" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-navbutton-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Enhanced PWA meta tags -->
+    <meta name="application-name" content="Purple Stock">
+    <meta name="msapplication-TileColor" content="#7c3aed">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- iOS specific splash screens -->
+    <link rel="apple-touch-startup-image" href="/splash/splash-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/splash-1668x2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/splash-1536x2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -21,20 +52,88 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <!-- Critical CSS inlined for performance -->
+    <%= critical_css_tag('critical') %>
+    
+    <!-- Preload critical resources -->
+    <%= preload_link_tag 'application.css', as: 'style' %>
+    <%= preload_link_tag 'application.js', as: 'script' %>
+    
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    <!-- Performance monitoring -->
+    <%= performance_monitoring_script %>
   </head>
 
-  <body>
-    <% if notice %>
-      <p class="notice bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"><%= alert %></p>
-    <% end %>
+  <body class="bg-gray-50 min-h-screen" data-controller="accessibility performance navigation-state">
+    <!-- PWA Splash Screen -->
+    <%= render 'shared/splash_screen' %>
+    
+    <!-- Responsive notification system -->
+    <div id="notifications" class="fixed top-0 left-0 right-0 z-notification">
+      <% if notice %>
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mobile:px-4 tablet:px-6 desktop:px-8" role="alert">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-responsive-sm font-medium"><%= notice %></span>
+          </div>
+        </div>
+      <% end %>
+      
+      <% if alert %>
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mobile:px-4 tablet:px-6 desktop:px-8" role="alert">
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-responsive-sm font-medium"><%= alert %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+    <!-- Offline Status Indicator -->
+    <%= render 'shared/offline_indicator' %>
+
+    <!-- PWA Install Prompt -->
+    <%= render 'shared/pwa_install_prompt' %>
+
+    <!-- Mobile Navigation Component -->
+    <%= render 'shared/mobile_navigation' %>
+
+    <!-- Bottom Tab Bar for Mobile -->
+    <%= render 'shared/bottom_tab_bar' %>
+
+    <!-- Responsive layout container -->
+    <div class="flex min-h-screen">
+      <!-- Sidebar will be rendered here by individual pages -->
+      <div id="sidebar-container" class="flex-shrink-0">
+        <!-- Sidebar content will be inserted here -->
+      </div>
+      
+      <!-- Main content area with responsive spacing -->
+      <main class="flex-1 flex flex-col">
+        <!-- Header will be rendered here by individual pages -->
+        <div id="header-container" class="flex-shrink-0">
+          <!-- Header content will be inserted here -->
+        </div>
+        
+        <!-- Page content with responsive container -->
+        <div id="main-content" 
+             class="flex-1 mobile-container tablet:tablet-container desktop:desktop-container py-4 mobile:py-6 tablet:py-8"
+             role="main"
+             aria-label="<%= t('accessibility.main_content') %>">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile-specific enhancements -->
+    <div class="mobile:block tablet:hidden desktop:hidden">
+      <!-- Mobile-only elements will be added here by specific components -->
+    </div>
   </body>
 </html>

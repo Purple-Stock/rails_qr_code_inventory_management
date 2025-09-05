@@ -1,0 +1,311 @@
+/* Page Transitions for PWA */
+
+/* Turbo page transition animations */
+.turbo-progress-bar {
+  background-color: #7c3aed;
+  height: 3px;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+}
+
+/* Page transition container */
+main {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Page loading states */
+.page-loading {
+  opacity: 0.7;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.page-loaded {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Smooth transitions for PWA navigation */
+@media (display-mode: standalone) {
+  /* Enhanced transitions for PWA mode */
+  main {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+  
+  /* Slide transitions for mobile PWA */
+  @media (max-width: 768px) {
+    .page-transition-enter {
+      animation: slideInRight 0.3s ease-out forwards;
+    }
+    
+    .page-transition-exit {
+      animation: slideOutLeft 0.3s ease-in forwards;
+    }
+    
+    .page-transition-back-enter {
+      animation: slideInLeft 0.3s ease-out forwards;
+    }
+    
+    .page-transition-back-exit {
+      animation: slideOutRight 0.3s ease-in forwards;
+    }
+  }
+}
+
+/* Slide animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Fade transitions for desktop */
+@media (min-width: 769px) {
+  .page-transition-enter {
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+  
+  .page-transition-exit {
+    animation: fadeOut 0.2s ease-in forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+/* Loading skeleton animations */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dark mode skeleton */
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+    background-size: 200% 100%;
+  }
+}
+
+/* Navigation transition states */
+.nav-transitioning {
+  pointer-events: none;
+}
+
+.nav-transitioning .sidebar,
+.nav-transitioning .mobile-navigation,
+.nav-transitioning .bottom-tab-bar {
+  opacity: 0.8;
+}
+
+/* Form transition states */
+.form-transitioning {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.form-transitioning input,
+.form-transitioning select,
+.form-transitioning textarea,
+.form-transitioning button {
+  opacity: 0.5;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .turbo-progress-bar {
+    transition: none;
+  }
+  
+  main {
+    transition: none;
+  }
+  
+  .page-transition-enter,
+  .page-transition-exit,
+  .page-transition-back-enter,
+  .page-transition-back-exit {
+    animation: none;
+  }
+  
+  .skeleton {
+    animation: none;
+    background: #f0f0f0;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .skeleton {
+      background: #374151;
+    }
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .turbo-progress-bar {
+    background-color: currentColor;
+    box-shadow: none;
+  }
+  
+  .skeleton {
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 10px,
+      currentColor 10px,
+      currentColor 11px
+    );
+  }
+}
+
+/* Print styles */
+@media print {
+  .turbo-progress-bar {
+    display: none !important;
+  }
+  
+  .page-transition-enter,
+  .page-transition-exit,
+  .page-transition-back-enter,
+  .page-transition-back-exit {
+    animation: none !important;
+  }
+  
+  main {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Focus management during transitions */
+.page-transitioning [tabindex],
+.page-transitioning button,
+.page-transitioning input,
+.page-transitioning select,
+.page-transitioning textarea,
+.page-transitioning a {
+  pointer-events: none;
+}
+
+/* Smooth scroll behavior for PWA */
+@media (display-mode: standalone) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Override for reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Loading states for specific components */
+.items-loading .item-card {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.transactions-loading .transaction-row {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.locations-loading .location-item {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Transition timing for different screen sizes */
+@media (max-width: 480px) {
+  main {
+    transition-duration: 0.25s;
+  }
+  
+  .page-transition-enter,
+  .page-transition-exit,
+  .page-transition-back-enter,
+  .page-transition-back-exit {
+    animation-duration: 0.25s;
+  }
+}
+
+@media (min-width: 1200px) {
+  main {
+    transition-duration: 0.15s;
+  }
+  
+  .page-transition-enter,
+  .page-transition-exit {
+    animation-duration: 0.15s;
+  }
+}

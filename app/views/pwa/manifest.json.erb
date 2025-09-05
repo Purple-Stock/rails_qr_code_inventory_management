@@ -1,22 +1,172 @@
 {
-  "name": "RailsQrCodeInventoryManagement",
+  "name": "Purple Stock - Inventory Management",
+  "short_name": "Purple Stock",
+  "description": "Professional inventory management system with barcode scanning, stock tracking, and team collaboration features. Manage your inventory efficiently with offline support and mobile-optimized interface.",
   "icons": [
     {
       "src": "/icon.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any"
     },
     {
       "src": "/icon.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "type": "image/png",
+      "sizes": "16x16",
+      "purpose": "any"
     }
   ],
-  "start_url": "/",
+  "start_url": "/?utm_source=pwa&utm_medium=app&utm_campaign=install",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "scope": "/",
-  "description": "RailsQrCodeInventoryManagement.",
-  "theme_color": "red",
-  "background_color": "red"
+  "orientation": "any",
+  "theme_color": "#7c3aed",
+  "background_color": "#ffffff",
+  "categories": ["business", "productivity", "utilities", "finance"],
+  "lang": "<%= I18n.locale %>",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+purplestock",
+      "url": "/items?barcode=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/items/import",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/vnd.ms-excel": [".xls"],
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/items/import",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "files": [
+        {
+          "name": "file",
+          "accept": ["text/csv", ".csv", "application/vnd.ms-excel", ".xls", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".xlsx"]
+        }
+      ]
+    }
+  },
+  "shortcuts": [
+    {
+      "name": "Stock In",
+      "short_name": "Stock In",
+      "description": "Add items to inventory quickly",
+      "url": "/stock_transactions/stock_in?utm_source=pwa&utm_medium=shortcut",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Stock Out",
+      "short_name": "Stock Out", 
+      "description": "Remove items from inventory",
+      "url": "/stock_transactions/stock_out?utm_source=pwa&utm_medium=shortcut",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Items",
+      "short_name": "Items",
+      "description": "Browse all inventory items",
+      "url": "/items?utm_source=pwa&utm_medium=shortcut",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Scan Barcode",
+      "short_name": "Scan",
+      "description": "Scan barcode to find items",
+      "url": "/items?scan=true&utm_source=pwa&utm_medium=shortcut",
+      "icons": [
+        {
+          "src": "/icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home screen showing inventory overview"
+    },
+    {
+      "src": "/screenshots/mobile-items.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Items list with search functionality"
+    },
+    {
+      "src": "/screenshots/desktop-dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png", 
+      "form_factor": "wide",
+      "label": "Desktop dashboard with full sidebar"
+    }
+  ]
 }

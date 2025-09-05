@@ -1,0 +1,167 @@
+<!-- Bottom Tab Bar for Mobile Navigation -->
+<div data-controller="bottom-tab-bar accessibility" 
+     data-bottom-tab-bar-active-tab-value="<%= @current_tab || 'items' %>"
+     data-bottom-tab-bar-hide-on-scroll-value="true"
+     data-bottom-tab-bar-scroll-threshold-value="10"
+     class="mobile:block tablet:hidden desktop:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg transform translate-y-0 transition-transform duration-300 ease-in-out"
+     role="tablist"
+     aria-label="<%= t('navigation.main_navigation') %>"
+     aria-orientation="horizontal">
+  
+  <!-- Tab Bar Container -->
+  <div class="flex items-center justify-around px-2 py-2 relative">
+    
+    <!-- Active Tab Indicator -->
+    <div data-bottom-tab-bar-target="indicator" 
+         class="absolute top-0 left-0 h-1 bg-purple-600 rounded-full transition-all duration-300 ease-out"
+         style="width: 0; transform: translateX(0)"></div>
+    
+    <% if @team.present? && @team.persisted? %>
+      
+      <!-- Items Tab -->
+      <%= link_to team_items_path(@team),
+          data: { 
+            "bottom-tab-bar-target": "tab",
+            "tab": "items",
+            "action": "click->bottom-tab-bar#selectTab keydown->bottom-tab-bar#handleKeydown"
+          },
+          class: "#{focus_classes('flex flex-col items-center justify-center px-3 py-2 min-w-0 flex-1 rounded-lg transition-all duration-200 touch-target')} #{current_page?(team_items_path(@team)) ? 'text-purple-600 bg-purple-50' : 'text-gray-500'}",
+          role: "tab",
+          aria-selected: current_page?(team_items_path(@team)).to_s,
+          aria-controls: "items-panel",
+          aria-label: "#{t('sidebar.item_list')} #{current_page?(team_items_path(@team)) ? '(current page)' : ''}",
+          tabindex: current_page?(team_items_path(@team)) ? "0" : "-1" do %>
+        
+        <svg class="tab-icon w-6 h-6 mb-1 #{current_page?(team_items_path(@team)) ? 'text-purple-600' : 'text-gray-400'}" 
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+        </svg>
+        <span class="tab-label text-xs font-medium #{current_page?(team_items_path(@team)) ? 'text-purple-600' : 'text-gray-500'}">
+          <%= t('sidebar.item_list') %>
+        </span>
+      <% end %>
+
+      <!-- Stock In Tab -->
+      <%= link_to stock_in_team_stock_transactions_path(@team),
+          data: { 
+            "bottom-tab-bar-target": "tab",
+            "tab": "stock_in",
+            "action": "click->bottom-tab-bar#selectTab keydown->bottom-tab-bar#handleKeydown"
+          },
+          class: "#{focus_classes('flex flex-col items-center justify-center px-3 py-2 min-w-0 flex-1 rounded-lg transition-all duration-200 touch-target')} #{current_page?(stock_in_team_stock_transactions_path(@team)) ? 'text-purple-600 bg-purple-50' : 'text-gray-500'}",
+          role: "tab",
+          aria-selected: current_page?(stock_in_team_stock_transactions_path(@team)).to_s,
+          aria-controls: "stock-in-panel",
+          aria-label: "#{t('sidebar.stock_in')} #{current_page?(stock_in_team_stock_transactions_path(@team)) ? '(current page)' : ''}",
+          tabindex: current_page?(stock_in_team_stock_transactions_path(@team)) ? "0" : "-1" do %>
+        
+        <svg class="tab-icon w-6 h-6 mb-1 #{current_page?(stock_in_team_stock_transactions_path(@team)) ? 'text-purple-600' : 'text-gray-400'}" 
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/>
+        </svg>
+        <span class="tab-label text-xs font-medium #{current_page?(stock_in_team_stock_transactions_path(@team)) ? 'text-purple-600' : 'text-gray-500'}">
+          <%= t('sidebar.stock_in') %>
+        </span>
+      <% end %>
+
+      <!-- Stock Out Tab -->
+      <%= link_to stock_out_team_stock_transactions_path(@team),
+          data: { 
+            "bottom-tab-bar-target": "tab",
+            "tab": "stock_out",
+            "action": "click->bottom-tab-bar#selectTab keydown->bottom-tab-bar#handleKeydown"
+          },
+          class: "flex flex-col items-center justify-center px-3 py-2 min-w-0 flex-1 rounded-lg transition-all duration-200 touch-target #{current_page?(stock_out_team_stock_transactions_path(@team)) ? 'text-purple-600 bg-purple-50' : 'text-gray-500'}",
+          role: "tab",
+          aria-selected: current_page?(stock_out_team_stock_transactions_path(@team)).to_s,
+          tabindex: current_page?(stock_out_team_stock_transactions_path(@team)) ? "0" : "-1" do %>
+        
+        <svg class="tab-icon w-6 h-6 mb-1 #{current_page?(stock_out_team_stock_transactions_path(@team)) ? 'text-purple-600' : 'text-gray-400'}" 
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"/>
+        </svg>
+        <span class="tab-label text-xs font-medium #{current_page?(stock_out_team_stock_transactions_path(@team)) ? 'text-purple-600' : 'text-gray-500'}">
+          <%= t('sidebar.stock_out') %>
+        </span>
+      <% end %>
+
+      <!-- Adjust Tab -->
+      <%= link_to adjust_team_stock_transactions_path(@team),
+          data: { 
+            "bottom-tab-bar-target": "tab",
+            "tab": "adjust",
+            "action": "click->bottom-tab-bar#selectTab keydown->bottom-tab-bar#handleKeydown"
+          },
+          class: "flex flex-col items-center justify-center px-3 py-2 min-w-0 flex-1 rounded-lg transition-all duration-200 touch-target #{current_page?(adjust_team_stock_transactions_path(@team)) ? 'text-purple-600 bg-purple-50' : 'text-gray-500'}",
+          role: "tab",
+          aria-selected: current_page?(adjust_team_stock_transactions_path(@team)).to_s,
+          tabindex: current_page?(adjust_team_stock_transactions_path(@team)) ? "0" : "-1" do %>
+        
+        <svg class="tab-icon w-6 h-6 mb-1 #{current_page?(adjust_team_stock_transactions_path(@team)) ? 'text-purple-600' : 'text-gray-400'}" 
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+        </svg>
+        <span class="tab-label text-xs font-medium #{current_page?(adjust_team_stock_transactions_path(@team)) ? 'text-purple-600' : 'text-gray-500'}">
+          <%= t('sidebar.adjust') %>
+        </span>
+      <% end %>
+
+      <!-- More Tab (Hamburger Menu Trigger) -->
+      <button data-action="click->mobile-navigation#toggle touchstart->bottom-tab-bar#handleTouchStart touchend->bottom-tab-bar#handleTouchEnd"
+              data-bottom-tab-bar-target="tab"
+              data-tab="more"
+              class="<%= focus_classes('flex flex-col items-center justify-center px-3 py-2 min-w-0 flex-1 rounded-lg transition-all duration-200 touch-target text-gray-500') %>"
+              role="tab"
+              aria-selected="false"
+              aria-controls="mobile-navigation-menu"
+              aria-haspopup="true"
+              tabindex="-1"
+              type="button"
+              aria-label="<%= t('navigation.more_options') %>">
+        
+        <svg class="tab-icon w-6 h-6 mb-1 text-gray-400" 
+             fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span class="tab-label text-xs font-medium text-gray-500">
+          <%= t('navigation.more') %>
+        </span>
+      </button>
+
+    <% else %>
+      
+      <!-- No Team Selected State -->
+      <div class="flex flex-col items-center justify-center px-3 py-4 text-gray-400">
+        <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        </svg>
+        <span class="text-xs text-center">
+          <%= t('navigation.select_team_first') %>
+        </span>
+      </div>
+      
+    <% end %>
+  </div>
+  
+  <!-- Safe Area Spacer for devices with home indicators -->
+  <div class="h-safe-area-inset-bottom"></div>
+</div>
+
+<!-- Add bottom padding to main content to account for fixed tab bar -->
+<style>
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+    }
+  }
+  
+  .h-safe-area-inset-bottom {
+    height: env(safe-area-inset-bottom, 0px);
+  }
+</style>

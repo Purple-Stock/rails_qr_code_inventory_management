@@ -30,6 +30,18 @@
 en:
   hello: "Hello"
   # Add your English translations here
+  navigation:
+    toggle_menu: "Toggle navigation menu"
+    close_menu: "Close navigation menu"
+    switch_team: "Switch Team"
+    manage_teams: "Manage your teams"
+    stock_transactions: "Stock Transactions"
+    reports: "Reports"
+    tools: "Tools"
+    main_navigation: "Main navigation"
+    more_options: "More options"
+    more: "More"
+    select_team_first: "Select a team first"
   sidebar:
     item_list: "Item List"
     locations: "Locations"
@@ -545,6 +557,55 @@ en:
         not_a_number: "is not a number"
         must_be_selected: "must be selected"
         taken: "has already been taken"
+
+  accessibility:
+    skip_to_content: "Skip to content"
+    skip_to_main_content: "Skip to main content"
+    main_content: "Main content"
+    loading: "Loading content, please wait"
+    loading_complete: "Content loaded"
+    navigation_opened: "Navigation menu opened"
+    navigation_closed: "Navigation menu closed"
+    high_contrast_enabled: "High contrast mode enabled"
+    high_contrast_disabled: "High contrast mode disabled"
+    reduced_motion_enabled: "Reduced motion mode enabled"
+    reduced_motion_disabled: "Reduced motion mode disabled"
+    dark_mode_enabled: "Dark mode enabled"
+    dark_mode_disabled: "Dark mode disabled"
+    keyboard_navigation: "Using keyboard navigation"
+    touch_navigation: "Using touch navigation"
+    screen_reader_announcement: "Screen reader announcement"
+    focus_trapped: "Focus is trapped in this dialog"
+    focus_returned: "Focus returned to previous element"
+    modal_opened: "Modal dialog opened"
+    modal_closed: "Modal dialog closed"
+    form_validation_error: "Form contains validation errors"
+    form_submitted_successfully: "Form submitted successfully"
+    page_loading: "Page is loading"
+    page_loaded: "Page has finished loading"
+    search_results_updated: "Search results have been updated"
+    data_refreshed: "Data has been refreshed"
+    offline_mode: "You are currently offline"
+    online_mode: "You are back online"
+    sync_in_progress: "Syncing data"
+    sync_complete: "Data sync complete"
+    error_occurred: "An error occurred"
+    success_message: "Operation completed successfully"
+    warning_message: "Warning"
+    info_message: "Information"
+
+  theme:
+    toggle_theme: "Toggle theme"
+    select_theme: "Select theme"
+    light: "Light theme"
+    dark: "Dark theme"
+    system: "System theme"
+    light_enabled: "Light theme enabled"
+    dark_enabled: "Dark theme enabled"
+    system_enabled: "System theme enabled"
+
+  navigation:
+    main_menu: "Main menu"
 
   devise:
     sessions:

@@ -42,65 +42,59 @@
     <div class="bg-white shadow rounded-lg">
       <div class="p-6">
         <%= turbo_frame_tag "locations_list" do %>
-          <div class="flex flex-col">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                  <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('locations.index.table.name') %></th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('locations.index.table.description') %></th>
-                        <th scope="col" class="relative px-6 py-3">
-                          <span class="sr-only"><%= t('locations.index.table.actions') %></span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                      <% @locations.each do |location| %>
-                        <tr>
-                          <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">
-                              <%= link_to location.name, 
-                                  team_location_path(@team, location), 
-                                  class: "hover:text-purple-600",
-                                  data: { turbo_frame: "_top" } %>
-                            </div>
-                          </td>
-                          <td class="px-6 py-4 text-sm text-gray-500">
-                            <%= location.description %>
-                          </td>
-                          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end space-x-3">
-                              <%= link_to edit_team_location_path(@team, location), 
-                                  class: "text-purple-600 hover:text-purple-900 inline-flex items-center",
-                                  data: { turbo_frame: "_top" } do %>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                </svg>
-                              <% end %>
-                              
-                              <%= button_to team_location_path(@team, location), 
-                                  method: :delete,
-                                  class: "text-red-600 hover:text-red-900 inline-flex items-center",
-                                  data: { 
-                                    turbo_confirm: t('locations.index.table.delete_confirm'),
-                                    turbo_frame: "_top"
-                                  } do %>
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                              <% end %>
-                            </div>
-                          </td>
-                        </tr>
-                      <% end %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+          <%= responsive_table do %>
+            <%= responsive_table_wrapper(
+              content_tag(:div, class: "shadow overflow-hidden border-b border-gray-200 sm:rounded-lg") do
+                content_tag(:table, class: "min-w-full divide-y divide-gray-200") do
+                  content_tag(:thead, class: "bg-gray-50") do
+                    content_tag(:tr) do
+                      concat content_tag(:th, t('locations.index.table.name'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                      concat content_tag(:th, t('locations.index.table.description'), scope: "col", class: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider")
+                      concat content_tag(:th, content_tag(:span, t('locations.index.table.actions'), class: "sr-only"), scope: "col", class: "relative px-6 py-3")
+                    end
+                  end +
+                  content_tag(:tbody, class: "bg-white divide-y divide-gray-200") do
+                    @locations.map do |location|
+                      content_tag(:tr) do
+                        concat content_tag(:td, class: "px-6 py-4 whitespace-nowrap") do
+                          content_tag(:div, class: "text-sm font-medium text-gray-900") do
+                            link_to location.name, team_location_path(@team, location), 
+                              class: "hover:text-purple-600", data: { turbo_frame: "_top" }
+                          end
+                        end
+                        concat content_tag(:td, location.description, class: "px-6 py-4 text-sm text-gray-500")
+                        concat content_tag(:td, class: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium") do
+                          content_tag(:div, class: "flex justify-end space-x-3") do
+                            edit_link = link_to edit_team_location_path(@team, location), 
+                              class: "text-purple-600 hover:text-purple-900 inline-flex items-center min-h-11 min-w-11",
+                              data: { turbo_frame: "_top" } do
+                              content_tag(:svg, class: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24") do
+                                content_tag(:path, "", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "2", d: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z")
+                              end
+                            end
+                            
+                            delete_button = button_to team_location_path(@team, location), 
+                              method: :delete,
+                              class: "text-red-600 hover:text-red-900 inline-flex items-center min-h-11 min-w-11",
+                              data: { 
+                                turbo_confirm: t('locations.index.table.delete_confirm'),
+                                turbo_frame: "_top"
+                              } do
+                              content_tag(:svg, class: "w-5 h-5", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24") do
+                                content_tag(:path, "", "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-width": "2", d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16")
+                              end
+                            end
+                            
+                            edit_link + delete_button
+                          end
+                        end
+                      end
+                    end.join.html_safe
+                  end
+                end
+              end
+            ) %>
+          <% end %>
         <% end %>
       </div>
     </div>
