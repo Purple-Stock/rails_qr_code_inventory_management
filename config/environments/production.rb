@@ -77,7 +77,12 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Secret key configuration for production
-  config.secret_key_base = ENV['SECRET_KEY_BASE'] || Rails.application.credentials.secret_key_base
+  # Handle dummy key during asset precompilation, otherwise use environment variable or credentials
+  if ENV['SECRET_KEY_BASE_DUMMY']
+    config.secret_key_base = ENV['SECRET_KEY_BASE_DUMMY']
+  else
+    config.secret_key_base = ENV['SECRET_KEY_BASE'] || Rails.application.credentials.secret_key_base
+  end
 
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
