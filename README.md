@@ -1,5 +1,7 @@
 # Purple Stock - Inventory Management System
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Purple-Stock/rails_qr_code_inventory_management)
+
 Purple Stock is a comprehensive inventory management system designed for businesses of all sizes. It provides a robust set of features for tracking inventory across multiple locations, managing stock movements, and generating detailed reports.
 
 <img width="1691" alt="Screenshot 2025-04-19 at 13 48 05" src="https://github.com/user-attachments/assets/f9a040e4-f3af-456b-8b3c-d6b4ca59afcd" />
