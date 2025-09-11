@@ -148,16 +148,16 @@
       </div>
 
       <!-- Barcode Scanner Modal -->
-      <div id="barcodeModal" class="fixed top-4 right-4 z-50 w-96 max-w-sm hidden">
+        <div id="barcodeModal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-96 max-w-sm hidden">
           <div class="bg-white rounded-lg shadow-xl border border-gray-200">
-            <!-- Modal header with close button -->
-            <div class="bg-blue-600 px-4 py-3 sm:px-6 flex justify-between items-center relative z-50">
-              <h3 class="text-lg leading-6 font-medium text-white">
+            <!-- Modal header with close button - draggable -->
+            <div id="moveModalHeader" class="bg-blue-600 px-4 py-3 sm:px-6 flex justify-between items-center relative z-50 cursor-move select-none">
+              <h3 class="text-lg leading-6 font-medium text-white pointer-events-none">
                 Barcode Scanner
               </h3>
               <button type="button" 
                       onclick="closeBarcodeModal()" 
-                      class="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-md p-1 transition-all duration-200">
+                      class="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-md p-1 transition-all duration-200 pointer-events-auto">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -469,6 +469,9 @@
 
     // Initialize the scanner area if not already done (but don't start camera)
     initScanner();
+
+    // Initialize drag functionality
+    initMoveModalDrag();
   }
 
   function handleMoveModalKeydown(event) {
@@ -916,6 +919,89 @@
       showToast("Failed to load barcode scanner library", "red");
     };
     document.head.appendChild(script);
+  }
+
+  // Modal drag functionality for move
+  function initMoveModalDrag() {
+    const modal = document.getElementById('barcodeModal');
+    const header = document.getElementById('moveModalHeader');
+    
+    if (!modal || !header) return;
+    
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+    
+    // Reset any previous transform when modal opens
+    modal.style.transform = '';
+
+    header.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    // Touch events for mobile
+    header.addEventListener('touchstart', dragStart);
+    document.addEventListener('touchmove', drag);
+    document.addEventListener('touchend', dragEnd);
+
+    function dragStart(e) {
+      if (e.target.closest('button')) return; // Don't drag when clicking close button
+      
+      if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - xOffset;
+        initialY = e.touches[0].clientY - yOffset;
+      } else {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+      }
+
+      if (e.target === header || header.contains(e.target)) {
+        isDragging = true;
+        header.style.cursor = 'grabbing';
+      }
+    }
+
+    function drag(e) {
+      if (isDragging) {
+        e.preventDefault();
+        
+        if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        } else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        }
+
+        xOffset = currentX;
+        yOffset = currentY;
+
+        // Constrain to viewport
+        const rect = modal.getBoundingClientRect();
+        const maxX = window.innerWidth - rect.width;
+        const maxY = window.innerHeight - rect.height;
+        
+        xOffset = Math.min(Math.max(0, xOffset), maxX);
+        yOffset = Math.min(Math.max(0, yOffset), maxY);
+
+        // Position absolutely from top-left
+        modal.style.position = 'fixed';
+        modal.style.top = `${yOffset}px`;
+        modal.style.left = `${xOffset}px`;
+        modal.style.transform = 'none';
+      }
+    }
+
+    function dragEnd() {
+      if (isDragging) {
+        isDragging = false;
+        header.style.cursor = 'move';
+      }
+    }
   }
 </script>
 
