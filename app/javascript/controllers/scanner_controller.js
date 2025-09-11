@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["startButton", "closeButton", "scannerContainer", "qrReader"]
+  static targets = ["startButton", "closeButton", "scannerContainer", "qrReader", "fileInput"]
   static values = {
     type: String
   }
@@ -30,6 +30,10 @@ export default class extends Controller {
     
     if (this.hasCloseButtonTarget) {
       this.closeButtonTarget.addEventListener('click', this.stopScanner.bind(this))
+    }
+
+    if (this.hasFileInputTarget) {
+      this.fileInputTarget.addEventListener('change', this.handleFileInput.bind(this))
     }
   }
 
@@ -179,6 +183,58 @@ export default class extends Controller {
     
     if (this.hasCloseButtonTarget) {
       this.closeButtonTarget.classList.add('hidden')
+    }
+  }
+
+  handleFileInput(event) {
+    const files = event.target.files || []
+    if (!files.length) return
+    const file = files[0]
+
+    // Clear input to allow selecting the same file again next time
+    event.target.value = ''
+
+    // Stop live scanner if running to avoid conflicts
+    if (this.scanner && this.scanner._isScanning) {
+      this.stopScanner()
+      // small delay to ensure resources are released
+      setTimeout(() => this.scanFile(file), 200)
+    } else {
+      this.scanFile(file)
+    }
+  }
+
+  scanFile(file) {
+    const proceed = () => {
+      try {
+        const fileScanner = new Html5Qrcode(this.getQrReaderId())
+        fileScanner.scanFile(file, true)
+          .then(decodedText => {
+            // Dispatch the same event as live scan
+            const event = new CustomEvent('qr-code-scanned', {
+              detail: { text: decodedText, result: { from: 'file' }, type: this.typeValue }
+            })
+            document.dispatchEvent(event)
+
+            // Clear internal state
+            try { fileScanner.clear() } catch (_) {}
+          })
+          .catch(err => {
+            console.error('Error scanning file:', err)
+            // Optionally, show a toast if a global helper exists
+            if (window.showToast) window.showToast('Could not detect any QR code in this image', 'red')
+          })
+      } catch (e) {
+        console.error('Error initiating file scan:', e)
+        if (window.showToast) window.showToast('Failed to process the image', 'red')
+      }
+    }
+
+    if (!window.Html5Qrcode) {
+      this.loadScannerLibrary()
+      setTimeout(proceed, 300)
+    } else {
+      proceed()
     }
   }
 

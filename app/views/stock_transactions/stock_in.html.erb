@@ -175,7 +175,7 @@
                                id="qr-input-file" 
                                accept="image/*" 
                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                               onchange="handleFileSelect(this)">
+                               data-scanner-target="fileInput">
                         <button class="w-full bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
                           Upload QR Image
                         </button>
@@ -791,75 +791,7 @@
       });
   }
   
-  // Add this new function to handle file uploads
-  function handleFileSelect(fileInput) {
-    const files = fileInput.files;
-    if (files.length === 0) {
-      return;
-    }
-    
-    const file = files[0];
-    
-    // Show loading state
-    showToast("Processing image...", "blue");
-    
-    // Create a new Html5Qrcode instance if needed
-    if (!html5QrCodeScanner) {
-      initScanner();
-      
-      // Need to wait for the scanner initialization
-      setTimeout(() => {
-        processFile(file);
-      }, 500);
-    } else {
-      processFile(file);
-    }
-    
-    // Reset the file input so the same file can be selected again
-    fileInput.value = '';
-  }
-  
-  function processFile(file) {
-    // Make sure Html5Qrcode is available
-    if (!window.Html5Qrcode) {
-      loadHtml5QrcodeScript(() => processFile(file));
-      return;
-    }
-    
-    try {
-      // Create a new Html5Qrcode instance just for file scanning
-      // This avoids conflicts with the camera scanner
-      const fileScanner = new Html5Qrcode("qr-reader");
-      
-      fileScanner.scanFile(file, true)
-        .then(decodedText => {
-          console.log(`Code scanned from file: ${decodedText}`);
-          
-          // Set the input value
-          document.getElementById('barcodeInput').value = decodedText;
-          
-          // Clean up the file scanner before processing the item
-          fileScanner.clear();
-          
-          // Process the scanned item
-          addScannedItem();
-        })
-        .catch(error => {
-          console.error("Error scanning file:", error);
-          showToast("Could not detect any QR code in this image", "red");
-          
-          // Make sure to clean up even on error
-          try {
-            fileScanner.clear();
-          } catch (e) {
-            console.error("Error clearing file scanner:", e);
-          }
-        });
-    } catch (error) {
-      console.error("Error processing file:", error);
-      showToast("Failed to process the image", "red");
-    }
-  }
+  // File scanning handled by Stimulus scanner controller
   
   // Modify the showToast function to support different colors
   function showToast(message, color = "green") {
