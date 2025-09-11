@@ -114,84 +114,88 @@
       </div>
 
       <!-- Barcode Scanner Modal -->
-      <div id="barcodeModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
-        <div class="flex items-center justify-center min-h-screen p-4 text-center sm:p-0">
-          <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-          </div>
-
-          <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+      <div id="barcodeModal" class="fixed top-4 right-4 z-50 w-96 max-w-sm hidden">
+          <div class="bg-white rounded-lg shadow-xl border border-gray-200">
             <!-- Modal header with close button -->
-            <div class="bg-blue-600 px-4 py-3 sm:px-6 flex justify-between items-center">
+            <div class="bg-blue-600 px-4 py-3 sm:px-6 flex justify-between items-center relative z-50">
               <h3 class="text-lg leading-6 font-medium text-white">
                 Barcode Scanner
               </h3>
               <button type="button" 
                       onclick="closeBarcodeModal()" 
-                      class="text-white hover:text-gray-200 focus:outline-none">
+                      class="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-md p-1 transition-all duration-200">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
             
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
-              <div class="sm:flex sm:items-start">
-                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-purple-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <svg class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="bg-white px-6 py-6">
+              <div class="text-center mb-6">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
+                  <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                   </svg>
                 </div>
-                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                  <p class="text-sm text-gray-500">
-                    Scan or enter a barcode/QR code to search for an item
-                  </p>
-                  
-                  <!-- Camera preview for scanning -->
-                  <div class="mt-4 mb-4">
-                    <div id="scanner-container" class="relative w-full bg-gray-100 rounded-md overflow-hidden flex flex-col items-center justify-center p-4">
-                      <div id="qr-reader" style="width: 100%; min-height: 300px;"></div>
-                      <div class="text-center mt-4 flex flex-col sm:flex-row gap-2 w-full">
-                        <button id="start-scanner" 
-                                class="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none">
-                          Start Camera
+                <p class="text-sm text-gray-500">
+                  Scan or enter a barcode/QR code to search for an item
+                </p>
+              </div>
+              
+              <!-- Camera preview for scanning -->
+              <div class="mb-6">
+                <div id="scanner-container" class="relative w-full bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden">
+                  <!-- Close camera button - positioned outside the qr-reader div -->
+                  <button id="close-camera-btn" 
+                          onclick="stopScanner()" 
+                          class="absolute top-4 right-4 z-50 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70 transition-all duration-200 hidden"
+                          title="Close Camera">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <div id="qr-reader" style="width: 100%; min-height: 250px;" class="flex items-center justify-center"></div>
+                  <div class="p-4 bg-white border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                      <button id="start-scanner" 
+                              class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                        Start Camera
+                      </button>
+                      
+                      <div class="relative flex-1">
+                        <input type="file" 
+                               id="qr-input-file" 
+                               accept="image/*" 
+                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                               onchange="handleFileSelect(this)">
+                        <button class="w-full bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
+                          Upload QR Image
                         </button>
-                        
-                        <div class="relative w-full sm:w-auto">
-                          <input type="file" 
-                                 id="qr-input-file" 
-                                 accept="image/*" 
-                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                 onchange="handleFileSelect(this)">
-                          <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none">
-                            Upload QR Image
-                          </button>
-                        </div>
                       </div>
                     </div>
                   </div>
-                  
-                  <div class="mt-4 flex flex-col md:flex-row gap-4">
-                    <div class="flex-1">
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Barcode/QR Code</label>
-                      <div class="relative rounded-md shadow-sm">
-                        <input type="text" 
-                               id="barcodeInput"
-                               class="block w-full pr-10 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm border-gray-300 rounded-md"
-                               placeholder="Enter barcode or scan">
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                          <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <p class="mt-2 text-xs text-gray-500">
-                    You can enter a code manually or use the camera to scan
-                  </p>
                 </div>
+              </div>
+              
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Barcode/QR Code</label>
+                  <div class="relative rounded-md shadow-sm">
+                    <input type="text" 
+                           id="barcodeInput"
+                           class="block w-full pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300 rounded-md"
+                           placeholder="Enter barcode or scan">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <p class="text-xs text-gray-500 text-center">
+                  You can enter a code manually or use the camera to scan
+                </p>
               </div>
             </div>
             
@@ -208,7 +212,6 @@
               </button>
             </div>
           </div>
-        </div>
       </div>
 
       <template data-stock-transaction-target="itemTemplate">
@@ -396,6 +399,11 @@
     console.log('Opening barcode modal');
     document.getElementById('barcodeModal').classList.remove('hidden');
     
+    // Ensure camera is not running when modal opens
+    if (html5QrCodeScanner) {
+      stopScanner();
+    }
+    
     // Focus the input field after a small delay to allow the modal to display
     setTimeout(() => {
       const input = document.getElementById('barcodeInput');
@@ -404,8 +412,17 @@
       }
     }, 100);
 
-    // Initialize the scanner area if not already done
+    // Add keyboard event listener for ESC key
+    document.addEventListener('keydown', handleModalKeydown);
+
+    // Initialize the scanner area if not already done (but don't start camera)
     initScanner();
+  }
+
+  function handleModalKeydown(event) {
+    if (event.key === 'Escape' && !document.getElementById('barcodeModal').classList.contains('hidden')) {
+      closeBarcodeModal();
+    }
   }
 
   function initScanner() {
@@ -413,6 +430,12 @@
     if (window.scannerInitialized) return;
     
     const scannerContainer = document.getElementById('scanner-container');
+    const closeCameraBtn = document.getElementById('close-camera-btn');
+    
+    // Ensure close button is hidden initially (camera not running)
+    if (closeCameraBtn) {
+      closeCameraBtn.classList.add('hidden');
+    }
     
     // Keep the existing structure but make sure the file upload button exists
     if (!document.getElementById('qr-input-file')) {
@@ -512,15 +535,30 @@
   // Helper function to update button state
   function updateScannerButtonState(isScanning) {
     const startButton = document.getElementById('start-scanner');
+    const closeCameraBtn = document.getElementById('close-camera-btn');
+    
     if (startButton) {
       startButton.textContent = isScanning ? 'Stop Camera' : 'Start Camera';
       startButton.disabled = false;
+      
+      // Remove all possible color classes first
+      startButton.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'bg-red-600', 'hover:bg-red-700', 'bg-gray-600', 'hover:bg-gray-700');
+      
       if (isScanning) {
-        startButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');
-        startButton.classList.add('bg-red-600', 'hover:bg-red-700');
+        // When camera is running, make button red for "Stop Camera"
+        startButton.classList.add('bg-red-600', 'hover:bg-red-700', 'text-white');
       } else {
-        startButton.classList.remove('bg-red-600', 'hover:bg-red-700');
-        startButton.classList.add('bg-purple-600', 'hover:bg-purple-700');
+        // When camera is not running, make button blue for "Start Camera"
+        startButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white');
+      }
+    }
+    
+    // Show/hide the close camera button
+    if (closeCameraBtn) {
+      if (isScanning) {
+        closeCameraBtn.classList.remove('hidden');
+      } else {
+        closeCameraBtn.classList.add('hidden');
       }
     }
   }
@@ -570,6 +608,9 @@
         // Reset scanner variable even if stopping fails
         html5QrCodeScanner = null;
     }
+    
+    // Remove keyboard event listener
+    document.removeEventListener('keydown', handleModalKeydown);
     
     document.getElementById('barcodeModal').classList.add('hidden');
     document.getElementById('barcodeInput').value = '';
