@@ -5,9 +5,9 @@ RSpec.describe 'User sign in', type: :system do
     user = create(:user)
 
     visit new_user_session_path
-    fill_in 'E-mail', with: user.email
-    fill_in 'Senha', with: 'password123'
-    click_button 'Entrar'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: 'password123'
+    click_button 'Sign In'
 
     expect(page).to have_content(I18n.t('teams.selection.title'))
   end
