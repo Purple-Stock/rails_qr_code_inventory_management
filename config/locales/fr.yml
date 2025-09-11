@@ -399,6 +399,28 @@ fr:
         buttons:
           delete: "Supprimer le Compte"
           cancel: "Annuler"
+  devise:
+    sessions:
+      new:
+        title: "Se Connecter"
+        subtitle: "Entrez vos identifiants pour accéder à votre compte"
+        email: "E-mail"
+        password: "Mot de passe"
+        forgot_password: "Mot de passe oublié ?"
+        submit: "Se Connecter"
+        sign_up: "Vous n'avez pas de compte ?"
+        register: "S'inscrire"
+    registrations:
+      new:
+        title: "Créer un compte"
+        subtitle: "Entrez vos informations pour créer votre compte"
+        email: "E-mail"
+        password: "Mot de passe"
+        password_confirmation: "Confirmer le mot de passe"
+        submit: "Créer un compte"
+        already_have_account: "Vous avez déjà un compte ?"
+        sign_in: "Se connecter"
+        min_password: "Minimum %{count} caractères"
   header:
     subscribe: "S'abonner"
     user_guide: "Guide de l'Utilisateur"
