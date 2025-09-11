@@ -254,14 +254,18 @@
 
   // Initialize page behavior on Turbo (and full) loads
   function initializeStockOutPage() {
+    // Only run on Stock Out page
+    const pageRoot = document.querySelector('[data-controller="stock-transaction"][data-stock-transaction-type-value="stock_out"]');
+    if (!pageRoot) return;
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
-    const teamId = document.querySelector('[data-team-id]').dataset.teamId;
+    const teamNode = document.querySelector('[data-team-id]');
+    const teamId = teamNode ? teamNode.dataset.teamId : null;
 
     // Hide results when clicking outside
-    if (!window.__stockOutDocClickBound) {
+    if (searchInput && searchResults && !window.__stockOutDocClickBound) {
       document.addEventListener('click', function(event) {
-        if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+        if (searchInput && searchResults && !searchInput.contains(event.target) && !searchResults.contains(event.target)) {
           searchResults.classList.add('hidden');
         }
       });

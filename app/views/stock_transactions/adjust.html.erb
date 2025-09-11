@@ -10,8 +10,7 @@
     <div class="bg-white shadow rounded-lg" 
          data-controller="stock-transaction"
          data-stock-transaction-team-id-value="<%= @team.id %>"
-         data-stock-transaction-type-value="adjust"
-         data-action="click->search#clickOutside">
+         data-stock-transaction-type-value="adjust">
       <div class="p-6 border-b border-gray-200">
         <div class="grid grid-cols-1 gap-6">
           <div>
@@ -255,6 +254,42 @@
 
 <!-- Add the JavaScript for barcode scanning -->
 <script>
+  // Reinitialize Adjust page behaviors on Turbo navigations
+  function initializeAdjustPage() {
+    // Enter key submits barcode
+    const barcodeInput = document.getElementById('adjustBarcodeInput');
+    if (barcodeInput) {
+      const handler = function(e) { if (e.key === 'Enter') { addAdjustScannedItem(); } };
+      barcodeInput.removeEventListener('keypress', handler);
+      barcodeInput.addEventListener('keypress', handler);
+    }
+
+    // Bind start camera button in case modal is already present
+    const startScannerButton = document.getElementById('adjust-start-scanner');
+    if (startScannerButton) {
+      startScannerButton.removeEventListener('click', toggleAdjustScanner);
+      startScannerButton.addEventListener('click', toggleAdjustScanner);
+    }
+
+    // Optional: hide search results when clicking outside (if present)
+    const searchWrapper = document.querySelector('[data-controller="search"]');
+    const searchInput = searchWrapper && searchWrapper.querySelector('[data-search-target="input"]');
+    const searchResults = searchWrapper && searchWrapper.querySelector('[data-search-target="results"]');
+    if (searchWrapper && searchInput && searchResults && !window.__adjustDocClickBound) {
+      document.addEventListener('click', function(event) {
+        if (!searchWrapper.contains(event.target)) {
+          searchResults.classList.add('hidden');
+        }
+      });
+      window.__adjustDocClickBound = true;
+    }
+
+  }
+
+  document.addEventListener('turbo:load', initializeAdjustPage);
+  document.addEventListener('DOMContentLoaded', initializeAdjustPage);
+
+
   // Use namespace to avoid conflicts between pages
   window.AdjustPage = window.AdjustPage || {};
   

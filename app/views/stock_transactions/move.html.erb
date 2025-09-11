@@ -287,15 +287,18 @@
 
   // Initialize page behavior on Turbo (and full) loads
   function initializeMovePage() {
+    // Only run on Move page
+    const pageRoot = document.querySelector('[data-controller="stock-transaction"][data-stock-transaction-type-value="move"]');
+    if (!pageRoot) return;
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const teamId = document.querySelector('[data-team-id]').dataset.teamId;
     const sourceLocationSelect = document.querySelector('select[name="source_location_id"]');
 
     // Hide results when clicking outside
-    if (!window.__moveDocClickBound) {
+    if (searchInput && searchResults && !window.__moveDocClickBound) {
       document.addEventListener('click', function(event) {
-        if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+        if (searchInput && searchResults && !searchInput.contains(event.target) && !searchResults.contains(event.target)) {
           searchResults.classList.add('hidden');
         }
       });
