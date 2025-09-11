@@ -153,6 +153,8 @@ export default class extends Controller {
     this.qrCodeHandler = (event) => {
       console.log("QR code scanned:", event.detail)
       this.handleQrCodeScanned(event.detail.text)
+      // Close any open scanner modal after handling
+      this.closeScannerModal()
     }
     
     document.addEventListener('qr-code-scanned', this.qrCodeHandler)
@@ -171,12 +173,97 @@ export default class extends Controller {
     this.searchForItem(barcode)
   }
 
+  // Close the scanner modal for the current transaction type if present
+  closeScannerModal() {
+    const modalIdsByType = {
+      stock_in: 'barcodeModal',
+      stock_out: 'stockOutBarcodeModal',
+      adjust: 'adjustBarcodeModal',
+      move: 'barcodeModal'
+    }
+    const modalId = modalIdsByType[this.typeValue]
+    if (!modalId) return
+
+    const modal = document.getElementById(modalId)
+    if (modal && !modal.classList.contains('hidden')) {
+      modal.classList.add('hidden')
+    }
+  }
+
   searchForItem(barcode) {
     console.log("Searching for item with barcode:", barcode)
-    
-    // Implement item search logic here
-    // This would typically make an AJAX request to search for the item
-    // and then trigger the item-selected event
+    const teamId = this.teamIdValue
+    if (!teamId || !barcode) return
+
+    fetch(`/teams/${teamId}/items/find_by_barcode?barcode=${encodeURIComponent(barcode)}`)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.success || !data.item) return
+        const item = {
+          id: String(data.item.id),
+          name: data.item.name,
+          sku: data.item.sku,
+          currentStock: data.item.current_stock
+        }
+
+        if (this.typeValue === 'move') {
+          this.addOrIncrementMove(item)
+        } else if (this.typeValue === 'stock_out') {
+          this.addOrIncrementStockOut(item)
+        } else if (this.typeValue === 'stock_in') {
+          this.addOrIncrementStockIn(item)
+        } else if (this.typeValue === 'adjust') {
+          this.addOrIgnoreAdjust(item)
+        }
+      })
+      .catch(err => console.error('Barcode search error:', err))
+  }
+
+  addOrIncrementMove(item) {
+    const existingRow = this.itemsListTarget.querySelector(`tr[data-item-id="${item.id}"]`)
+    if (existingRow) {
+      const quantityInput = existingRow.querySelector('[data-quantity]')
+      const currentQuantity = parseInt(quantityInput.value) || 0
+      const currentStock = parseInt(existingRow.querySelector('[data-current-stock]').textContent)
+      if (currentQuantity + 1 > currentStock) return
+      quantityInput.value = currentQuantity + 1
+      this.updateTotal()
+      return
+    }
+    this.addMoveItem({ detail: item })
+  }
+
+  addOrIncrementStockOut(item) {
+    const existingRow = this.itemsListTarget.querySelector(`tr[data-item-id="${item.id}"]`)
+    if (existingRow) {
+      const quantityInput = existingRow.querySelector('[data-quantity]')
+      const currentQuantity = parseInt(quantityInput.value) || 0
+      const currentStock = parseInt(existingRow.querySelector('[data-current-stock]').textContent)
+      if (currentQuantity + 1 > currentStock) return
+      quantityInput.value = currentQuantity + 1
+      this.updateTotal()
+      return
+    }
+    // Reuse addItem path by faking event structure
+    this.addItem({ detail: item })
+  }
+
+  addOrIncrementStockIn(item) {
+    const existingRow = this.itemsListTarget.querySelector(`tr[data-item-id="${item.id}"]`)
+    if (existingRow) {
+      const quantityInput = existingRow.querySelector('[data-quantity]')
+      const currentQuantity = parseInt(quantityInput.value) || 0
+      quantityInput.value = currentQuantity + 1
+      this.updateTotal()
+      return
+    }
+    this.addItem({ detail: item })
+  }
+
+  addOrIgnoreAdjust(item) {
+    const existingRow = this.itemsListTarget.querySelector(`tr[data-item-id="${item.id}"]`)
+    if (existingRow) return
+    this.addItem({ detail: item })
   }
 
   debounce(func, wait) {

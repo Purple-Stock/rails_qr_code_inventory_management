@@ -404,11 +404,13 @@
     }
 
     // Set up the start scanner button
-    const startScannerButton = document.getElementById('start-scanner');
-    if (startScannerButton) {
-      // Remove any previous handler before re-adding
-      startScannerButton.removeEventListener('click', toggleScanner);
-      startScannerButton.addEventListener('click', toggleScanner);
+    // If Stimulus scanner controller is present, don't bind legacy handler
+    if (!document.querySelector('[data-controller="scanner"]')) {
+      const startScannerButton = document.getElementById('start-scanner');
+      if (startScannerButton) {
+        startScannerButton.removeEventListener('click', toggleScanner);
+        startScannerButton.addEventListener('click', toggleScanner);
+      }
     }
   }
 

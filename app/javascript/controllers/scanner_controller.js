@@ -13,6 +13,7 @@ export default class extends Controller {
     })
     
     this.scanner = null
+    this.didScan = false
     this.isInitialized = false
     this.setupEventListeners()
   }
@@ -39,6 +40,9 @@ export default class extends Controller {
       this.stopScanner()
       return
     }
+
+    // Reset scan gate on every new start
+    this.didScan = false
 
     if (this.hasStartButtonTarget) {
       this.startButtonTarget.textContent = 'Starting...'
@@ -123,6 +127,8 @@ export default class extends Controller {
   }
 
   onScanSuccess(decodedText, decodedResult) {
+    if (this.didScan) { return }
+    this.didScan = true
     console.log("QR Code scanned:", decodedText)
     
     // Dispatch custom event for other controllers to handle
