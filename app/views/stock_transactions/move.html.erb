@@ -285,19 +285,22 @@
 <script>
   let html5QrCodeScanner = null;
 
-  // Wait for the document to be fully loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  // Initialize page behavior on Turbo (and full) loads
+  function initializeMovePage() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const teamId = document.querySelector('[data-team-id]').dataset.teamId;
     const sourceLocationSelect = document.querySelector('select[name="source_location_id"]');
 
     // Hide results when clicking outside
-    document.addEventListener('click', function(event) {
-      if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
-        searchResults.classList.add('hidden');
-      }
-    });
+    if (!window.__moveDocClickBound) {
+      document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+          searchResults.classList.add('hidden');
+        }
+      });
+      window.__moveDocClickBound = true;
+    }
 
     // Function to load items
     function loadItems(query = '') {
@@ -443,9 +446,13 @@
     // Set up the start scanner button
     const startScannerButton = document.getElementById('start-scanner');
     if (startScannerButton) {
+      startScannerButton.removeEventListener('click', toggleScanner);
       startScannerButton.addEventListener('click', toggleScanner);
     }
-  });
+  }
+
+  document.addEventListener('turbo:load', initializeMovePage);
+  document.addEventListener('DOMContentLoaded', initializeMovePage);
 
   function openBarcodeModal() {
     console.log('Opening barcode modal');

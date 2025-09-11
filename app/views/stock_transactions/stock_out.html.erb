@@ -252,18 +252,21 @@
 <script>
   let stockOutQrCodeScanner = null;
 
-  // Wait for the document to be fully loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  // Initialize page behavior on Turbo (and full) loads
+  function initializeStockOutPage() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const teamId = document.querySelector('[data-team-id]').dataset.teamId;
 
     // Hide results when clicking outside
-    document.addEventListener('click', function(event) {
-      if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
-        searchResults.classList.add('hidden');
-      }
-    });
+    if (!window.__stockOutDocClickBound) {
+      document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+          searchResults.classList.add('hidden');
+        }
+      });
+      window.__stockOutDocClickBound = true;
+    }
 
     // Function to load items
     function loadItems(query = '') {
@@ -399,9 +402,13 @@
     // Set up the start scanner button
     const startScannerButton = document.getElementById('stockout-start-scanner');
     if (startScannerButton) {
+      startScannerButton.removeEventListener('click', toggleStockOutScanner);
       startScannerButton.addEventListener('click', toggleStockOutScanner);
     }
-  });
+  }
+
+  document.addEventListener('turbo:load', initializeStockOutPage);
+  document.addEventListener('DOMContentLoaded', initializeStockOutPage);
 
   function openBarcodeModal() {
     console.log('Opening stock out barcode modal');

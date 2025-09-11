@@ -10,7 +10,8 @@
     <div class="bg-white shadow rounded-lg" 
          data-controller="stock-transaction"
          data-stock-transaction-team-id-value="<%= @team.id %>"
-         data-stock-transaction-type-value="adjust">
+         data-stock-transaction-type-value="adjust"
+         data-action="click->search#clickOutside">
       <div class="p-6 border-b border-gray-200">
         <div class="grid grid-cols-1 gap-6">
           <div>
@@ -52,12 +53,12 @@
       <div class="p-6">
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.adjust.items') %></label>
-          <div class="relative" data-controller="search" data-team-id="<%= @team.id %>">
+          <div class="relative" data-controller="search" data-search-team-id-value="<%= @team.id %>">
             <input type="text" 
                    placeholder="<%= t('stock_transactions.adjust.search_placeholder') %>" 
                    class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
                    data-search-target="input"
-                   data-action="input->search#search">
+                   data-action="input->search#search focus->search#focus">
             
             <div class="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-lg hidden"
                  data-search-target="results">
@@ -254,14 +255,52 @@
 
 <!-- Add the JavaScript for barcode scanning -->
 <script>
-  let adjustQrCodeScanner = null;
+  // Use namespace to avoid conflicts between pages
+  window.AdjustPage = window.AdjustPage || {};
+  
+  // Clean up any existing scanner instance
+  if (window.AdjustPage.qrCodeScanner) {
+    try {
+      if (window.AdjustPage.qrCodeScanner._isScanning) {
+        window.AdjustPage.qrCodeScanner.stop();
+      }
+      window.AdjustPage.qrCodeScanner.clear();
+    } catch (e) {
+      console.warn('Error cleaning up existing scanner:', e);
+    }
+    window.AdjustPage.qrCodeScanner = null;
+  }
+
+  // Initialize the page namespace
+  window.AdjustPage.qrCodeScanner = null;
+  window.AdjustPage.scannerInitialized = false;
+
+  // Cleanup function for Turbo navigation
+  function cleanupAdjustPage() {
+    if (window.AdjustPage && window.AdjustPage.qrCodeScanner) {
+      try {
+        if (window.AdjustPage.qrCodeScanner._isScanning) {
+          window.AdjustPage.qrCodeScanner.stop();
+        }
+        window.AdjustPage.qrCodeScanner.clear();
+      } catch (e) {
+        console.warn('Error during cleanup:', e);
+      }
+      window.AdjustPage.qrCodeScanner = null;
+      window.AdjustPage.scannerInitialized = false;
+    }
+  }
+
+  // Listen for Turbo navigation events to cleanup
+  document.addEventListener('turbo:before-visit', cleanupAdjustPage);
+  document.addEventListener('turbo:before-cache', cleanupAdjustPage);
 
   function openAdjustBarcodeModal() {
     console.log('Opening adjust barcode modal');
     document.getElementById('adjustBarcodeModal').classList.remove('hidden');
     
     // Ensure camera is not running when modal opens
-    if (adjustQrCodeScanner) {
+    if (window.AdjustPage.qrCodeScanner) {
       stopAdjustScanner();
     }
     
@@ -290,7 +329,7 @@
 
   function initAdjustScanner() {
     // Only initialize once
-    if (window.adjustScannerInitialized) return;
+    if (window.AdjustPage.scannerInitialized) return;
     
     const scannerContainer = document.getElementById('adjust-scanner-container');
     const closeCameraBtn = document.getElementById('adjust-close-camera-btn');
@@ -313,11 +352,11 @@
       startScannerButton.addEventListener('click', toggleAdjustScanner);
     }
     
-    window.adjustScannerInitialized = true;
+    window.AdjustPage.scannerInitialized = true;
   }
 
   function toggleAdjustScanner() {
-    if (adjustQrCodeScanner) {
+    if (window.AdjustPage.qrCodeScanner) {
       stopAdjustScanner();
       return;
     }
@@ -368,7 +407,7 @@
         onAdjustScanSuccess,
         onAdjustScanFailure
       ).then(() => {
-        adjustQrCodeScanner = html5QrCode;
+        window.AdjustPage.qrCodeScanner = html5QrCode;
         updateAdjustScannerButtonState(true);
       }).catch((err) => {
         console.error(`Unable to start scanning: ${err}`);
@@ -384,20 +423,20 @@
   }
 
   function stopAdjustScanner() {
-    if (adjustQrCodeScanner) {
+    if (window.AdjustPage.qrCodeScanner) {
       // Check if the scanner is actually running before trying to stop it
-      if (adjustQrCodeScanner._isScanning) {
-        adjustQrCodeScanner.stop().then(() => {
-          adjustQrCodeScanner = null;
+      if (window.AdjustPage.qrCodeScanner._isScanning) {
+        window.AdjustPage.qrCodeScanner.stop().then(() => {
+          window.AdjustPage.qrCodeScanner = null;
           updateAdjustScannerButtonState(false);
         }).catch((err) => {
           console.error("Error stopping scanner:", err);
-          adjustQrCodeScanner = null;
+          window.AdjustPage.qrCodeScanner = null;
           updateAdjustScannerButtonState(false);
         });
       } else {
         // Scanner was initialized but not running
-        adjustQrCodeScanner = null;
+        window.AdjustPage.qrCodeScanner = null;
         updateAdjustScannerButtonState(false);
       }
     }
@@ -458,13 +497,13 @@
     
     try {
       // Try to stop the scanner if it's running
-      if (adjustQrCodeScanner) {
+      if (window.AdjustPage.qrCodeScanner) {
         stopAdjustScanner();
       }
     } catch (e) {
       console.error("Error while stopping scanner:", e);
       // Reset scanner variable even if stopping fails
-      adjustQrCodeScanner = null;
+      window.AdjustPage.qrCodeScanner = null;
     }
     
     // Remove keyboard event listener
@@ -555,7 +594,7 @@
     showToast("Processing image...", "blue");
     
     // Create a new Html5Qrcode instance if needed
-    if (!adjustQrCodeScanner) {
+    if (!window.AdjustPage.qrCodeScanner) {
       initAdjustScanner();
       
       // Need to wait for the scanner initialization

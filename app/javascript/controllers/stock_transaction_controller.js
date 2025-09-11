@@ -8,10 +8,24 @@ export default class extends Controller {
   }
 
   connect() {
-    this.items = new Map()
+    console.log("Stock Transaction Controller connected", {
+      type: this.typeValue,
+      element: this.element
+    })
     
+    this.items = new Map()
+    this.setupEventListeners()
+    this.initializePageFunctionality()
+  }
+
+  disconnect() {
+    console.log("Stock Transaction Controller disconnected")
+    this.cleanupEventListeners()
+  }
+
+  setupEventListeners() {
     // Use the same event name for both, but handle differently based on type
-    this.element.addEventListener("item-selected", (event) => {
+    this.itemSelectedHandler = (event) => {
       console.log("Item selected event received", {
         type: this.typeValue,
         event: event.detail
@@ -22,18 +36,155 @@ export default class extends Controller {
       } else {
         this.addItem(event)
       }
-    })
+    }
     
-    console.log("Stock Transaction Controller connected", {
-      type: this.typeValue,
-      element: this.element
+    this.element.addEventListener("item-selected", this.itemSelectedHandler)
+  }
+
+  cleanupEventListeners() {
+    if (this.itemSelectedHandler) {
+      this.element.removeEventListener("item-selected", this.itemSelectedHandler)
+    }
+    
+    if (this.qrCodeHandler) {
+      document.removeEventListener('qr-code-scanned', this.qrCodeHandler)
+    }
+  }
+
+  initializePageFunctionality() {
+    // Initialize search functionality
+    this.initializeSearch()
+    
+    // Initialize scanner functionality
+    this.initializeScanner()
+    
+    // Initialize barcode input functionality
+    this.initializeBarcodeInput()
+    
+    // Initialize QR code scanner events
+    this.initializeQrCodeEvents()
+  }
+
+  initializeSearch() {
+    const searchInput = this.element.querySelector('input[type="search"], input[placeholder*="search" i], input[placeholder*="buscar" i]')
+    if (searchInput) {
+      // Remove existing listeners to avoid duplicates
+      searchInput.removeEventListener('input', this.handleSearchInput)
+      searchInput.removeEventListener('focus', this.handleSearchFocus)
+      
+      // Add new listeners
+      this.handleSearchInput = this.debounce((event) => {
+        this.performSearch(event.target.value)
+      }, 300)
+      
+      this.handleSearchFocus = () => {
+        this.loadItems()
+      }
+      
+      searchInput.addEventListener('input', this.handleSearchInput)
+      searchInput.addEventListener('focus', this.handleSearchFocus)
+    }
+  }
+
+  initializeScanner() {
+    // Initialize scanner buttons
+    const scannerButtons = [
+      'start-scanner',
+      'stockout-start-scanner', 
+      'adjust-start-scanner',
+      'move-start-scanner'
+    ]
+
+    scannerButtons.forEach(buttonId => {
+      const button = document.getElementById(buttonId)
+      if (button) {
+        // Remove existing listeners
+        button.removeEventListener('click', this.handleScannerClick)
+        
+        // Add new listener
+        this.handleScannerClick = () => {
+          this.toggleScanner(buttonId)
+        }
+        
+        button.addEventListener('click', this.handleScannerClick)
+      }
     })
   }
 
-  disconnect() {
-    // Clean up event listeners
-    this.element.removeEventListener("item-selected", this.addItem.bind(this))
-    this.element.removeEventListener("item-selected", this.addMoveItem.bind(this))
+  initializeBarcodeInput() {
+    const barcodeInput = this.element.querySelector('input[id*="barcode"], input[placeholder*="barcode" i]')
+    if (barcodeInput) {
+      // Remove existing listeners
+      barcodeInput.removeEventListener('keypress', this.handleBarcodeKeypress)
+      
+      // Add new listener
+      this.handleBarcodeKeypress = (e) => {
+        if (e.key === 'Enter') {
+          this.addScannedItem()
+        }
+      }
+      
+      barcodeInput.addEventListener('keypress', this.handleBarcodeKeypress)
+    }
+  }
+
+  performSearch(query) {
+    console.log("Performing search:", query)
+    // Implement search logic here
+  }
+
+  loadItems() {
+    console.log("Loading items...")
+    // Implement item loading logic here
+  }
+
+  toggleScanner(buttonId) {
+    console.log("Toggling scanner:", buttonId)
+    // Implement scanner toggle logic here
+  }
+
+  addScannedItem() {
+    console.log("Adding scanned item...")
+    // Implement scanned item logic here
+  }
+
+  initializeQrCodeEvents() {
+    // Listen for QR code scanned events
+    this.qrCodeHandler = (event) => {
+      console.log("QR code scanned:", event.detail)
+      this.handleQrCodeScanned(event.detail.text)
+    }
+    
+    document.addEventListener('qr-code-scanned', this.qrCodeHandler)
+  }
+
+  handleQrCodeScanned(barcode) {
+    console.log("Handling scanned barcode:", barcode)
+    
+    // Set the barcode input value
+    const barcodeInput = this.element.querySelector('input[id*="barcode"], input[placeholder*="barcode" i]')
+    if (barcodeInput) {
+      barcodeInput.value = barcode
+    }
+    
+    // Trigger search for the item
+    this.searchForItem(barcode)
+  }
+
+  searchForItem(barcode) {
+    console.log("Searching for item with barcode:", barcode)
+    
+    // Implement item search logic here
+    // This would typically make an AJAX request to search for the item
+    // and then trigger the item-selected event
+  }
+
+  debounce(func, wait) {
+    let timeout
+    return (...args) => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => func.apply(this, args), wait)
+    }
   }
 
   addItem(event) {
