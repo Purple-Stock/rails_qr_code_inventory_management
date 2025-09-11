@@ -451,6 +451,11 @@
   }
 
   function initScanner() {
+    // Use Stimulus scanner if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      window.scannerInitialized = true;
+      return;
+    }
     // Only initialize once
     if (window.scannerInitialized) return;
     
@@ -471,6 +476,12 @@
   }
 
   function toggleScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     if (html5QrCodeScanner) {
       stopScanner();
       return;
@@ -480,6 +491,12 @@
   }
 
   function startScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     const startButton = document.getElementById('start-scanner');
     if (!startButton) {
       console.error('Start scanner button not found');
@@ -538,6 +555,12 @@
   }
 
   function stopScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      const closeBtn = document.getElementById('close-camera-btn');
+      if (closeBtn && !closeBtn.classList.contains('hidden')) closeBtn.click();
+      return;
+    }
     if (html5QrCodeScanner) {
       // Check if the scanner is actually running before trying to stop it
       if (html5QrCodeScanner._isScanning) {

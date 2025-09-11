@@ -11,35 +11,7 @@
          data-controller="stock-transaction"
          data-stock-transaction-team-id-value="<%= @team.id %>"
          data-stock-transaction-type-value="move">
-      <!-- Ensure Stimulus target is available immediately on connect -->
-      <template data-stock-transaction-target="itemTemplate">
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <div class="flex items-center">
-              <div class="ml-4">
-                <div class="text-sm font-medium text-gray-900" data-item-name></div>
-                <div class="text-sm text-gray-500" data-item-sku></div>
-              </div>
-            </div>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-current-stock></td>
-          <td class="px-6 py-4 whitespace-nowrap">
-            <input type="number" 
-                   name="items[][quantity]"
-                   min="1"
-                   class="w-24 border-gray-300 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500"
-                   data-quantity
-                   data-action="input->stock-transaction#updateTotal">
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-            <button type="button" 
-                    class="text-red-600 hover:text-red-900"
-                    data-action="stock-transaction#removeItem">
-              <%= t('stock_transactions.move.table.actions') %>
-            </button>
-          </td>
-        </tr>
-      </template>
+      
       <div class="p-6 border-b border-gray-200">
         <div class="grid grid-cols-2 gap-6">
           <div>
@@ -517,6 +489,11 @@
   }
 
   function initScanner() {
+    // If Stimulus scanner controller is present, skip legacy init
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      window.scannerInitialized = true;
+      return;
+    }
     // Only initialize once
     if (window.scannerInitialized) return;
     
@@ -537,6 +514,12 @@
   }
 
   function toggleScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     if (html5QrCodeScanner) {
       stopScanner();
       return;
@@ -546,6 +529,12 @@
   }
 
   function startScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     const startButton = document.getElementById('start-scanner');
     if (!startButton) {
       console.error('Start scanner button not found');
@@ -604,6 +593,12 @@
   }
 
   function stopScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#scanner-container[data-controller="scanner"]')) {
+      const closeBtn = document.getElementById('move-close-camera-btn');
+      if (closeBtn && !closeBtn.classList.contains('hidden')) closeBtn.click();
+      return;
+    }
     if (html5QrCodeScanner) {
       // Check if the scanner is actually running before trying to stop it
       if (html5QrCodeScanner._isScanning) {

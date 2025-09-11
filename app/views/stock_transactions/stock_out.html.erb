@@ -452,6 +452,11 @@
   }
 
   function initStockOutScanner() {
+    // If Stimulus scanner controller is present, skip legacy init
+    if (document.querySelector('#stockout-scanner-container[data-controller="scanner"]')) {
+      window.stockOutScannerInitialized = true;
+      return;
+    }
     // Only initialize once
     if (window.stockOutScannerInitialized) return;
     
@@ -472,6 +477,12 @@
   }
 
   function toggleStockOutScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#stockout-scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('stockout-start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     if (stockOutQrCodeScanner) {
       stopStockOutScanner();
       return;
@@ -481,6 +492,12 @@
   }
 
   function startStockOutScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#stockout-scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('stockout-start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     const startButton = document.getElementById('stockout-start-scanner');
     if (!startButton) {
       console.error('Start scanner button not found');
@@ -539,6 +556,12 @@
   }
 
   function stopStockOutScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#stockout-scanner-container[data-controller="scanner"]')) {
+      const closeBtn = document.getElementById('stockout-close-camera-btn');
+      if (closeBtn && !closeBtn.classList.contains('hidden')) closeBtn.click();
+      return;
+    }
     if (stockOutQrCodeScanner) {
       // Check if the scanner is actually running before trying to stop it
       if (stockOutQrCodeScanner._isScanning) {
