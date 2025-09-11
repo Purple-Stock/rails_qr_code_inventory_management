@@ -67,7 +67,7 @@
           <!-- Add Barcode Scanner Button -->
           <div class="flex justify-end space-x-4 mt-4">
             <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                   onclick="openBarcodeModal()">
+                   onclick="openStockOutBarcodeModal()">
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
               </svg>
@@ -234,7 +234,7 @@
           
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button type="button" 
-                    onclick="addStockOutScannedItem()"
+                    data-action="stock-transaction#addScannedItem"
                     class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
               Search
             </button>
@@ -251,10 +251,11 @@
 
 <!-- Add the JavaScript for barcode scanning -->
 <script>
-  let stockOutQrCodeScanner = null;
+  // Legacy scanner disabled (using Stimulus scanner)
 
   // Initialize page behavior on Turbo (and full) loads
   function initializeStockOutPage() {
+    return; // legacy init disabled, Stimulus handles search
     // Only run on Stock Out page
     const pageRoot = document.querySelector('[data-controller="stock-transaction"][data-stock-transaction-type-value="stock_out"]');
     if (!pageRoot) return;
@@ -415,17 +416,13 @@
     }
   }
 
-  document.addEventListener('turbo:load', initializeStockOutPage);
-  document.addEventListener('DOMContentLoaded', initializeStockOutPage);
+  // Legacy init removed (Stimulus handles search/scanner)
 
-  function openBarcodeModal() {
+  function openStockOutBarcodeModal() {
     console.log('Opening stock out barcode modal');
     document.getElementById('stockOutBarcodeModal').classList.remove('hidden');
     
-    // Ensure camera is not running when modal opens
-    if (stockOutQrCodeScanner) {
-      stopStockOutScanner();
-    }
+    // Stimulus scanner manages camera state
     
     // Focus the input field after a small delay to allow the modal to display
     setTimeout(() => {
@@ -750,6 +747,8 @@
   }
 
   function addStockOutScannedItem() {
+    // Legacy path disabled; handled by Stimulus stock-transaction controller
+    return;
     // Prevent multiple rapid calls
     if (window.isProcessingStockOutItem) {
         return;

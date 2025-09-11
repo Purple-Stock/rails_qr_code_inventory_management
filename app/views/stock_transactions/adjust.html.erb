@@ -239,7 +239,7 @@
       
       <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button type="button" 
-                onclick="addAdjustScannedItem()"
+                data-action="stock-transaction#addScannedItem"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto sm:text-sm">
           Search
         </button>
@@ -574,6 +574,8 @@
   }
 
   function addAdjustScannedItem() {
+    // Legacy path disabled; handled by Stimulus stock-transaction controller
+    return;
     const barcodeInput = document.getElementById('adjustBarcodeInput');
     const barcode = barcodeInput.value.trim();
     

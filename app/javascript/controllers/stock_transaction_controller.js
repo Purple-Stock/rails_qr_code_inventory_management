@@ -120,7 +120,8 @@ export default class extends Controller {
       // Add new listener
       this.handleBarcodeKeypress = (e) => {
         if (e.key === 'Enter') {
-          this.addScannedItem()
+          const value = (e.target.value || '').trim()
+          if (value) this.searchForItem(value)
         }
       }
       
@@ -144,8 +145,11 @@ export default class extends Controller {
   }
 
   addScannedItem() {
-    console.log("Adding scanned item...")
-    // Implement scanned item logic here
+    // Find a barcode input within this controller element
+    const input = this.element.querySelector('#barcodeInput, #stockOutBarcodeInput, #adjustBarcodeInput, input[id*="barcode"]')
+    const barcode = input ? (input.value || '').trim() : ''
+    if (!barcode) return
+    this.searchForItem(barcode)
   }
 
   initializeQrCodeEvents() {
