@@ -19,6 +19,14 @@ export default class extends Controller {
       // Show all on focus
       this.inputTarget.addEventListener('focus', () => this.loadItems(''))
     }
+
+    // Hide results when clicking outside the wrapper
+    this.handleDocumentClick = (e) => {
+      if (!this.element.contains(e.target) && this.hasResultsTarget) {
+        this.resultsTarget.classList.add('hidden')
+      }
+    }
+    document.addEventListener('click', this.handleDocumentClick)
   }
 
   search() {
@@ -27,6 +35,12 @@ export default class extends Controller {
 
     clearTimeout(this.searchTimeout)
     this.searchTimeout = setTimeout(() => this.loadItems(query), 300)
+  }
+
+  disconnect() {
+    if (this.handleDocumentClick) {
+      document.removeEventListener('click', this.handleDocumentClick)
+    }
   }
 
   // Optional action handler: focus->search#focus

@@ -398,7 +398,13 @@ export default class extends Controller {
       return
     }
 
-    const template = this.itemTemplateTarget.content.cloneNode(true)
+    // Be robust if Stimulus target resolution fails; fallback to query
+    const templateEl = this.element.querySelector('[data-stock-transaction-target="itemTemplate"]') || document.querySelector('[data-stock-transaction-target="itemTemplate"]')
+    if (!templateEl) {
+      console.error('Missing itemTemplate target for stock-transaction controller')
+      return
+    }
+    const template = templateEl.content.cloneNode(true)
     const row = template.querySelector("tr")
     
     row.dataset.itemId = item.id
@@ -409,7 +415,12 @@ export default class extends Controller {
     const quantityInput = row.querySelector("[data-quantity]")
     quantityInput.name = `items[][quantity]`
     
-    this.itemsListTarget.appendChild(row)
+    const itemsListEl = this.hasItemsListTarget ? this.itemsListTarget : (this.element.querySelector('[data-stock-transaction-target="itemsList"]') || document.querySelector('[data-stock-transaction-target="itemsList"]'))
+    if (!itemsListEl) {
+      console.error('Missing itemsList target for stock-transaction controller')
+      return
+    }
+    itemsListEl.appendChild(row)
     this.items.set(item.id, item)
     this.updateTotal()
     

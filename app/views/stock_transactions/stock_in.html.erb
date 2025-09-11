@@ -52,14 +52,15 @@
       <div class="p-6">
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.stock_in.items') %></label>
-          <div class="relative" data-team-id="<%= @team.id %>">
+          <div class="relative" data-controller="search" data-search-team-id-value="<%= @team.id %>">
             <input type="text" 
                    placeholder="<%= t('stock_transactions.stock_in.search_placeholder') %>" 
                    class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
-                   id="searchInput">
+                   data-search-target="input"
+                   data-action="input->search#search focus->search#focus">
             
             <div class="absolute z-10 w-full mt-1 bg-white shadow-lg rounded-lg hidden"
-                 id="searchResults">
+                 data-search-target="results">
             </div>
           </div>
 
