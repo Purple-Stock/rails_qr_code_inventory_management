@@ -190,7 +190,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div id="adjust-qr-reader" data-scanner-target="qrReader" style="width: 100%; min-height: 250px;" class="flex items-center justify-center"></div>
+            <div id="adjust-qr-reader" data-scanner-target="qrReader" style="width: 100%; min-height: 250px;" class="block"></div>
             <div class="p-4 bg-white border-t border-gray-200">
               <div class="flex flex-col sm:flex-row gap-3">
                 <button id="adjust-start-scanner" data-scanner-target="startButton"
@@ -363,6 +363,11 @@
   }
 
   function initAdjustScanner() {
+    // If Stimulus scanner controller is present, don't initialize legacy scanner
+    if (document.querySelector('#adjust-scanner-container[data-controller="scanner"]')) {
+      window.AdjustPage.scannerInitialized = true;
+      return;
+    }
     // Only initialize once
     if (window.AdjustPage.scannerInitialized) return;
     
@@ -393,6 +398,12 @@
   }
 
   function toggleAdjustScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#adjust-scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('adjust-start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     if (window.AdjustPage.qrCodeScanner) {
       stopAdjustScanner();
       return;
@@ -402,6 +413,12 @@
   }
 
   function startAdjustScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#adjust-scanner-container[data-controller="scanner"]')) {
+      const btn = document.getElementById('adjust-start-scanner');
+      if (btn) btn.click();
+      return;
+    }
     const startButton = document.getElementById('adjust-start-scanner');
     if (!startButton) {
       console.error('Start scanner button not found');
@@ -460,6 +477,12 @@
   }
 
   function stopAdjustScanner() {
+    // Delegate to Stimulus if present
+    if (document.querySelector('#adjust-scanner-container[data-controller="scanner"]')) {
+      const closeBtn = document.getElementById('adjust-close-camera-btn');
+      if (closeBtn && !closeBtn.classList.contains('hidden')) closeBtn.click();
+      return;
+    }
     if (window.AdjustPage.qrCodeScanner) {
       // Check if the scanner is actually running before trying to stop it
       if (window.AdjustPage.qrCodeScanner._isScanning) {
@@ -825,6 +848,46 @@
     }
   }
 </script>
+
+<style>
+  /* Styles for the HTML5 QR scanner in Adjust modal */
+  #adjust-qr-reader {
+    width: 100%;
+    min-height: 300px;
+  }
+  #adjust-qr-reader video, #adjust-qr-reader canvas {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+    display: block;
+  }
+
+  #adjust-qr-reader img {
+    display: none; /* Hide library logo */
+  }
+
+  #adjust-qr-reader__scan_region {
+    position: relative;
+  }
+
+  #adjust-qr-reader__scan_region::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px;
+    height: 240px;
+    border: 2px solid #8b5cf6; /* purple */
+    border-radius: 8px;
+    z-index: 10;
+  }
+
+  #adjust-qr-reader__status_span {
+    background-color: #8b5cf6 !important;
+    color: white !important;
+  }
+</style>
 
 <style>
   /* Styles for the HTML5 QR scanner */
