@@ -149,7 +149,7 @@
 </div>
 
 <!-- Update the Modal ID -->
-  <div id="adjustBarcodeModal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-96 max-w-sm hidden">
+  <div id="adjustBarcodeModal" class="z-50 w-96 hidden">
     <div class="bg-white rounded-lg shadow-xl border border-gray-200">
       <!-- Modal header with close button - draggable -->
       <div id="adjustModalHeader" class="bg-purple-600 px-4 py-3 sm:px-6 flex justify-between items-center relative z-50 cursor-move select-none">
@@ -669,8 +669,20 @@
     let xOffset = 0;
     let yOffset = 0;
     
-    // Reset any previous transform when modal opens
-    modal.style.transform = '';
+    // Calculate centered position first
+    const rect = modal.getBoundingClientRect();
+    const centerX = (window.innerWidth - rect.width) / 2;
+    const centerY = (window.innerHeight - rect.height) / 2;
+    
+    // Set initial centered position
+    modal.style.position = 'fixed';
+    modal.style.top = `${centerY}px`;
+    modal.style.left = `${centerX}px`;
+    modal.style.transform = 'none';
+    
+    // Set initial offsets to the centered position
+    xOffset = centerX;
+    yOffset = centerY;
 
     header.addEventListener('mousedown', dragStart);
     document.addEventListener('mousemove', drag);
@@ -718,8 +730,8 @@
         const maxX = window.innerWidth - rect.width;
         const maxY = window.innerHeight - rect.height;
         
-        xOffset = Math.min(Math.max(0, xOffset), maxX);
-        yOffset = Math.min(Math.max(0, yOffset), maxY);
+        xOffset = Math.min(Math.max(0, currentX), maxX);
+        yOffset = Math.min(Math.max(0, currentY), maxY);
 
         // Position absolutely from top-left
         modal.style.position = 'fixed';
