@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_113930) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_15_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,6 +80,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_113930) do
     t.check_constraint "\nCASE transaction_type\n    WHEN 'stock_out'::stock_transaction_type THEN quantity <= 0::numeric\n    WHEN 'stock_in'::stock_transaction_type THEN quantity >= 0::numeric\n    ELSE true\nEND", name: "valid_quantity_for_transaction_type"
   end
 
+  create_table "team_memberships", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id", "user_id"], name: "index_team_memberships_on_team_id_and_user_id", unique: true
+    t.index ["team_id"], name: "index_team_memberships_on_team_id"
+    t.index ["user_id"], name: "index_team_memberships_on_user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name", null: false
     t.text "notes"
@@ -120,6 +131,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_113930) do
   add_foreign_key "stock_transactions", "locations", column: "source_location_id"
   add_foreign_key "stock_transactions", "teams"
   add_foreign_key "stock_transactions", "users"
+  add_foreign_key "team_memberships", "teams"
+  add_foreign_key "team_memberships", "users"
   add_foreign_key "teams", "users"
   add_foreign_key "webhooks", "teams"
 end

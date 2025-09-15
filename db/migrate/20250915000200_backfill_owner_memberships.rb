@@ -16,4 +16,3 @@ class BackfillOwnerMemberships < ActiveRecord::Migration[8.0]
     # No-op: keep memberships
   end
 end
-

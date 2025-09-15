@@ -48,4 +48,3 @@ module RoleAuthorization
     end
   end
 end
-

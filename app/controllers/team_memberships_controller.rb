@@ -2,7 +2,7 @@ class TeamMembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team
   before_action -> { require_role!(@team, :admin) }
-  before_action :set_membership, only: [:edit, :update, :destroy]
+  before_action :set_membership, only: [ :edit, :update, :destroy ]
 
   def index
     @memberships = @team.team_memberships.includes(:user).order("role DESC")
@@ -59,4 +59,3 @@ class TeamMembershipsController < ApplicationController
     params.require(:team_membership).permit(:email, :role)
   end
 end
-
