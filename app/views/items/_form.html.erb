@@ -79,8 +79,49 @@
     </div>
   </div>
 
+  <%# Kit components section (optional) %>
+  <%# Render only if the item is/will be a kit (by convention: item_type == 'kit') %>
+  <% if item.item_type&.downcase == 'kit' || item.kit_components.any? %>
+    <div class="mt-10 bg-white p-6 rounded-lg border">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Kit Components</h3>
+      <p class="text-sm text-gray-500 mb-4">Select items and quantities that compose this kit.</p>
+
+      <div class="space-y-4">
+        <div class="grid grid-cols-12 gap-4 font-semibold text-gray-600">
+          <div class="col-span-7">Item</div>
+          <div class="col-span-3">Quantity</div>
+          <div class="col-span-2"></div>
+        </div>
+
+        <div class="space-y-3">
+          <%= f.fields_for :kit_components do |kc| %>
+            <div class="grid grid-cols-12 gap-4 items-center">
+              <div class="col-span-7">
+                <%= kc.collection_select :component_item_id,
+                      @team.items.where.not(id: item.id).order(:name),
+                      :id, :name,
+                      { include_blank: 'Select item' },
+                      class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm' %>
+              </div>
+              <div class="col-span-3">
+                <%= kc.number_field :quantity, step: '0.01', min: 0.01,
+                      class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm' %>
+              </div>
+              <div class="col-span-2">
+                <label class="inline-flex items-center space-x-2 text-sm">
+                  <%= kc.check_box :_destroy %>
+                  <span>Remove</span>
+                </label>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
   <div class="flex justify-end space-x-3 mt-6">
     <%= link_to t('items.form.buttons.cancel'), team_items_path(@team), class: "btn btn-secondary" %>
     <%= f.submit class: "btn btn-primary" %>
   </div>
-<% end %> 
+<% end %>
