@@ -78,10 +78,10 @@ Rails.application.configure do
 
   # Secret key configuration for production
   # Handle dummy key during asset precompilation, otherwise use environment variable or credentials
-  if ENV['SECRET_KEY_BASE_DUMMY']
-    config.secret_key_base = ENV['SECRET_KEY_BASE_DUMMY']
+  if ENV["SECRET_KEY_BASE_DUMMY"]
+    config.secret_key_base = ENV["SECRET_KEY_BASE_DUMMY"]
   else
-    config.secret_key_base = ENV['SECRET_KEY_BASE'] || Rails.application.credentials.secret_key_base
+    config.secret_key_base = ENV["SECRET_KEY_BASE"] || Rails.application.credentials.secret_key_base
   end
 
   # Only use :id for inspections in production.
