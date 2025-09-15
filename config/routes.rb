@@ -56,6 +56,7 @@ Rails.application.routes.draw do
         delete :destroy
       end
     end
+    resources :team_memberships, path: :members, except: [:show]
     resource :settings, only: [ :show ]
     resources :locations
     resources :webhooks

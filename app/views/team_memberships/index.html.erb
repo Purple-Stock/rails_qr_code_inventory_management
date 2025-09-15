@@ -1,0 +1,61 @@
+<div class="space-y-6">
+  <h1 class="text-xl font-semibold">Membros do Time</h1>
+
+  <div class="bg-white p-4 rounded shadow">
+    <h2 class="font-medium mb-2">Adicionar membro</h2>
+    <%= form_with model: [@team, TeamMembership.new], url: team_team_memberships_path(@team), local: true do |f| %>
+      <div class="flex gap-2 items-end">
+        <div class="flex-1">
+          <%= label_tag :email, 'Email do usuário' %>
+          <%= text_field_tag 'team_membership[email]', nil, class: 'w-full border rounded p-2', placeholder: 'user@example.com' %>
+        </div>
+        <div>
+          <%= label_tag :role, 'Permissão' %>
+          <%= select_tag 'team_membership[role]', options_for_select(TeamMembership.roles.keys.map { |r| [r.titleize, r] }, 'viewer'), class: 'border rounded p-2'
+          %>
+        </div>
+        <div>
+          <%= f.submit 'Adicionar', class: 'px-3 py-2 bg-indigo-600 text-white rounded' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="bg-white p-4 rounded shadow">
+    <h2 class="font-medium mb-2">Membros atuais</h2>
+    <table class="w-full text-left">
+      <thead>
+        <tr>
+          <th class="py-2">Usuário</th>
+          <th class="py-2">Email</th>
+          <th class="py-2">Permissão</th>
+          <th class="py-2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @memberships.each do |m| %>
+          <tr class="border-t">
+            <td class="py-2"><%= m.user.id %></td>
+            <td class="py-2"><%= m.user.email %></td>
+            <td class="py-2">
+              <% if m.role == 'owner' %>
+                Proprietário
+              <% else %>
+                <%= form_with model: [@team, m], url: team_team_membership_path(@team, m), method: :patch, local: true do |f| %>
+                  <%= f.select :role, TeamMembership.roles.keys.map { |r| [r.titleize, r] }, {}, class: 'border rounded p-1' %>
+                  <%= f.submit 'Salvar', class: 'ml-2 text-sm px-2 py-1 bg-gray-200 rounded' %>
+                <% end %>
+              <% end %>
+            </td>
+            <td class="py-2 text-right">
+              <% unless m.role == 'owner' %>
+                <%= button_to 'Remover', team_team_membership_path(@team, m), method: :delete, data: { confirm: 'Tem certeza?' }, class: 'text-red-600' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

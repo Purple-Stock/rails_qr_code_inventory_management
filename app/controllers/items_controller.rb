@@ -3,6 +3,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team
   before_action :set_item, only: [ :edit, :update, :destroy ]
+  before_action -> { require_role!(@team, :editor) }, only: [ :new, :create, :edit, :update, :destroy, :import, :export, :duplicate ]
 
   def index
     @categories = @team.items.pluck(:item_type).uniq

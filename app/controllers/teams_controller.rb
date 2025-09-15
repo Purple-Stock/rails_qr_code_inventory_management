@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team, only: [ :show, :edit, :update, :destroy ]
+  before_action -> { require_role!(@team, :admin) }, only: [ :edit, :update, :destroy ]
 
   def selection
     @teams = current_user.teams
@@ -14,12 +15,12 @@ class TeamsController < ApplicationController
   end
 
   def new
-    @team = current_user.teams.build
+    @team = Team.new(user: current_user)
     @hide_team_settings = true
   end
 
   def create
-    @team = current_user.teams.build(team_params)
+    @team = Team.new(team_params.merge(user: current_user))
     @hide_team_settings = true
 
     if @team.save

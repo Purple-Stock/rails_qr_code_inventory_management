@@ -12,4 +12,14 @@ class Api::V1::BaseController < ActionController::API
 
     @current_user = api_key.user
   end
+
+  def team_membership_for(team)
+    return nil unless current_user && team
+    TeamMembership.find_by(team: team, user: current_user)
+  end
+
+  def require_role!(team, required_role)
+    membership = team_membership_for(team)
+    head :forbidden and return unless membership&.at_least?(required_role)
+  end
 end

@@ -1,4 +1,5 @@
 class LabelsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_team
 
   def new
@@ -67,6 +68,6 @@ class LabelsController < ApplicationController
   private
 
   def set_team
-    @team = Team.find(params[:team_id])
+    @team = current_user.teams.find(params[:team_id])
   end
 end

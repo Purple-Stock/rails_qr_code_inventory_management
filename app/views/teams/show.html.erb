@@ -1,2 +1,8 @@
 <h1>Team Details</h1>
-<p>Name: <%= @team.name %></p> 
+<p>Name: <%= @team.name %></p>
+
+<% if can_admin_team?(@team) %>
+  <p>
+    <%= link_to 'Gerenciar Membros', team_team_memberships_path(@team), class: 'text-indigo-600 underline' %>
+  </p>
+<% end %>
