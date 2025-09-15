@@ -28,6 +28,8 @@ class ItemsController < ApplicationController
 
   def new
     @item = @team.items.build
+    @locations = @team.locations.ordered
+    3.times { @item.kit_components.build }
   end
 
   def create
@@ -44,6 +46,7 @@ class ItemsController < ApplicationController
 
   def edit
     @locations = @team.locations.ordered
+    @item.kit_components.build while @item.kit_components.size < 3
   end
 
   def update
@@ -198,7 +201,8 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:sku, :name, :barcode, :cost, :price,
-                               :item_type, :brand, :location_id)
+                               :item_type, :brand, :location_id,
+                               kit_components_attributes: [ :id, :component_item_id, :quantity, :_destroy ])
   end
 
   def trigger_webhook(event, item)

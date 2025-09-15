@@ -59,21 +59,48 @@ class StockTransactionsController < ApplicationController
 
         params[:items].each do |item_data|
           item = @team.items.find(item_data[:id])
+          requested_qty = BigDecimal(item_data[:quantity].to_s)
 
-          # Validate stock availability
-          if item.current_stock < item_data[:quantity].to_i
-            raise StandardError, "Not enough stock for #{item.name}"
+          if item.kit_components.any?
+            # Validate all components availability
+            item.kit_components.each do |kc|
+              comp = kc.component_item
+              needed = (requested_qty * BigDecimal(kc.quantity.to_s))
+              if comp.current_stock.to_d < needed
+                raise StandardError, "Not enough stock for component #{comp.name} in kit #{item.name}"
+              end
+            end
+
+            # Create stock_out for each component
+            item.kit_components.each do |kc|
+              comp = kc.component_item
+              qty = -(requested_qty * BigDecimal(kc.quantity.to_s))
+              @team.stock_transactions.create!(
+                item: comp,
+                transaction_type: "stock_out",
+                quantity: qty,
+                source_location: source_location,
+                notes: "Kit #{item.sku || item.name}: #{params[:notes]}",
+                user: current_user
+              )
+              trigger_stock_webhook("stock.updated", comp)
+            end
+          else
+            # Validate stock availability for simple item
+            if item.current_stock.to_d < requested_qty
+              raise StandardError, "Not enough stock for #{item.name}"
+            end
+
+            @team.stock_transactions.create!(
+              item: item,
+              transaction_type: "stock_out",
+              quantity: -requested_qty, # Make quantity negative for stock out
+              source_location: source_location,
+              notes: params[:notes],
+              user: current_user
+            )
+            trigger_stock_webhook("stock.updated", item)
           end
-
-          @team.stock_transactions.create!(
-            item: item,
-            transaction_type: "stock_out",
-            quantity: -item_data[:quantity].to_i, # Make quantity negative for stock out
-            source_location: source_location,
-            notes: params[:notes],
-            user: current_user
-          )
-          trigger_stock_webhook("stock.updated", item)
         end
 
         render json: { success: true, redirect_url: team_stock_transactions_path(@team) }
@@ -208,14 +235,14 @@ class StockTransactionsController < ApplicationController
         # Find the location first
         location = @team.locations.find(params[:location])
 
-        # Process each item as its own transaction record
+        # Process each item as its own transaction record (expand kits on stock_out)
         items_params.each do |item_data|
           item_id = item_data[:id]
-          quantity = item_data[:quantity].to_f
+          quantity = BigDecimal(item_data[:quantity].to_s)
 
           item = @team.items.find(item_id)
 
-          # Create a separate transaction for each item
+          # Create transactions
           if @transaction_type == "adjust"
             # For adjust, calculate the difference
             difference = quantity - item.current_stock
@@ -228,15 +255,42 @@ class StockTransactionsController < ApplicationController
               user: current_user
             )
           elsif @transaction_type == "stock_out"
-            # For stock out
-            @team.stock_transactions.create!(
-              item: item,
-              transaction_type: "stock_out",
-              quantity: quantity * -1, # Make negative for stock out
-              source_location: location,
-              notes: @notes,
-              user: current_user
-            )
+            if item.kit_components.any?
+              # Validate all component availability first
+              item.kit_components.each do |kc|
+                comp = kc.component_item
+                needed = (quantity * BigDecimal(kc.quantity.to_s))
+                if comp.current_stock.to_d < needed
+                  raise StandardError, "Not enough stock for component #{comp.name} in kit #{item.name}"
+                end
+              end
+
+              # Create stock out for each component
+              item.kit_components.each do |kc|
+                comp = kc.component_item
+                qty = -(quantity * BigDecimal(kc.quantity.to_s))
+                @team.stock_transactions.create!(
+                  item: comp,
+                  transaction_type: "stock_out",
+                  quantity: qty,
+                  source_location: location,
+                  notes: "Kit #{item.sku || item.name}: #{@notes}",
+                  user: current_user
+                )
+                trigger_stock_webhook("stock.updated", comp)
+              end
+            else
+              # Simple item stock out
+              @team.stock_transactions.create!(
+                item: item,
+                transaction_type: "stock_out",
+                quantity: quantity * -1, # Make negative for stock out
+                source_location: location,
+                notes: @notes,
+                user: current_user
+              )
+              trigger_stock_webhook("stock.updated", item)
+            end
           else
             # For stock in
             @team.stock_transactions.create!(

@@ -34,6 +34,12 @@ class Item < ApplicationRecord
   belongs_to :team
   belongs_to :location, optional: true
   has_many :stock_transactions, dependent: :destroy
+  # Kit relationships
+  has_many :kit_components, class_name: "ItemComponent", foreign_key: :kit_item_id, dependent: :destroy
+  has_many :components, through: :kit_components, source: :component_item
+  has_many :reverse_kit_components, class_name: "ItemComponent", foreign_key: :component_item_id, dependent: :destroy
+  has_many :used_in_kits, through: :reverse_kit_components, source: :kit_item
+  accepts_nested_attributes_for :kit_components, allow_destroy: true
 
   validates :name, presence: true
   validates :sku, presence: true, uniqueness: { scope: :team_id }
@@ -46,6 +52,11 @@ class Item < ApplicationRecord
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
 
   def current_stock
+    # If this item is a kit (has components), derive stock from components
+    if kit?
+      return kit_available_stock
+    end
+
     total = 0
     stock_transactions.each do |transaction|
       case transaction.transaction_type
@@ -105,5 +116,21 @@ class Item < ApplicationRecord
       .split(/\s+/)
       .map { |word| word.first(3).upcase }
       .join("-")
+  end
+
+  def kit?
+    kit_components.any?
+  end
+
+  def kit_available_stock
+    return 0 if kit_components.empty?
+
+    # Minimum of (component current stock / required quantity) across all components
+    kit_components.map do |kc|
+      comp_stock = BigDecimal(kc.component_item.current_stock.to_s)
+      req = BigDecimal(kc.quantity.to_s)
+      next 0 if req <= 0
+      (comp_stock / req).floor(2)
+    end.min || 0
   end
 end
