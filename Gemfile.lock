@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/drwl/annotaterb
-  revision: 4e5c34164e1179ad0980db51eb207200beb6b292
+  revision: 8ec1d844ad0ea92f7305f25e7972153d95bc6b83
   specs:
-    annotaterb (4.19.0)
+    annotaterb (4.20.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
 
@@ -98,8 +98,8 @@ GEM
     bcrypt_pbkdf (1.1.1)
     bcrypt_pbkdf (1.1.1-arm64-darwin)
     bcrypt_pbkdf (1.1.1-x86_64-darwin)
-    benchmark (0.4.1)
-    bigdecimal (3.2.3)
+    benchmark (0.5.0)
+    bigdecimal (3.3.1)
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
@@ -219,7 +219,7 @@ GEM
     marcel (1.0.4)
     matrix (0.4.3)
     mini_mime (1.1.5)
-    minitest (5.25.5)
+    minitest (5.26.0)
     msgpack (1.8.0)
     net-imap (0.5.10)
       date
@@ -459,7 +459,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.0.3)
+    uri (1.0.4)
     useragent (0.16.11)
     warden (1.2.9)
       rack (>= 2.0.9)
