@@ -36,11 +36,10 @@ class Item < ApplicationRecord
   has_many :stock_transactions, dependent: :destroy
 
   validates :name, presence: true
-  validates :sku, presence: true, uniqueness: { scope: :team_id }
-  validates :item_type, presence: true
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :barcode, uniqueness: true, allow_blank: true
+  validates :sku, uniqueness: { scope: :team_id }, allow_blank: true
+  validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :cost, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :barcode, presence: true, uniqueness: true
   validate :location_belongs_to_team
 
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
