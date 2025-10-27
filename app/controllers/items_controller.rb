@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
 
   def index
     @categories = @team.items.pluck(:item_type).uniq
-    @items = @team.items
+    @items = @team.items.order(created_at: :desc)
 
     if params[:query].present?
       query = "%#{params[:query]}%"
