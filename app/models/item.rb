@@ -123,15 +123,18 @@ class Item < ApplicationRecord
     self.barcode = code + check_digit.to_s
 
     # Ensure uniqueness by appending a timestamp if needed
-    while team.items.exists?(barcode: barcode)
-      code = ""
-      12.times { code += rand(0..9).to_s }
-      sum = 0
-      code.chars.each_with_index do |digit, index|
-        sum += digit.to_i * (index.even? ? 1 : 3)
+    # Only check uniqueness if team is present
+    if team.present?
+      while team.items.exists?(barcode: barcode)
+        code = ""
+        12.times { code += rand(0..9).to_s }
+        sum = 0
+        code.chars.each_with_index do |digit, index|
+          sum += digit.to_i * (index.even? ? 1 : 3)
+        end
+        check_digit = (10 - (sum % 10)) % 10
+        self.barcode = code + check_digit.to_s
       end
-      check_digit = (10 - (sum % 10)) % 10
-      self.barcode = code + check_digit.to_s
     end
   end
 end
