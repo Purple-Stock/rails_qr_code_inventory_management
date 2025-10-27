@@ -36,14 +36,14 @@ class Item < ApplicationRecord
   has_many :stock_transactions, dependent: :destroy
 
   validates :name, presence: true
-  validates :sku, presence: true, uniqueness: { scope: :team_id }
-  validates :item_type, presence: true
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :barcode, uniqueness: true, allow_blank: true
+  validates :sku, uniqueness: { scope: :team_id }, allow_blank: true
+  validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :cost, numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :barcode, presence: true, uniqueness: true
   validate :location_belongs_to_team
 
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
+  before_validation :generate_barcode, on: :create, if: -> { barcode.blank? }
 
   def current_stock
     total = 0
@@ -105,5 +105,36 @@ class Item < ApplicationRecord
       .split(/\s+/)
       .map { |word| word.first(3).upcase }
       .join("-")
+  end
+
+  def generate_barcode
+    # Generate a valid EAN-13 barcode
+    # Generate first 12 digits randomly
+    code = ""
+    12.times { code += rand(0..9).to_s }
+
+    # Calculate check digit
+    sum = 0
+    code.chars.each_with_index do |digit, index|
+      sum += digit.to_i * (index.even? ? 1 : 3)
+    end
+    check_digit = (10 - (sum % 10)) % 10
+
+    self.barcode = code + check_digit.to_s
+
+    # Ensure uniqueness by appending a timestamp if needed
+    # Only check uniqueness if team is present
+    if team.present?
+      while team.items.exists?(barcode: barcode)
+        code = ""
+        12.times { code += rand(0..9).to_s }
+        sum = 0
+        code.chars.each_with_index do |digit, index|
+          sum += digit.to_i * (index.even? ? 1 : 3)
+        end
+        check_digit = (10 - (sum % 10)) % 10
+        self.barcode = code + check_digit.to_s
+      end
+    end
   end
 end
