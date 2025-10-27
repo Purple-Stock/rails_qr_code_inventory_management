@@ -21,7 +21,11 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :teams, dependent: :destroy
+  # Teams this user has access to (via membership)
+  has_many :team_memberships, dependent: :destroy
+  has_many :teams, through: :team_memberships
+  # Teams owned by this user (legacy ownership)
+  has_many :owned_teams, class_name: "Team", foreign_key: :user_id, dependent: :destroy
   has_many :api_keys, dependent: :destroy
 
   # Patch for Devise session serialization bug in tests

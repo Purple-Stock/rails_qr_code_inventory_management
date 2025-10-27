@@ -19,6 +19,8 @@
 #
 class Team < ApplicationRecord
   belongs_to :user
+  has_many :team_memberships, dependent: :destroy
+  has_many :users, through: :team_memberships
   has_many :items, dependent: :destroy
   has_many :stock_transactions, dependent: :destroy
   has_many :locations, dependent: :destroy
@@ -27,6 +29,7 @@ class Team < ApplicationRecord
   validates :name, uniqueness: { scope: :user_id }
 
   after_create :create_default_location
+  after_create :ensure_owner_membership
 
   private
 
@@ -35,4 +38,9 @@ class Team < ApplicationRecord
   end
 
   # Add any other team-specific validations or methods here
+  def ensure_owner_membership
+    team_memberships.find_or_create_by!(user: user) do |tm|
+      tm.role = :owner
+    end
+  end
 end

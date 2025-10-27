@@ -1,5 +1,6 @@
 class Api::V1::TransactionsController < Api::V1::BaseController
   before_action :set_team
+  before_action -> { require_role!(@team, :editor) }, only: [ :create ]
 
   def index
     render json: @team.stock_transactions

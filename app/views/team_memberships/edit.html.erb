@@ -1,0 +1,9 @@
+<h1>Editar Permissão</h1>
+<%= form_with model: [@team, @membership], local: true do |f| %>
+  <div>
+    <%= f.label :role, 'Permissão' %>
+    <%= f.select :role, TeamMembership.roles.keys.map { |r| [r.titleize, r] } %>
+  </div>
+  <%= f.submit 'Salvar' %>
+<% end %>
+

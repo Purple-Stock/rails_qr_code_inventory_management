@@ -2,6 +2,7 @@ class LocationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team
   before_action :set_location, only: [ :show, :edit, :update, :destroy ]
+  before_action -> { require_role!(@team, :editor) }, only: [ :new, :create, :edit, :update, :destroy ]
 
   def index
     @locations = @team.locations.ordered

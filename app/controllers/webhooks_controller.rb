@@ -2,6 +2,7 @@ class WebhooksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team
   before_action :set_webhook, only: [ :edit, :update, :destroy ]
+  before_action -> { require_role!(@team, :editor) }, only: [ :new, :create, :edit, :update, :destroy ]
 
   def index
     @webhooks = @team.webhooks

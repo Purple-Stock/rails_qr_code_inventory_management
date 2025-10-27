@@ -2,6 +2,7 @@ class StockTransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team
   before_action :set_transaction, only: [ :destroy ]
+  before_action -> { require_role!(@team, :editor) }, only: [ :stock_in, :stock_out, :adjust, :move, :create, :destroy ]
 
   def index
     @transactions = @team.stock_transactions
