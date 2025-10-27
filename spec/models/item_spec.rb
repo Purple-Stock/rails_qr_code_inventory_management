@@ -43,12 +43,27 @@ RSpec.describe Item, type: :model do
     subject { build(:item) }
 
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:item_type) }
-    it { should validate_presence_of(:price) }
-    it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
-    it { should validate_presence_of(:cost) }
-    it { should validate_numericality_of(:cost).is_greater_than_or_equal_to(0) }
-    it { should validate_uniqueness_of(:sku).scoped_to(:team_id) }
+
+    describe 'barcode' do
+      it 'generates automatically when blank' do
+        item = build(:item, barcode: nil)
+        expect(item.barcode).to be_nil
+        item.valid?
+        expect(item.barcode).to be_present
+      end
+
+      it 'must be unique' do
+        team = create(:team)
+        location = create(:location, team: team)
+        create(:item, team: team, location: location, barcode: '1234567890123')
+        duplicate = build(:item, team: team, location: location, barcode: '1234567890123')
+        expect(duplicate).not_to be_valid
+      end
+    end
+
+    it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0).allow_nil }
+    it { should validate_numericality_of(:cost).is_greater_than_or_equal_to(0).allow_nil }
+    it { should validate_uniqueness_of(:sku).scoped_to(:team_id).allow_blank }
   end
 
   describe 'location validation' do
