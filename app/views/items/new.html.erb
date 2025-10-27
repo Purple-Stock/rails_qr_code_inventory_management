@@ -52,7 +52,7 @@
           <h1 class="text-2xl font-bold text-gray-900"><%= t('items.form.title.new') %></h1>
         </div>
 
-        <%= form_with(model: [@team, @item], class: "space-y-8", data: { controller: "sku-generator barcode-generator" }) do |f| %>
+        <%= form_with(model: [@team, @item], class: "space-y-8", data: { controller: "sku-generator barcode-generator", turbo: false }) do |f| %>
           <div class="bg-white rounded-lg border border-gray-200 p-6">
             <h2 class="text-lg font-semibold text-gray-900 mb-6"><%= t('items.form.sections.item_information') %></h2>
             

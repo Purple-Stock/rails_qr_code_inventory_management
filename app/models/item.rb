@@ -43,6 +43,7 @@ class Item < ApplicationRecord
   validate :location_belongs_to_team
 
   before_validation :generate_sku, on: :create, if: -> { sku.blank? }
+  before_validation :generate_barcode, on: :create, if: -> { barcode.blank? }
 
   def current_stock
     total = 0
@@ -104,5 +105,33 @@ class Item < ApplicationRecord
       .split(/\s+/)
       .map { |word| word.first(3).upcase }
       .join("-")
+  end
+
+  def generate_barcode
+    # Generate a valid EAN-13 barcode
+    # Generate first 12 digits randomly
+    code = ""
+    12.times { code += rand(0..9).to_s }
+
+    # Calculate check digit
+    sum = 0
+    code.chars.each_with_index do |digit, index|
+      sum += digit.to_i * (index.even? ? 1 : 3)
+    end
+    check_digit = (10 - (sum % 10)) % 10
+
+    self.barcode = code + check_digit.to_s
+
+    # Ensure uniqueness by appending a timestamp if needed
+    while team.items.exists?(barcode: barcode)
+      code = ""
+      12.times { code += rand(0..9).to_s }
+      sum = 0
+      code.chars.each_with_index do |digit, index|
+        sum += digit.to_i * (index.even? ? 1 : 3)
+      end
+      check_digit = (10 - (sum % 10)) % 10
+      self.barcode = code + check_digit.to_s
+    end
   end
 end
