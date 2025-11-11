@@ -523,6 +523,29 @@ pt-BR:
       table:
         item: "Item"
         total: "Total"
+      onboarding:
+        step1:
+          title: "Bem-vindo ao Estoque por Local"
+          description: "Revise cada item e as quantidades armazenadas em cada local sem sair desta página."
+        step2:
+          title: "Imprima um retrato"
+          description: "Use o atalho de impressão quando precisar de uma cópia em papel ou PDF para auditorias, contagens cíclicas ou compartilhamento."
+        step3:
+          title: "Leia por localização"
+          description: "Cada coluna representa um local, então percorra horizontalmente para entender a distribuição em segundos."
+        step4:
+          title: "Examine a presença do item"
+          description: "As linhas exibem o estoque por local e o SKU, facilitando identificar quantidades baixas ou zeradas."
+        step5:
+          title: "Confira o total"
+          description: "A coluna de total soma o estoque de todos os locais para que você sempre conheça o saldo geral."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     adjust:
       title: "Ajustar Estoque"
       subtitle: "Ajuste os níveis de estoque dos itens"

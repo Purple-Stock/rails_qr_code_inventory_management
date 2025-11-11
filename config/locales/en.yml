@@ -558,6 +558,29 @@ en:
       table:
         item: "Item"
         total: "Total"
+      onboarding:
+        step1:
+          title: "Welcome to Stock by Location"
+          description: "Review every item alongside the quantity stored in each location without leaving this page."
+        step2:
+          title: "Print a snapshot"
+          description: "Use the print shortcut when you need a paper copy or PDF for audits, cycle counts, or sharing."
+        step3:
+          title: "Read across locations"
+          description: "Each column represents a location, so you can scan horizontally to understand distribution in seconds."
+        step4:
+          title: "Inspect an item’s footprint"
+          description: "Rows show per-location stock plus SKU details, making it easy to spot low or zero quantities."
+        step5:
+          title: "Check the totals"
+          description: "The total column sums the stock across all locations so you always know the grand total on hand."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     adjust:
       title: "Adjust Stock"
       subtitle: "Adjust stock levels for items"
