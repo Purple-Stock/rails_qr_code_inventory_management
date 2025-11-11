@@ -387,6 +387,32 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Remove"
       save_button: "Remove Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock Out"
+          description: "Track outgoing items to keep inventory levels precise and avoid surprises."
+        step2:
+          title: "Choose the source location"
+          description: "Select where items are leaving from. This ensures stock is deducted from the right spot."
+        step3:
+          title: "Find or scan items"
+          description: "Search or scan to list products being removed. You can add multiple items as needed."
+        step4:
+          title: "Confirm items and quantities"
+          description: "Review stock levels, adjust the quantities to deduct, and remove lines you no longer need."
+        step5:
+          title: "Add notes for context"
+          description: "Document why the stock is leaving (e.g. order fulfillment, damaged goods) for future reference."
+        step6:
+          title: "Finalize the stock removal"
+          description: "Check the total being removed and save to update the inventory in real time."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     move:
       title: "Move Stock"
       subtitle: "Move items between locations"

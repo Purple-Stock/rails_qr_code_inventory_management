@@ -351,6 +351,32 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens a Remover"
       save_button: "Remover Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo à Saída"
+          description: "Registre itens que estão saindo para manter os níveis de estoque sempre corretos."
+        step2:
+          title: "Escolha o local de origem"
+          description: "Selecione de onde os itens serão retirados para que o débito aconteça no lugar certo."
+        step3:
+          title: "Busque ou escaneie itens"
+          description: "Use a busca ou o leitor de códigos para listar os produtos que estão saindo."
+        step4:
+          title: "Revise itens e quantidades"
+          description: "Confira o estoque disponível, ajuste as quantidades a remover e exclua linhas se necessário."
+        step5:
+          title: "Adicione observações"
+          description: "Explique o motivo da saída (ex.: pedido, avaria) para facilitar consultas futuras."
+        step6:
+          title: "Finalize a retirada"
+          description: "Verifique o total removido e conclua para atualizar o inventário em tempo real."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     move:
       title: "Mover Estoque"
       subtitle: "Mover itens entre locais"
