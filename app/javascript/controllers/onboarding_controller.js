@@ -6,6 +6,7 @@ export default class extends Controller {
     storageKey: { type: String, default: "team_selection_onboarding_completed" },
     currentStep: { type: Number, default: 0 },
     itemsEmpty: { type: Boolean, default: false },
+    listEmpty: { type: Boolean, default: false },
     newItemUrl: { type: String, default: "" }
   }
 
@@ -14,15 +15,7 @@ export default class extends Controller {
     this.handleResize = this.handleResize.bind(this)
     window.addEventListener("resize", this.handleResize)
 
-    // Se não houver items, esconde o step da tabela
-    if (this.itemsEmptyValue === true) {
-      const tableStep = this.stepTargets.find(step => {
-        return step.dataset.onboardingTargetSelector === "#onboarding-items-table"
-      })
-      if (tableStep) {
-        tableStep.style.display = "none"
-      }
-    }
+    this.toggleEmptySteps()
 
     // Mostra o botão de revisar tutorial se o onboarding já foi completado
     if (this.isCompleted()) {
@@ -249,6 +242,16 @@ export default class extends Controller {
   cleanup() {
     document.querySelectorAll(".onboarding-highlight").forEach(el => {
       el.classList.remove("onboarding-highlight")
+    })
+  }
+
+  toggleEmptySteps() {
+    const isEmpty = (this.hasListEmptyValue && this.listEmptyValue === true) || this.itemsEmptyValue === true
+
+    this.stepTargets.forEach(step => {
+      if (step.dataset.onboardingHideWhenEmptyValue === "true") {
+        step.style.display = isEmpty ? "none" : ""
+      }
     })
   }
 

@@ -249,6 +249,7 @@ en:
   locations:
     index:
       title: "Locations"
+      subtitle: "Manage where your inventory items are stored."
       new_location: "New Location"
       search_placeholder: "Search locations..."
       table:
@@ -258,6 +259,26 @@ en:
         edit: "Edit"
         delete: "Delete"
         delete_confirm: "Are you sure?"
+      onboarding:
+        step1:
+          title: "Welcome to Locations"
+          description: "Use this page to organize the places where your inventory items are stored."
+        step2:
+          title: "Search through locations"
+          description: "Type to filter locations by name and quickly find the area you need."
+        step3:
+          title: "Create a new location"
+          description: "Click here to add a fresh location and keep your storage map up to date."
+        step4:
+          title: "Review the locations table"
+          description: "This table lists every location. Open a location to see its items or edit the details."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     form:
       title:
         new: "New Location"
@@ -271,6 +292,27 @@ en:
       errors:
         one: "error prohibited this location from being saved"
         other: "errors prohibited this location from being saved"
+    new:
+      onboarding:
+        step1:
+          title: "Let’s create a new location"
+          description: "This form registers a storage area so you can track where each item lives."
+        step2:
+          title: "Name the location"
+          description: "Provide a clear name. It appears across the app, helping the team identify the place quickly."
+        step3:
+          title: "Describe the location"
+          description: "Add context like aisle, shelf or room notes to help teammates understand where to find it."
+        step4:
+          title: "Save the location"
+          description: "Use these actions to create the location or cancel and return to the list without saving."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     destroy:
       success: "Location was successfully deleted."
       error: "Failed to delete location."
@@ -287,6 +329,29 @@ en:
         location: "Location"
         user: "User"
         actions: "Actions"
+      onboarding:
+        step1:
+          title: "Welcome to Transactions"
+          description: "Track every movement in your inventory from here — everything is logged in one clear timeline."
+        step2:
+          title: "Filter the history"
+          description: "Use the search to quickly find transactions by item, user, or any detail recorded."
+        step3:
+          title: "Start a new transaction"
+          description: "Pick the shortcut that matches what you need to do: receive, remove, adjust, move, or review stock by location."
+        step4:
+          title: "Review the transaction list"
+          description: "Each row shows what happened, where, how much stock moved, and who did it."
+        step5:
+          title: "Export or keep exploring"
+          description: "Use pagination to browse older entries or export the history as CSV for audits."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_in:
       title: "Stock In"
       subtitle: "Add items to your inventory"
@@ -303,6 +368,55 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Add"
       save_button: "Add Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock In"
+          description: "Here you can register incoming stock and keep quantities accurate."
+        step2:
+          title: "Select the receiving location"
+          description: "Choose where the items will be stored. Need one? Create a location first."
+        step3:
+          title: "Search or scan items"
+          description: "Use the search bar or barcode scanner to add products to this transaction."
+        step4:
+          title: "Review items to add"
+          description: "Verify each line, adjust the quantities, or remove items before saving."
+        step5:
+          title: "Add helpful notes"
+          description: "Record context like purchase orders or references to make this intake traceable."
+        step6:
+          title: "Save the transaction"
+          description: "Track the total items added and finish when everything looks right."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Meet the scanner"
+          description: "Use this modal to capture barcodes or enter them manually when receiving stock."
+        step2:
+          title: "Start the camera"
+          description: "Click here to activate the camera whenever you want to scan live barcodes."
+        step3:
+          title: "Upload an image"
+          description: "If you have a saved photo of a code, upload it and we’ll try to read it for you."
+        step4:
+          title: "Type it manually"
+          description: "Enter or paste a barcode when the camera isn’t available or you already know the code."
+        step5:
+          title: "Close when finished"
+          description: "Use the close button to exit the scanner and return to the intake form."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_out:
       title: "Stock Out"
       subtitle: "Remove items from your inventory"
@@ -319,6 +433,55 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Remove"
       save_button: "Remove Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock Out"
+          description: "Track outgoing items to keep inventory levels precise and avoid surprises."
+        step2:
+          title: "Choose the source location"
+          description: "Select where items are leaving from. This ensures stock is deducted from the right spot."
+        step3:
+          title: "Find or scan items"
+          description: "Search or scan to list products being removed. You can add multiple items as needed."
+        step4:
+          title: "Confirm items and quantities"
+          description: "Review stock levels, adjust the quantities to deduct, and remove lines you no longer need."
+        step5:
+          title: "Add notes for context"
+          description: "Document why the stock is leaving (e.g. order fulfillment, damaged goods) for future reference."
+        step6:
+          title: "Finalize the stock removal"
+          description: "Check the total being removed and save to update the inventory in real time."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Meet the scanner"
+          description: "Use this modal to scan outgoing items or type their barcodes before removing stock."
+        step2:
+          title: "Start the camera"
+          description: "Click here to activate the camera whenever you need to capture a barcode."
+        step3:
+          title: "Upload an image"
+          description: "Have a saved photo of a code? Upload it and we’ll try to read it automatically."
+        step4:
+          title: "Enter it manually"
+          description: "Type or paste the barcode when the camera isn’t an option or the code is known."
+        step5:
+          title: "Close the scanner"
+          description: "Use the close button to finish scanning and return to the Stock Out form."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     move:
       title: "Move Stock"
       subtitle: "Move items between locations"
@@ -336,6 +499,58 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Move"
       save_button: "Move Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock Move"
+          description: "Transfer inventory between locations while keeping availability accurate everywhere."
+        step2:
+          title: "Choose the source"
+          description: "Pick where the stock is leaving from. Only items at this location will be available to move."
+        step3:
+          title: "Pick the destination"
+          description: "Select the target location so the quantities can be credited there."
+        step4:
+          title: "Add items to move"
+          description: "Search or scan to list products. You can move multiple items in one transaction."
+        step5:
+          title: "Review quantities"
+          description: "Check current stock, set the amount to transfer, and confirm you are not exceeding availability."
+        step6:
+          title: "Explain the move"
+          description: "Add context—like which order or project—so teammates know why the transfer happened."
+        step7:
+          title: "Complete the transfer"
+          description: "Verify the total items moving and save to update both locations instantly."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Meet the scanner"
+          description: "This modal lets you add items quickly using the camera or by typing barcodes."
+        step2:
+          title: "Start the camera"
+          description: "Click here to activate the scanner when you’re ready to capture barcodes."
+        step3:
+          title: "Upload an image"
+          description: "Prefer to use a saved photo? Upload it and we’ll read the code for you."
+        step4:
+          title: "Enter it manually"
+          description: "Type or paste a barcode when the camera isn’t available or you already have the code."
+        step5:
+          title: "Close when done"
+          description: "Use the close button to exit the scanner and return to the move form."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_by_location:
       title: "Stock by Location"
       subtitle: "View current stock levels across all locations"
@@ -343,6 +558,29 @@ en:
       table:
         item: "Item"
         total: "Total"
+      onboarding:
+        step1:
+          title: "Welcome to Stock by Location"
+          description: "Review every item alongside the quantity stored in each location without leaving this page."
+        step2:
+          title: "Print a snapshot"
+          description: "Use the print shortcut when you need a paper copy or PDF for audits, cycle counts, or sharing."
+        step3:
+          title: "Read across locations"
+          description: "Each column represents a location, so you can scan horizontally to understand distribution in seconds."
+        step4:
+          title: "Inspect an item’s footprint"
+          description: "Rows show per-location stock plus SKU details, making it easy to spot low or zero quantities."
+        step5:
+          title: "Check the totals"
+          description: "The total column sums the stock across all locations so you always know the grand total on hand."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     adjust:
       title: "Adjust Stock"
       subtitle: "Adjust stock levels for items"
@@ -359,6 +597,32 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Adjust"
       save_button: "Adjust Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock Adjustments"
+          description: "Use this page to correct inventory counts and keep your records in sync with reality."
+        step2:
+          title: "Pick where the adjustment applies"
+          description: "Choose the location whose inventory you need to fix so only that stock is updated."
+        step3:
+          title: "Search or scan the items"
+          description: "Look up the products that need adjustment or scan their codes to add them quickly."
+        step4:
+          title: "Review quantities to adjust"
+          description: "Compare current stock with what it should be and type the difference to add or remove."
+        step5:
+          title: "Tell the story"
+          description: "Add notes explaining why you are adjusting the stock—future you will thank you."
+        step6:
+          title: "Apply the adjustment"
+          description: "Confirm the total impact and save to post the correction to your inventory."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     report:
       title: "Summary"
       export_report: "Export Report"
@@ -565,7 +829,29 @@ en:
       title: "Label Generator"
       subtitle: "Generate QR codes and barcodes for your inventory items"
       print_labels: "Print Labels"
-      download_pdf: "Download PDF"
+      onboarding:
+        step1:
+          title: "Welcome to the Label Generator"
+          description: "Create labels for your items in one place—set the format, pick the products, and export when you’re ready."
+        step2:
+          title: "Get ready to print"
+          description: "Print the selected labels straight from your browser as soon as everything looks good."
+        step3:
+          title: "Pick the label layout"
+          description: "Select QR, barcode, or hybrid labels. We’ll use this choice when building the preview and final file."
+        step4:
+          title: "Find the right items"
+          description: "Use the search box to filter by name or SKU, so large catalogs stay manageable."
+        step5:
+          title: "Select items and copies"
+          description: "Check the items you need labels for and adjust the number of copies before generating."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
       label_design:
         title: "Label Design"
         subtitle: "Choose your preferred label format"
