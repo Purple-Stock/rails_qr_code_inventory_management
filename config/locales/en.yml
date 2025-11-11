@@ -249,6 +249,7 @@ en:
   locations:
     index:
       title: "Locations"
+      subtitle: "Manage where your inventory items are stored."
       new_location: "New Location"
       search_placeholder: "Search locations..."
       table:
@@ -258,6 +259,26 @@ en:
         edit: "Edit"
         delete: "Delete"
         delete_confirm: "Are you sure?"
+      onboarding:
+        step1:
+          title: "Welcome to Locations"
+          description: "Use this page to organize the places where your inventory items are stored."
+        step2:
+          title: "Search through locations"
+          description: "Type to filter locations by name and quickly find the area you need."
+        step3:
+          title: "Create a new location"
+          description: "Click here to add a fresh location and keep your storage map up to date."
+        step4:
+          title: "Review the locations table"
+          description: "This table lists every location. Open a location to see its items or edit the details."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     form:
       title:
         new: "New Location"
@@ -271,6 +292,27 @@ en:
       errors:
         one: "error prohibited this location from being saved"
         other: "errors prohibited this location from being saved"
+    new:
+      onboarding:
+        step1:
+          title: "Let’s create a new location"
+          description: "This form registers a storage area so you can track where each item lives."
+        step2:
+          title: "Name the location"
+          description: "Provide a clear name. It appears across the app, helping the team identify the place quickly."
+        step3:
+          title: "Describe the location"
+          description: "Add context like aisle, shelf or room notes to help teammates understand where to find it."
+        step4:
+          title: "Save the location"
+          description: "Use these actions to create the location or cancel and return to the list without saving."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     destroy:
       success: "Location was successfully deleted."
       error: "Failed to delete location."

@@ -218,6 +218,7 @@ pt-BR:
   locations:
     index:
       title: "Locais"
+      subtitle: "Gerencie onde os itens do inventário estão armazenados."
       new_location: "Novo Local"
       search_placeholder: "Buscar locais..."
       table:
@@ -227,6 +228,26 @@ pt-BR:
         edit: "Editar"
         delete: "Excluir"
         delete_confirm: "Tem certeza?"
+      onboarding:
+        step1:
+          title: "Bem-vindo às Localizações"
+          description: "Nesta página você organiza os locais onde os itens ficam guardados."
+        step2:
+          title: "Busque por locais"
+          description: "Digite para filtrar os locais pelo nome e encontrar rapidamente o espaço desejado."
+        step3:
+          title: "Crie um novo local"
+          description: "Clique aqui para adicionar um novo local e manter o mapeamento sempre atualizado."
+        step4:
+          title: "Tabela de locais"
+          description: "Aqui você vê todos os locais cadastrados. Acesse um local para ver os itens ou editar as informações."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     form:
       title:
         new: "Novo Local"
@@ -240,6 +261,27 @@ pt-BR:
       errors:
         one: "erro impediu este local de ser salvo"
         other: "erros impediram este local de ser salvo"
+    new:
+      onboarding:
+        step1:
+          title: "Vamos criar um novo local"
+          description: "Este formulário cadastra um espaço físico para organizar melhor o inventário."
+        step2:
+          title: "Informe o nome do local"
+          description: "Escolha um nome claro. Ele aparece em toda a aplicação e ajuda o time a identificar o lugar."
+        step3:
+          title: "Adicione uma descrição"
+          description: "Use este campo para detalhar corredor, prateleira ou outras referências úteis para o time."
+        step4:
+          title: "Finalize o cadastro"
+          description: "Use estes botões para salvar o local ou cancelar e voltar para a lista sem alterações."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
   stock_transactions:
     index:
       title: "Transações"

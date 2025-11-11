@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50" data-controller="onboarding" data-onboarding-storage-key-value="items_index_onboarding_completed" data-onboarding-items-empty-value="<%= @items.empty? %>" data-onboarding-new-item-url-value="<%= new_team_item_path(@team) %>">
+<div class="min-h-screen bg-gray-50" data-controller="onboarding" data-onboarding-storage-key-value="items_index_onboarding_completed" data-onboarding-items-empty-value="<%= @items.empty? %>" data-onboarding-list-empty-value="<%= @items.empty? %>" data-onboarding-new-item-url-value="<%= new_team_item_path(@team) %>">
   <!-- Overlay escuro para destacar elementos -->
   <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
 
@@ -94,7 +94,7 @@
 
     <!-- Step 6: Tabela de itens (apenas se houver items) -->
     <% unless @items.empty? %>
-      <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-table" data-onboarding-step-number="6" class="hidden">
+      <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-table" data-onboarding-step-number="6" data-onboarding-hide-when-empty-value="true" class="hidden">
         <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
           <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step6.title') %></h3>
           <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step6.description') %></p>
