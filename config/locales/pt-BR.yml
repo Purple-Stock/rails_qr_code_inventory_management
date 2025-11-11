@@ -792,6 +792,29 @@ pt-BR:
       subtitle: "Gere códigos QR e códigos de barras para seus itens de inventário"
       print_labels: "Imprimir Etiquetas"
       download_pdf: "Baixar PDF"
+      onboarding:
+        step1:
+          title: "Bem-vindo ao Gerador de Etiquetas"
+          description: "Crie etiquetas para seus itens em um só lugar — defina o formato, escolha os produtos e exporte quando estiver pronto."
+        step2:
+          title: "Escolha como exportar"
+          description: "Imprima na hora para rodadas rápidas ou baixe o PDF para compartilhar com o time ou enviar à gráfica."
+        step3:
+          title: "Defina o layout da etiqueta"
+          description: "Selecione entre QR, código de barras ou híbrido. Usaremos essa escolha na prévia e no arquivo final."
+        step4:
+          title: "Encontre os itens certos"
+          description: "Use a busca para filtrar por nome ou SKU e manter catálogos grandes sob controle."
+        step5:
+          title: "Selecione itens e cópias"
+          description: "Marque os itens que precisam de etiqueta e ajuste a quantidade de cópias antes de gerar."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
       label_design:
         title: "Design da Etiqueta"
         subtitle: "Escolha seu formato de etiqueta preferido"

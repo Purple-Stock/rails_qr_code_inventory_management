@@ -830,6 +830,29 @@ en:
       subtitle: "Generate QR codes and barcodes for your inventory items"
       print_labels: "Print Labels"
       download_pdf: "Download PDF"
+      onboarding:
+        step1:
+          title: "Welcome to the Label Generator"
+          description: "Create labels for your items in one place—set the format, pick the products, and export when you’re ready."
+        step2:
+          title: "Choose how to export"
+          description: "Print directly for quick runs or download a PDF to share with the team or send to a vendor."
+        step3:
+          title: "Pick the label layout"
+          description: "Select QR, barcode, or hybrid labels. We’ll use this choice when building the preview and final file."
+        step4:
+          title: "Find the right items"
+          description: "Use the search box to filter by name or SKU, so large catalogs stay manageable."
+        step5:
+          title: "Select items and copies"
+          description: "Check the items you need labels for and adjust the number of copies before generating."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
       label_design:
         title: "Label Design"
         subtitle: "Choose your preferred label format"
