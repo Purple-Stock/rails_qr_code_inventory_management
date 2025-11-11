@@ -371,6 +371,29 @@ en:
           finish: "Finish"
         tutorial_button: "Tutorial"
         tutorial_button_title: "Review tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Meet the scanner"
+          description: "Use this modal to capture barcodes or enter them manually when receiving stock."
+        step2:
+          title: "Start the camera"
+          description: "Click here to activate the camera whenever you want to scan live barcodes."
+        step3:
+          title: "Upload an image"
+          description: "If you have a saved photo of a code, upload it and we’ll try to read it for you."
+        step4:
+          title: "Type it manually"
+          description: "Enter or paste a barcode when the camera isn’t available or you already know the code."
+        step5:
+          title: "Close when finished"
+          description: "Use the close button to exit the scanner and return to the intake form."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_out:
       title: "Stock Out"
       subtitle: "Remove items from your inventory"
