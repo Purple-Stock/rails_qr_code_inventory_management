@@ -251,14 +251,104 @@
     </div>
 
     <!-- Add Barcode Scanner Modal -->
-      <div id="stockOutBarcodeModal" class="z-50 w-96 hidden">
+      <div id="stockOutBarcodeModal" class="z-50 w-96 hidden" data-controller="onboarding" data-onboarding-storage-key-value="stock_out_scanner_onboarding_completed">
+        <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
+
+        <div data-onboarding-target="container" class="fixed inset-0 z-[9999] pointer-events-none hidden">
+          <div data-onboarding-target="step" data-onboarding-target-selector="#stockOutModalHeader" class="hidden">
+            <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+              <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_out.scanner_onboarding.step1.title') %></h3>
+              <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_out.scanner_onboarding.step1.description') %></p>
+              <div class="flex justify-between items-center">
+                <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.skip') %></button>
+                <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                  <%= t('stock_transactions.stock_out.scanner_onboarding.buttons.next') %>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div data-onboarding-target="step" data-onboarding-target-selector="#stockout-start-scanner" class="hidden">
+            <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+              <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_out.scanner_onboarding.step2.title') %></h3>
+              <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_out.scanner_onboarding.step2.description') %></p>
+              <div class="flex justify-between items-center">
+                <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.previous') %></button>
+                <div class="flex gap-2">
+                  <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.skip') %></button>
+                  <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                    <%= t('stock_transactions.stock_out.scanner_onboarding.buttons.next') %>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-out-upload-button" class="hidden">
+            <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+              <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_out.scanner_onboarding.step3.title') %></h3>
+              <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_out.scanner_onboarding.step3.description') %></p>
+              <div class="flex justify-between items-center">
+                <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.previous') %></button>
+                <div class="flex gap-2">
+                  <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.skip') %></button>
+                  <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                    <%= t('stock_transactions.stock_out.scanner_onboarding.buttons.next') %>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div data-onboarding-target="step" data-onboarding-target-selector="#stockOutBarcodeInput" class="hidden">
+            <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+              <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_out.scanner_onboarding.step4.title') %></h3>
+              <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_out.scanner_onboarding.step4.description') %></p>
+              <div class="flex justify-between items-center">
+                <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.previous') %></button>
+                <div class="flex gap-2">
+                  <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.skip') %></button>
+                  <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                    <%= t('stock_transactions.stock_out.scanner_onboarding.buttons.next') %>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-out-close-button" class="hidden">
+            <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+              <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_out.scanner_onboarding.step5.title') %></h3>
+              <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_out.scanner_onboarding.step5.description') %></p>
+              <div class="flex justify-between items-center">
+                <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_out.scanner_onboarding.buttons.previous') %></button>
+                <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                  <%= t('stock_transactions.stock_out.scanner_onboarding.buttons.finish') %>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="bg-white rounded-lg shadow-xl border border-gray-200">
           <!-- Modal header with close button - draggable -->
-          <div id="stockOutModalHeader" class="bg-red-600 px-4 py-3 sm:px-6 flex justify-between items-center relative z-50 cursor-move select-none">
-            <h3 class="text-lg leading-6 font-medium text-white pointer-events-none">
-              Barcode Scanner
-            </h3>
-            <button type="button" 
+          <div id="stockOutModalHeader" class="bg-red-600 px-4 py-3 sm:px-6 flex items-center justify-between gap-3 relative z-50 cursor-move select-none">
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg leading-6 font-medium text-white">
+                Barcode Scanner
+              </h3>
+              <button 
+                      data-onboarding-target="restartButton"
+                      data-action="click->onboarding#restart"
+                      class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium text-red-100 bg-red-500/40 border border-red-400/50 hover:bg-red-500/60 transition-all duration-150 hidden"
+                      title="<%= t('stock_transactions.stock_out.scanner_onboarding.tutorial_button_title') %>">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <%= t('stock_transactions.stock_out.scanner_onboarding.tutorial_button') %>
+              </button>
+            </div>
+            <button id="onboarding-stock-out-close-button" type="button" 
                     onclick="closeStockOutBarcodeModal()" 
                     class="text-white hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-md p-1 transition-all duration-200 pointer-events-auto">
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -305,7 +395,7 @@
                              accept="image/*" 
                              class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                              data-scanner-target="fileInput">
-                      <button class="w-full bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
+                      <button id="onboarding-stock-out-upload-button" class="w-full bg-gray-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
                         Upload QR Image
                       </button>
                     </div>
