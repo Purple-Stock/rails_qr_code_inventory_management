@@ -134,6 +134,33 @@ pt-BR:
         blank: "não pode ficar em branco"
         not_a_number: "não é um número"
         must_be_selected: "deve ser selecionado"
+    index:
+      onboarding:
+        step1:
+          title: "Bem-vindo aos Itens!"
+          description: "Esta é a página de gerenciamento de itens. Aqui você pode visualizar, buscar e gerenciar todos os itens do seu inventário."
+        step2:
+          title: "Buscar itens"
+          description: "Use esta barra de busca para encontrar rapidamente itens por nome, SKU ou código de barras."
+        step3:
+          title: "Filtrar por categoria"
+          description: "Filtre seus itens por categoria para ver apenas tipos específicos de produtos."
+        step4:
+          title: "Exportar itens"
+          description: "Exporte sua lista de itens para formato CSV para uso externo ou backup."
+        step5:
+          title: "Adicionar novo item"
+          description: "Clique aqui para adicionar um novo item ao seu inventário. Você poderá definir todos os detalhes do item incluindo nome, SKU, preço e estoque."
+        step6:
+          title: "Tabela de itens"
+          description: "Esta tabela mostra todos os seus itens com seus códigos QR, detalhes, níveis de estoque e preços. Clique no nome de um item para ver detalhes ou use os botões de ação para editar, duplicar ou excluir."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     show:
       back_to_list: "Voltar para Lista"
       overview: "Visão Geral"

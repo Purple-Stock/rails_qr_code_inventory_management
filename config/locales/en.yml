@@ -165,6 +165,33 @@ en:
         blank: "can't be blank"
         not_a_number: "is not a number"
         must_be_selected: "must be selected"
+    index:
+      onboarding:
+        step1:
+          title: "Welcome to Items!"
+          description: "This is your items management page. Here you can view, search, and manage all your inventory items."
+        step2:
+          title: "Search items"
+          description: "Use this search bar to quickly find items by name, SKU, or barcode."
+        step3:
+          title: "Filter by category"
+          description: "Filter your items by category to see only specific types of products."
+        step4:
+          title: "Export items"
+          description: "Export your items list to CSV format for external use or backup."
+        step5:
+          title: "Add new item"
+          description: "Click here to add a new item to your inventory. You'll be able to set all item details including name, SKU, price, and stock."
+        step6:
+          title: "Items table"
+          description: "This table shows all your items with their QR codes, details, stock levels, and prices. Click on an item name to view details or use the action buttons to edit, duplicate, or delete."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     show:
       back_to_list: "Back to List"
       overview: "Overview"

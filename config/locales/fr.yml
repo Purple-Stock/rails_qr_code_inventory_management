@@ -144,6 +144,33 @@ fr:
         blank: "doit être rempli(e)"
         not_a_number: "n'est pas un nombre"
         must_be_selected: "doit être sélectionné(e)"
+    index:
+      onboarding:
+        step1:
+          title: "Bienvenue aux Articles !"
+          description: "Ceci est votre page de gestion d'articles. Ici, vous pouvez visualiser, rechercher et gérer tous les articles de votre inventaire."
+        step2:
+          title: "Rechercher des articles"
+          description: "Utilisez cette barre de recherche pour trouver rapidement des articles par nom, SKU ou code-barres."
+        step3:
+          title: "Filtrer par catégorie"
+          description: "Filtrez vos articles par catégorie pour voir uniquement des types spécifiques de produits."
+        step4:
+          title: "Exporter des articles"
+          description: "Exportez votre liste d'articles au format CSV pour une utilisation externe ou une sauvegarde."
+        step5:
+          title: "Ajouter un nouvel article"
+          description: "Cliquez ici pour ajouter un nouvel article à votre inventaire. Vous pourrez définir tous les détails de l'article, y compris le nom, le SKU, le prix et le stock."
+        step6:
+          title: "Tableau des articles"
+          description: "Ce tableau affiche tous vos articles avec leurs codes QR, détails, niveaux de stock et prix. Cliquez sur le nom d'un article pour voir les détails ou utilisez les boutons d'action pour modifier, dupliquer ou supprimer."
+        buttons:
+          next: "Suivant"
+          previous: "Précédent"
+          skip: "Passer"
+          finish: "Terminer"
+        tutorial_button: "Tutoriel"
+        tutorial_button_title: "Revoir le tutoriel"
     show:
       back_to_list: "Retour à la Liste"
       overview: "Aperçu"
