@@ -282,7 +282,6 @@ fr:
       title: "Générateur d'Étiquettes"
       subtitle: "Générez des codes QR et des codes-barres pour vos articles d'inventaire"
       print_labels: "Imprimer les Étiquettes"
-      download_pdf: "Télécharger PDF"
       label_design:
         title: "Conception d'Étiquette"
         subtitle: "Choisissez votre format d'étiquette préféré"
@@ -507,7 +506,6 @@ fr:
       title: "Générateur d'Étiquettes"
       subtitle: "Générez des QR codes et des codes-barres pour vos articles d'inventaire"
       print_labels: "Imprimer les Étiquettes"
-      download_pdf: "Télécharger le PDF"
       label_design:
         title: "Conception de l'Étiquette"
         subtitle: "Choisissez votre format d'étiquette préféré"
