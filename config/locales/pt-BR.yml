@@ -29,6 +29,26 @@ pt-BR:
       edit_team: "Editar Time"
       delete_team: "Excluir Time"
       delete_confirmation: "Tem certeza que deseja excluir este time?"
+      onboarding:
+        step1:
+          title: "Bem-vindo!"
+          description: "Esta é a página de seleção de times. Aqui você pode gerenciar todos os seus times e acessar seus inventários."
+        step2:
+          title: "Criar novo time"
+          description: "Clique aqui para criar um novo time e começar a gerenciar seu inventário."
+        step3:
+          title: "Seus times"
+          description: "Aqui estão todos os seus times. Clique em um card para acessar o inventário do time."
+        step4:
+          title: "Sair da conta"
+          description: "Use este botão quando quiser fazer logout da sua conta."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     form:
       errors:
         one: "erro impediu este time de ser salvo"
@@ -53,6 +73,32 @@ pt-BR:
       low_stock: "Estoque Baixo"
       duplicate_confirm: "Tem certeza que deseja duplicar este item?"
       delete_confirm: "Tem certeza?"
+      onboarding:
+        step1:
+          title: "Bem-vindo aos Itens!"
+          description: "Esta é a página de gerenciamento de itens. Aqui você pode visualizar, buscar e gerenciar todos os itens do seu inventário."
+        step2:
+          title: "Buscar itens"
+          description: "Use esta barra de busca para encontrar rapidamente itens por nome, SKU ou código de barras."
+        step3:
+          title: "Filtrar por categoria"
+          description: "Filtre seus itens por categoria para ver apenas tipos específicos de produtos."
+        step4:
+          title: "Exportar itens"
+          description: "Exporte sua lista de itens para formato CSV para uso externo ou backup."
+        step5:
+          title: "Adicionar novo item"
+          description: "Clique aqui para adicionar um novo item ao seu inventário. Você poderá definir todos os detalhes do item incluindo nome, SKU, preço e estoque."
+        step6:
+          title: "Tabela de itens"
+          description: "Esta tabela mostra todos os seus itens com seus códigos QR, detalhes, níveis de estoque e preços. Clique no nome de um item para ver detalhes ou use os botões de ação para editar, duplicar ou excluir."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     form:
       title:
         new: "Novo Item"
@@ -114,6 +160,30 @@ pt-BR:
         blank: "não pode ficar em branco"
         not_a_number: "não é um número"
         must_be_selected: "deve ser selecionado"
+    new:
+      onboarding:
+        step1:
+          title: "Vamos criar um novo item"
+          description: "Esta página reúne tudo que você precisa para cadastrar um item no inventário. Preencha os campos obrigatórios para começar."
+        step2:
+          title: "Informe o nome do item"
+          description: "Comece preenchendo o nome. Ele será exibido em toda a aplicação e ajuda a identificar o produto rapidamente."
+        step3:
+          title: "Defina ou gere o SKU"
+          description: "Use este campo para informar o SKU. Clique em “Gerar” para criar um código automático com base no nome."
+        step4:
+          title: "Cadastre o código de barras"
+          description: "Adicione o código de barras ou gere um automaticamente. Ele é obrigatório e pode ser usado para imprimir etiquetas."
+        step5:
+          title: "Finalize o cadastro"
+          description: "Revise as informações e clique em “Criar Item”. Se mudar de ideia, use “Cancelar” para voltar à lista sem salvar."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     show:
       back_to_list: "Voltar para Lista"
       overview: "Visão Geral"

@@ -1,49 +1,174 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50" data-controller="onboarding" data-onboarding-storage-key-value="items_index_onboarding_completed" data-onboarding-items-empty-value="<%= @items.empty? %>" data-onboarding-new-item-url-value="<%= new_team_item_path(@team) %>">
+  <!-- Overlay escuro para destacar elementos -->
+  <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
+
+  <!-- Container do onboarding -->
+  <div data-onboarding-target="container" class="fixed inset-0 z-[9998] pointer-events-none hidden">
+    <!-- Step 1: Título da página -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-title" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step1.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step1.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.skip') %></button>
+          <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+            <%= t('items.index.onboarding.buttons.next') %>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Busca -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-search" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step2.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step2.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('items.index.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Filtro de categoria -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-category-filter" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step3.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step3.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('items.index.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Exportar -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-export" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step4.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step4.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('items.index.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Adicionar item -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-add-item" data-onboarding-step-number="5" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step5.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step5.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.skip') %></button>
+            <% if @items.empty? %>
+              <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                <%= t('items.index.onboarding.buttons.finish') %>
+              </button>
+            <% else %>
+              <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                <%= t('items.index.onboarding.buttons.next') %>
+              </button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6: Tabela de itens (apenas se houver items) -->
+    <% unless @items.empty? %>
+      <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-table" data-onboarding-step-number="6" class="hidden">
+        <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+          <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step6.title') %></h3>
+          <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step6.description') %></p>
+          <div class="flex justify-between items-center">
+            <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
+            <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('items.index.onboarding.buttons.finish') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-between items-center mb-6">
-      <div class="flex-1 min-w-0">
-        <div class="relative rounded-md shadow-sm">
-          <%= form_with(url: team_items_path(@team), 
-              method: :get,
-              html: { autocomplete: "off" }, 
-              data: { 
-                controller: "search-form",
-                search_form_delay_value: 300,
-                turbo_frame: "items_list",
-                turbo_action: "advance"
-              }) do |f| %>
-            <%= f.text_field :query,
-                value: params[:query],
-                class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500",
-                placeholder: t('items.index.search_placeholder'),
+      <div id="onboarding-items-title" class="flex-1 min-w-0 flex items-start gap-4">
+        <div class="flex-1 min-w-0">
+          <div id="onboarding-search" class="relative rounded-md shadow-sm">
+            <%= form_with(url: team_items_path(@team), 
+                method: :get,
+                html: { autocomplete: "off" }, 
                 data: { 
-                  action: "input->search-form#search",
-                  search_form_target: "input"
-                } %>
-            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-            </div>
-          <% end %>
+                  controller: "search-form",
+                  search_form_delay_value: 300,
+                  turbo_frame: "items_list",
+                  turbo_action: "advance"
+                }) do |f| %>
+              <%= f.text_field :query,
+                  value: params[:query],
+                  class: "block w-full pr-10 sm:text-sm border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500",
+                  placeholder: t('items.index.search_placeholder'),
+                  data: { 
+                    action: "input->search-form#search",
+                    search_form_target: "input"
+                  } %>
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+              </div>
+            <% end %>
+          </div>
         </div>
+        <button 
+          data-onboarding-target="restartButton"
+          data-action="click->onboarding#restart"
+          class="mt-0 inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 border border-gray-300 transition-all duration-150 hidden"
+          title="<%= t('items.index.onboarding.tutorial_button_title') %>">
+          <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <%= t('items.index.onboarding.tutorial_button') %>
+        </button>
       </div>
       
       <div class="flex items-center ml-4 space-x-4">
-        <select class="block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+        <select id="onboarding-category-filter" class="block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
           <option><%= t('items.index.all_categories') %></option>
           <% @categories.each do |category| %>
             <option><%= category %></option>
           <% end %>
         </select>
         <%= link_to export_team_items_path(@team, format: :csv),
+            id: "onboarding-export",
             class: "inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <%= t('items.index.export_csv') %>
         <% end %>
-        <%= link_to new_team_item_path(@team), class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700" do %>
+        <%= link_to new_team_item_path(@team), 
+            id: "onboarding-add-item",
+            class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
           </svg>
@@ -55,7 +180,7 @@
     <div class="bg-white shadow rounded-lg">
       <div class="p-6">
         <%= turbo_frame_tag "items_list" do %>
-          <div class="flex flex-col">
+          <div id="onboarding-items-table" class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">

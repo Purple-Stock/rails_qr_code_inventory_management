@@ -39,6 +39,26 @@ fr:
       edit_team: "Modifier l'Équipe"
       delete_team: "Supprimer l'Équipe"
       delete_confirmation: "Êtes-vous sûr de vouloir supprimer cette équipe ?"
+      onboarding:
+        step1:
+          title: "Bienvenue !"
+          description: "Ceci est la page de sélection d'équipe. Ici, vous pouvez gérer toutes vos équipes et accéder à leurs inventaires."
+        step2:
+          title: "Créer une nouvelle équipe"
+          description: "Cliquez ici pour créer une nouvelle équipe et commencer à gérer votre inventaire."
+        step3:
+          title: "Vos équipes"
+          description: "Voici toutes vos équipes. Cliquez sur une carte pour accéder à l'inventaire de l'équipe."
+        step4:
+          title: "Se déconnecter"
+          description: "Utilisez ce bouton lorsque vous souhaitez vous déconnecter de votre compte."
+        buttons:
+          next: "Suivant"
+          previous: "Précédent"
+          skip: "Passer"
+          finish: "Terminer"
+        tutorial_button: "Tutoriel"
+        tutorial_button_title: "Revoir le tutoriel"
     form:
       errors:
         one: "une erreur a empêché l'enregistrement de cette équipe"
@@ -63,6 +83,32 @@ fr:
       low_stock: "Stock Faible"
       duplicate_confirm: "Êtes-vous sûr de vouloir dupliquer cet article ?"
       delete_confirm: "Êtes-vous sûr ?"
+      onboarding:
+        step1:
+          title: "Bienvenue aux Articles !"
+          description: "Ceci est votre page de gestion d'articles. Ici, vous pouvez visualiser, rechercher et gérer tous les articles de votre inventaire."
+        step2:
+          title: "Rechercher des articles"
+          description: "Utilisez cette barre de recherche pour trouver rapidement des articles par nom, SKU ou code-barres."
+        step3:
+          title: "Filtrer par catégorie"
+          description: "Filtrez vos articles par catégorie pour voir uniquement des types spécifiques de produits."
+        step4:
+          title: "Exporter des articles"
+          description: "Exportez votre liste d'articles au format CSV pour une utilisation externe ou une sauvegarde."
+        step5:
+          title: "Ajouter un nouvel article"
+          description: "Cliquez ici pour ajouter un nouvel article à votre inventaire. Vous pourrez définir tous les détails de l'article, y compris le nom, le SKU, le prix et le stock."
+        step6:
+          title: "Tableau des articles"
+          description: "Ce tableau affiche tous vos articles avec leurs codes QR, détails, niveaux de stock et prix. Cliquez sur le nom d'un article pour voir les détails ou utilisez les boutons d'action pour modifier, dupliquer ou supprimer."
+        buttons:
+          next: "Suivant"
+          previous: "Précédent"
+          skip: "Passer"
+          finish: "Terminer"
+        tutorial_button: "Tutoriel"
+        tutorial_button_title: "Revoir le tutoriel"
     form:
       title:
         new: "Nouvel Article"
@@ -124,6 +170,30 @@ fr:
         blank: "doit être rempli(e)"
         not_a_number: "n'est pas un nombre"
         must_be_selected: "doit être sélectionné(e)"
+    new:
+      onboarding:
+        step1:
+          title: "Créons un nouvel article"
+          description: "Cette page rassemble tout ce dont vous avez besoin pour enregistrer un article dans l'inventaire. Renseignez les champs obligatoires pour commencer."
+        step2:
+          title: "Saisissez le nom de l'article"
+          description: "Commencez par indiquer le nom de l'article. Il apparaît dans toute l'application et facilite l'identification rapide du produit."
+        step3:
+          title: "Définissez ou générez le SKU"
+          description: "Utilisez ce champ pour définir le SKU. Cliquez sur « Générer » pour obtenir un code automatiquement à partir du nom."
+        step4:
+          title: "Ajoutez le code-barres"
+          description: "Saisissez le code-barres ou générez-en un automatiquement. Il est obligatoire et servira pour l'impression des étiquettes."
+        step5:
+          title: "Terminez la création"
+          description: "Vérifiez les informations puis cliquez sur « Créer l'Article ». Si vous changez d'avis, cliquez sur « Annuler » pour revenir à la liste sans enregistrer."
+        buttons:
+          next: "Suivant"
+          previous: "Précédent"
+          skip: "Passer"
+          finish: "Terminer"
+        tutorial_button: "Tutoriel"
+        tutorial_button_title: "Revoir le tutoriel"
     show:
       back_to_list: "Retour à la Liste"
       overview: "Aperçu"

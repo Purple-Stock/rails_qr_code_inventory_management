@@ -1,13 +1,96 @@
-<div class="min-h-screen bg-gradient-to-br from-purple-400 via-purple-400 to-purple-600">
+<div class="min-h-screen bg-gradient-to-br from-purple-400 via-purple-400 to-purple-600" data-controller="onboarding">
+  <!-- Overlay escuro para destacar elementos -->
+  <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
+
+  <!-- Container do onboarding -->
+  <div data-onboarding-target="container" class="fixed inset-0 z-[9998] pointer-events-none hidden">
+    <!-- Step 1: Título da página -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-title" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step1.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step1.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.skip') %></button>
+          <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+            <%= t('teams.selection.onboarding.buttons.next') %>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Botão criar time -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-create-team" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step2.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step2.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('teams.selection.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Cards de times (se existirem) -->
+    <% if !@teams.empty? %>
+      <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-teams-grid" class="hidden">
+        <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+          <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step3.title') %></h3>
+          <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step3.description') %></p>
+          <div class="flex justify-between items-center">
+            <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.previous') %></button>
+            <div class="flex gap-2">
+              <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.skip') %></button>
+              <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                <%= t('teams.selection.onboarding.buttons.next') %>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Step 4: Botão sair -->
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-sign-out" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step4.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step4.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.previous') %></button>
+          <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+            <%= t('teams.selection.onboarding.buttons.finish') %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-between items-center mb-8">
-      <div>
-        <h1 class="text-3xl font-bold text-white"><%= t('teams.selection.title') %></h1>
-        <p class="mt-2 text-purple-200"><%= t('teams.selection.subtitle') %></p>
+      <div id="onboarding-title" class="flex items-start gap-4">
+        <div>
+          <h1 class="text-3xl font-bold text-white"><%= t('teams.selection.title') %></h1>
+          <p class="mt-2 text-purple-200"><%= t('teams.selection.subtitle') %></p>
+        </div>
+        <button 
+          data-onboarding-target="restartButton"
+          data-action="click->onboarding#restart"
+          class="mt-1 inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium text-purple-200 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 transition-all duration-150 hidden"
+          title="<%= t('teams.selection.onboarding.tutorial_button_title') %>">
+          <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <%= t('teams.selection.onboarding.tutorial_button') %>
+        </button>
       </div>
       
       <div class="flex gap-4">
         <%= link_to new_team_path, 
+            id: "onboarding-create-team",
             class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-purple-700 bg-white hover:bg-purple-50 transition-colors duration-150 shadow-sm" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -16,6 +99,7 @@
         <% end %>
         
         <%= button_to destroy_user_session_path, method: :delete, 
+            id: "onboarding-sign-out",
             class: "px-4 py-2 rounded-lg text-sm font-medium text-white border-2 border-white/20 hover:bg-white/10 transition-colors duration-150" do %>
           <span><%= t('teams.selection.sign_out') %></span>
         <% end %>
@@ -38,7 +122,7 @@
         <% end %>
       </div>
     <% else %>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div id="onboarding-teams-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <% @teams.each do |team| %>
           <div class="bg-white/10 backdrop-blur-lg overflow-hidden rounded-2xl shadow-xl border border-white/20 hover:border-white/30 transition-all duration-200">
             <%= link_to team_items_path(team) do %>
