@@ -7,12 +7,12 @@
     <!-- Step 1: Título da página -->
     <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-title" class="hidden">
       <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Bem-vindo!</h3>
-        <p class="text-gray-600 mb-4">Esta é a página de seleção de times. Aqui você pode gerenciar todos os seus times e acessar seus inventários.</p>
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step1.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step1.description') %></p>
         <div class="flex justify-between items-center">
-          <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700">Pular</button>
+          <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.skip') %></button>
           <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-            Próximo
+            <%= t('teams.selection.onboarding.buttons.next') %>
           </button>
         </div>
       </div>
@@ -21,14 +21,14 @@
     <!-- Step 2: Botão criar time -->
     <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-create-team" class="hidden">
       <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Criar novo time</h3>
-        <p class="text-gray-600 mb-4">Clique aqui para criar um novo time e começar a gerenciar seu inventário.</p>
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step2.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step2.description') %></p>
         <div class="flex justify-between items-center">
-          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700">Anterior</button>
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.previous') %></button>
           <div class="flex gap-2">
-            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700">Pular</button>
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.skip') %></button>
             <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-              Próximo
+              <%= t('teams.selection.onboarding.buttons.next') %>
             </button>
           </div>
         </div>
@@ -39,14 +39,14 @@
     <% if !@teams.empty? %>
       <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-teams-grid" class="hidden">
         <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Seus times</h3>
-          <p class="text-gray-600 mb-4">Aqui estão todos os seus times. Clique em um card para acessar o inventário do time.</p>
+          <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step3.title') %></h3>
+          <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step3.description') %></p>
           <div class="flex justify-between items-center">
-            <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700">Anterior</button>
+            <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.previous') %></button>
             <div class="flex gap-2">
-              <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700">Pular</button>
+              <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.skip') %></button>
               <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-                Próximo
+                <%= t('teams.selection.onboarding.buttons.next') %>
               </button>
             </div>
           </div>
@@ -57,12 +57,12 @@
     <!-- Step 4: Botão sair -->
     <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-sign-out" class="hidden">
       <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
-        <h3 class="text-lg font-bold text-gray-900 mb-2">Sair da conta</h3>
-        <p class="text-gray-600 mb-4">Use este botão quando quiser fazer logout da sua conta.</p>
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('teams.selection.onboarding.step4.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('teams.selection.onboarding.step4.description') %></p>
         <div class="flex justify-between items-center">
-          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700">Anterior</button>
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('teams.selection.onboarding.buttons.previous') %></button>
           <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-            Finalizar
+            <%= t('teams.selection.onboarding.buttons.finish') %>
           </button>
         </div>
       </div>
@@ -80,11 +80,11 @@
           data-onboarding-target="restartButton"
           data-action="click->onboarding#restart"
           class="mt-1 inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium text-purple-200 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 transition-all duration-150 hidden"
-          title="Revisar tutorial">
+          title="<%= t('teams.selection.onboarding.tutorial_button_title') %>">
           <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          Tutorial
+          <%= t('teams.selection.onboarding.tutorial_button') %>
         </button>
       </div>
       

@@ -29,6 +29,26 @@ pt-BR:
       edit_team: "Editar Time"
       delete_team: "Excluir Time"
       delete_confirmation: "Tem certeza que deseja excluir este time?"
+      onboarding:
+        step1:
+          title: "Bem-vindo!"
+          description: "Esta é a página de seleção de times. Aqui você pode gerenciar todos os seus times e acessar seus inventários."
+        step2:
+          title: "Criar novo time"
+          description: "Clique aqui para criar um novo time e começar a gerenciar seu inventário."
+        step3:
+          title: "Seus times"
+          description: "Aqui estão todos os seus times. Clique em um card para acessar o inventário do time."
+        step4:
+          title: "Sair da conta"
+          description: "Use este botão quando quiser fazer logout da sua conta."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     form:
       errors:
         one: "erro impediu este time de ser salvo"

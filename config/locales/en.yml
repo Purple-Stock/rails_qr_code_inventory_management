@@ -60,6 +60,26 @@ en:
       edit_team: "Edit Team"
       delete_team: "Delete Team"
       delete_confirmation: "Are you sure you want to delete this team?"
+      onboarding:
+        step1:
+          title: "Welcome!"
+          description: "This is the team selection page. Here you can manage all your teams and access their inventories."
+        step2:
+          title: "Create new team"
+          description: "Click here to create a new team and start managing your inventory."
+        step3:
+          title: "Your teams"
+          description: "Here are all your teams. Click on a card to access the team's inventory."
+        step4:
+          title: "Sign out"
+          description: "Use this button when you want to logout from your account."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     form:
       errors:
         one: "error prohibited this team from being saved"

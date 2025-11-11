@@ -39,6 +39,26 @@ fr:
       edit_team: "Modifier l'Équipe"
       delete_team: "Supprimer l'Équipe"
       delete_confirmation: "Êtes-vous sûr de vouloir supprimer cette équipe ?"
+      onboarding:
+        step1:
+          title: "Bienvenue !"
+          description: "Ceci est la page de sélection d'équipe. Ici, vous pouvez gérer toutes vos équipes et accéder à leurs inventaires."
+        step2:
+          title: "Créer une nouvelle équipe"
+          description: "Cliquez ici pour créer une nouvelle équipe et commencer à gérer votre inventaire."
+        step3:
+          title: "Vos équipes"
+          description: "Voici toutes vos équipes. Cliquez sur une carte pour accéder à l'inventaire de l'équipe."
+        step4:
+          title: "Se déconnecter"
+          description: "Utilisez ce bouton lorsque vous souhaitez vous déconnecter de votre compte."
+        buttons:
+          next: "Suivant"
+          previous: "Précédent"
+          skip: "Passer"
+          finish: "Terminer"
+        tutorial_button: "Tutoriel"
+        tutorial_button_title: "Revoir le tutoriel"
     form:
       errors:
         one: "une erreur a empêché l'enregistrement de cette équipe"
