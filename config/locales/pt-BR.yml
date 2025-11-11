@@ -309,6 +309,32 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens a Adicionar"
       save_button: "Adicionar Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo à Entrada"
+          description: "Aqui você registra itens que estão chegando e mantém o estoque sempre correto."
+        step2:
+          title: "Escolha o local de recebimento"
+          description: "Defina onde os itens serão armazenados. Se precisar, crie um local antes de continuar."
+        step3:
+          title: "Busque ou escaneie itens"
+          description: "Use a busca ou o leitor de código de barras para adicionar produtos à movimentação."
+        step4:
+          title: "Revise a lista de itens"
+          description: "Confira cada linha, ajuste as quantidades e remova itens antes de finalizar."
+        step5:
+          title: "Adicione observações úteis"
+          description: "Registre informações como pedidos de compra ou referências para facilitar consultas futuras."
+        step6:
+          title: "Finalize a movimentação"
+          description: "Acompanhe o total de itens adicionados e conclua quando tudo estiver certo."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_out:
       title: "Saída"
       subtitle: "Remover itens do seu inventário"

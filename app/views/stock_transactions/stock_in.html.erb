@@ -1,10 +1,114 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50" data-controller="onboarding" data-onboarding-storage-key-value="stock_in_onboarding_completed">
+  <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
+
+  <div data-onboarding-target="container" class="fixed inset-0 z-[9998] pointer-events-none hidden">
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-in-title" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_in.onboarding.step1.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_in.onboarding.step1.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.skip') %></button>
+          <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+            <%= t('stock_transactions.stock_in.onboarding.buttons.next') %>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-in-location" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_in.onboarding.step2.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_in.onboarding.step2.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('stock_transactions.stock_in.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-in-search" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_in.onboarding.step3.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_in.onboarding.step3.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('stock_transactions.stock_in.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-in-table" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_in.onboarding.step4.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_in.onboarding.step4.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('stock_transactions.stock_in.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-in-notes" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_in.onboarding.step5.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_in.onboarding.step5.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.previous') %></button>
+          <div class="flex gap-2">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('stock_transactions.stock_in.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-stock-in-actions" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('stock_transactions.stock_in.onboarding.step6.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('stock_transactions.stock_in.onboarding.step6.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('stock_transactions.stock_in.onboarding.buttons.previous') %></button>
+          <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+            <%= t('stock_transactions.stock_in.onboarding.buttons.finish') %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex justify-between items-center mb-6">
+    <div id="onboarding-stock-in-title" class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
       <div>
         <h1 class="text-2xl font-bold text-green-600"><%= t('stock_transactions.stock_in.title') %></h1>
         <p class="mt-1 text-sm text-gray-500"><%= t('stock_transactions.stock_in.subtitle') %></p>
       </div>
+      <button 
+        data-onboarding-target="restartButton"
+        data-action="click->onboarding#restart"
+        class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 border border-gray-300 transition-all duration-150 hidden"
+        title="<%= t('stock_transactions.stock_in.onboarding.tutorial_button_title') %>">
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <%= t('stock_transactions.stock_in.onboarding.tutorial_button') %>
+      </button>
     </div>
 
     <div class="bg-white shadow rounded-lg" 
@@ -13,7 +117,7 @@
          data-stock-transaction-type-value="stock_in">
       <div class="p-6 border-b border-gray-200">
         <div class="grid grid-cols-1 gap-6">
-          <div>
+          <div id="onboarding-stock-in-location">
             <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.stock_in.location') %><span class="text-red-500">*</span></label>
             <% if @team.locations.any? %>
               <select name="location" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
@@ -50,7 +154,7 @@
       </div>
 
       <div class="p-6">
-        <div class="mb-6">
+        <div id="onboarding-stock-in-search" class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.stock_in.items') %></label>
           <div class="relative" data-controller="search" data-search-team-id-value="<%= @team.id %>">
             <input type="text" 
@@ -75,7 +179,7 @@
           </div>
         </div>
 
-        <div class="border rounded-lg overflow-hidden">
+        <div id="onboarding-stock-in-table" class="border rounded-lg overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
@@ -93,14 +197,14 @@
           </table>
         </div>
 
-        <div class="mt-6">
+        <div id="onboarding-stock-in-notes" class="mt-6">
           <label class="block text-sm font-medium text-gray-700 mb-2"><%= t('stock_transactions.stock_in.notes') %></label>
           <textarea name="notes" rows="3" 
                     placeholder="<%= t('stock_transactions.stock_in.notes_placeholder') %>"
                     class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
         </div>
 
-        <div class="mt-6 flex justify-between items-center">
+        <div id="onboarding-stock-in-actions" class="mt-6 flex justify-between items-center">
           <div class="text-sm text-gray-500">
             <%= t('stock_transactions.stock_in.total_items') %>: <span class="font-medium" data-stock-transaction-target="totalQuantity">0</span>
           </div>

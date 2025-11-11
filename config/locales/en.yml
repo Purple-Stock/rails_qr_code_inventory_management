@@ -345,6 +345,32 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Add"
       save_button: "Add Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock In"
+          description: "Here you can register incoming stock and keep quantities accurate."
+        step2:
+          title: "Select the receiving location"
+          description: "Choose where the items will be stored. Need one? Create a location first."
+        step3:
+          title: "Search or scan items"
+          description: "Use the search bar or barcode scanner to add products to this transaction."
+        step4:
+          title: "Review items to add"
+          description: "Verify each line, adjust the quantities, or remove items before saving."
+        step5:
+          title: "Add helpful notes"
+          description: "Record context like purchase orders or references to make this intake traceable."
+        step6:
+          title: "Save the transaction"
+          description: "Track the total items added and finish when everything looks right."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_out:
       title: "Stock Out"
       subtitle: "Remove items from your inventory"
