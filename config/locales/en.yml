@@ -430,6 +430,35 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Move"
       save_button: "Move Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock Move"
+          description: "Transfer inventory between locations while keeping availability accurate everywhere."
+        step2:
+          title: "Choose the source"
+          description: "Pick where the stock is leaving from. Only items at this location will be available to move."
+        step3:
+          title: "Pick the destination"
+          description: "Select the target location so the quantities can be credited there."
+        step4:
+          title: "Add items to move"
+          description: "Search or scan to list products. You can move multiple items in one transaction."
+        step5:
+          title: "Review quantities"
+          description: "Check current stock, set the amount to transfer, and confirm you are not exceeding availability."
+        step6:
+          title: "Explain the move"
+          description: "Add context—like which order or project—so teammates know why the transfer happened."
+        step7:
+          title: "Complete the transfer"
+          description: "Verify the total items moving and save to update both locations instantly."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_by_location:
       title: "Stock by Location"
       subtitle: "View current stock levels across all locations"

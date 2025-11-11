@@ -394,6 +394,35 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens a Mover"
       save_button: "Mover Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo à Movimentação"
+          description: "Transfira estoque entre locais mantendo a disponibilidade consistente em toda a operação."
+        step2:
+          title: "Escolha o local de origem"
+          description: "Selecione de onde os itens sairão. Somente o estoque deste local ficará disponível para mover."
+        step3:
+          title: "Selecione o destino"
+          description: "Indique para onde o estoque será enviado para que as quantidades entrem no local correto."
+        step4:
+          title: "Adicione itens"
+          description: "Busque ou escaneie os produtos que serão transferidos. Você pode mover vários itens de uma vez."
+        step5:
+          title: "Revise as quantidades"
+          description: "Confira o saldo atual, informe quanto deve mover e garanta que não excederá o disponível."
+        step6:
+          title: "Descreva a movimentação"
+          description: "Registre o motivo ou referência da transferência, facilitando o entendimento do time."
+        step7:
+          title: "Conclua a transferência"
+          description: "Verifique o total movimentado e salve para atualizar imediatamente os dois locais."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_by_location:
       title: "Estoque por Local"
       subtitle: "Visualizar níveis de estoque em todos os locais"
