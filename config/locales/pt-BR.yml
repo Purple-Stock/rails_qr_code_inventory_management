@@ -293,6 +293,30 @@ pt-BR:
         quantity: "Quantidade"
         location: "Local"
         user: "Usuário"
+        actions: "Ações"
+      onboarding:
+        step1:
+          title: "Bem-vindo às Transações"
+          description: "Acompanhe todos os movimentos do inventário aqui — tudo fica registrado em uma linha do tempo clara."
+        step2:
+          title: "Filtre o histórico"
+          description: "Use a busca para encontrar transações por item, usuário ou qualquer detalhe registrado."
+        step3:
+          title: "Inicie uma nova transação"
+          description: "Escolha o atalho que combina com a tarefa: receber, retirar, ajustar, mover ou consultar estoque por local."
+        step4:
+          title: "Revise a lista de transações"
+          description: "Cada linha mostra o que aconteceu, onde, quanto estoque mudou e quem realizou a ação."
+        step5:
+          title: "Exporte ou continue explorando"
+          description: "Use a paginação para navegar por registros antigos ou exporte o histórico em CSV para auditorias."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_in:
       title: "Entrada"
       subtitle: "Adicionar itens ao seu inventário"

@@ -329,6 +329,29 @@ en:
         location: "Location"
         user: "User"
         actions: "Actions"
+      onboarding:
+        step1:
+          title: "Welcome to Transactions"
+          description: "Track every movement in your inventory from here — everything is logged in one clear timeline."
+        step2:
+          title: "Filter the history"
+          description: "Use the search to quickly find transactions by item, user, or any detail recorded."
+        step3:
+          title: "Start a new transaction"
+          description: "Pick the shortcut that matches what you need to do: receive, remove, adjust, move, or review stock by location."
+        step4:
+          title: "Review the transaction list"
+          description: "Each row shows what happened, where, how much stock moved, and who did it."
+        step5:
+          title: "Export or keep exploring"
+          description: "Use pagination to browse older entries or export the history as CSV for audits."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     stock_in:
       title: "Stock In"
       subtitle: "Add items to your inventory"
