@@ -218,6 +218,7 @@ pt-BR:
   locations:
     index:
       title: "Locais"
+      subtitle: "Gerencie onde os itens do inventário estão armazenados."
       new_location: "Novo Local"
       search_placeholder: "Buscar locais..."
       table:
@@ -227,6 +228,26 @@ pt-BR:
         edit: "Editar"
         delete: "Excluir"
         delete_confirm: "Tem certeza?"
+      onboarding:
+        step1:
+          title: "Bem-vindo às Localizações"
+          description: "Nesta página você organiza os locais onde os itens ficam guardados."
+        step2:
+          title: "Busque por locais"
+          description: "Digite para filtrar os locais pelo nome e encontrar rapidamente o espaço desejado."
+        step3:
+          title: "Crie um novo local"
+          description: "Clique aqui para adicionar um novo local e manter o mapeamento sempre atualizado."
+        step4:
+          title: "Tabela de locais"
+          description: "Aqui você vê todos os locais cadastrados. Acesse um local para ver os itens ou editar as informações."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     form:
       title:
         new: "Novo Local"
@@ -240,6 +261,27 @@ pt-BR:
       errors:
         one: "erro impediu este local de ser salvo"
         other: "erros impediram este local de ser salvo"
+    new:
+      onboarding:
+        step1:
+          title: "Vamos criar um novo local"
+          description: "Este formulário cadastra um espaço físico para organizar melhor o inventário."
+        step2:
+          title: "Informe o nome do local"
+          description: "Escolha um nome claro. Ele aparece em toda a aplicação e ajuda o time a identificar o lugar."
+        step3:
+          title: "Adicione uma descrição"
+          description: "Use este campo para detalhar corredor, prateleira ou outras referências úteis para o time."
+        step4:
+          title: "Finalize o cadastro"
+          description: "Use estes botões para salvar o local ou cancelar e voltar para a lista sem alterações."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
   stock_transactions:
     index:
       title: "Transações"
@@ -251,6 +293,30 @@ pt-BR:
         quantity: "Quantidade"
         location: "Local"
         user: "Usuário"
+        actions: "Ações"
+      onboarding:
+        step1:
+          title: "Bem-vindo às Transações"
+          description: "Acompanhe todos os movimentos do inventário aqui — tudo fica registrado em uma linha do tempo clara."
+        step2:
+          title: "Filtre o histórico"
+          description: "Use a busca para encontrar transações por item, usuário ou qualquer detalhe registrado."
+        step3:
+          title: "Inicie uma nova transação"
+          description: "Escolha o atalho que combina com a tarefa: receber, retirar, ajustar, mover ou consultar estoque por local."
+        step4:
+          title: "Revise a lista de transações"
+          description: "Cada linha mostra o que aconteceu, onde, quanto estoque mudou e quem realizou a ação."
+        step5:
+          title: "Exporte ou continue explorando"
+          description: "Use a paginação para navegar por registros antigos ou exporte o histórico em CSV para auditorias."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_in:
       title: "Entrada"
       subtitle: "Adicionar itens ao seu inventário"
@@ -267,6 +333,55 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens a Adicionar"
       save_button: "Adicionar Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo à Entrada"
+          description: "Aqui você registra itens que estão chegando e mantém o estoque sempre correto."
+        step2:
+          title: "Escolha o local de recebimento"
+          description: "Defina onde os itens serão armazenados. Se precisar, crie um local antes de continuar."
+        step3:
+          title: "Busque ou escaneie itens"
+          description: "Use a busca ou o leitor de código de barras para adicionar produtos à movimentação."
+        step4:
+          title: "Revise a lista de itens"
+          description: "Confira cada linha, ajuste as quantidades e remova itens antes de finalizar."
+        step5:
+          title: "Adicione observações úteis"
+          description: "Registre informações como pedidos de compra ou referências para facilitar consultas futuras."
+        step6:
+          title: "Finalize a movimentação"
+          description: "Acompanhe o total de itens adicionados e conclua quando tudo estiver certo."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Conheça o leitor"
+          description: "Use esta modal para capturar códigos de barras ou digitá-los ao receber estoque."
+        step2:
+          title: "Inicie a câmera"
+          description: "Clique aqui para ativar a câmera sempre que quiser escanear códigos em tempo real."
+        step3:
+          title: "Envie uma imagem"
+          description: "Se tiver uma foto do código, envie-a e faremos a leitura para você."
+        step4:
+          title: "Digite manualmente"
+          description: "Informe ou cole o código quando não puder usar a câmera ou já tiver o valor em mãos."
+        step5:
+          title: "Feche ao terminar"
+          description: "Use o botão de fechar para sair do leitor e voltar ao formulário de entrada."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_out:
       title: "Saída"
       subtitle: "Remover itens do seu inventário"
@@ -283,6 +398,55 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens a Remover"
       save_button: "Remover Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo à Saída"
+          description: "Registre itens que estão saindo para manter os níveis de estoque sempre corretos."
+        step2:
+          title: "Escolha o local de origem"
+          description: "Selecione de onde os itens serão retirados para que o débito aconteça no lugar certo."
+        step3:
+          title: "Busque ou escaneie itens"
+          description: "Use a busca ou o leitor de códigos para listar os produtos que estão saindo."
+        step4:
+          title: "Revise itens e quantidades"
+          description: "Confira o estoque disponível, ajuste as quantidades a remover e exclua linhas se necessário."
+        step5:
+          title: "Adicione observações"
+          description: "Explique o motivo da saída (ex.: pedido, avaria) para facilitar consultas futuras."
+        step6:
+          title: "Finalize a retirada"
+          description: "Verifique o total removido e conclua para atualizar o inventário em tempo real."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Conheça o leitor"
+          description: "Use esta modal para escanear ou digitar códigos de itens que estão saindo do estoque."
+        step2:
+          title: "Inicie a câmera"
+          description: "Clique aqui para ativar a câmera sempre que precisar capturar um código de barras."
+        step3:
+          title: "Envie uma imagem"
+          description: "Tem uma foto do código? Envie e faremos a leitura automaticamente."
+        step4:
+          title: "Digite manualmente"
+          description: "Informe ou cole o código quando a câmera não estiver disponível ou o código já for conhecido."
+        step5:
+          title: "Feche o leitor"
+          description: "Use o botão de fechar para finalizar o escaneamento e voltar ao formulário de Saída."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     move:
       title: "Mover Estoque"
       subtitle: "Mover itens entre locais"
@@ -300,6 +464,58 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens a Mover"
       save_button: "Mover Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo à Movimentação"
+          description: "Transfira estoque entre locais mantendo a disponibilidade consistente em toda a operação."
+        step2:
+          title: "Escolha o local de origem"
+          description: "Selecione de onde os itens sairão. Somente o estoque deste local ficará disponível para mover."
+        step3:
+          title: "Selecione o destino"
+          description: "Indique para onde o estoque será enviado para que as quantidades entrem no local correto."
+        step4:
+          title: "Adicione itens"
+          description: "Busque ou escaneie os produtos que serão transferidos. Você pode mover vários itens de uma vez."
+        step5:
+          title: "Revise as quantidades"
+          description: "Confira o saldo atual, informe quanto deve mover e garanta que não excederá o disponível."
+        step6:
+          title: "Descreva a movimentação"
+          description: "Registre o motivo ou referência da transferência, facilitando o entendimento do time."
+        step7:
+          title: "Conclua a transferência"
+          description: "Verifique o total movimentado e salve para atualizar imediatamente os dois locais."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Conheça o leitor"
+          description: "Esta modal permite adicionar itens rapidamente usando a câmera ou digitando o código."
+        step2:
+          title: "Inicie a câmera"
+          description: "Clique aqui para ativar o scanner quando estiver pronto para capturar códigos de barras."
+        step3:
+          title: "Envie uma imagem"
+          description: "Prefere usar uma foto salva? Envie-a e faremos a leitura do código para você."
+        step4:
+          title: "Digite manualmente"
+          description: "Informe ou cole o código de barras quando não puder usar a câmera ou já tiver o código."
+        step5:
+          title: "Feche ao terminar"
+          description: "Use o botão de fechar para sair do leitor e retornar ao formulário de movimentação."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_by_location:
       title: "Estoque por Local"
       subtitle: "Visualizar níveis de estoque em todos os locais"
@@ -307,6 +523,29 @@ pt-BR:
       table:
         item: "Item"
         total: "Total"
+      onboarding:
+        step1:
+          title: "Bem-vindo ao Estoque por Local"
+          description: "Revise cada item e as quantidades armazenadas em cada local sem sair desta página."
+        step2:
+          title: "Imprima um retrato"
+          description: "Use o atalho de impressão quando precisar de uma cópia em papel ou PDF para auditorias, contagens cíclicas ou compartilhamento."
+        step3:
+          title: "Leia por localização"
+          description: "Cada coluna representa um local, então percorra horizontalmente para entender a distribuição em segundos."
+        step4:
+          title: "Examine a presença do item"
+          description: "As linhas exibem o estoque por local e o SKU, facilitando identificar quantidades baixas ou zeradas."
+        step5:
+          title: "Confira o total"
+          description: "A coluna de total soma o estoque de todos os locais para que você sempre conheça o saldo geral."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     adjust:
       title: "Ajustar Estoque"
       subtitle: "Ajuste os níveis de estoque dos itens"
@@ -323,6 +562,32 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens para Ajustar"
       save_button: "Ajustar Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo aos Ajustes"
+          description: "Use esta tela para corrigir contagens e manter o inventário alinhado com o mundo real."
+        step2:
+          title: "Selecione o local afetado"
+          description: "Escolha a localização onde o ajuste será aplicado para atualizar apenas aquele estoque."
+        step3:
+          title: "Busque ou escaneie os itens"
+          description: "Procure pelos produtos que precisam de ajuste ou escaneie os códigos para adicioná-los rapidamente."
+        step4:
+          title: "Revise as quantidades"
+          description: "Compare o estoque atual com o desejado e informe quanto deve ser somado ou subtraído."
+        step5:
+          title: "Contextualize"
+          description: "Registre o motivo do ajuste—isso facilita auditorias e consultas futuras."
+        step6:
+          title: "Aplicar ajuste"
+          description: "Confira o impacto total e salve para registrar a correção no inventário."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     report:
       title: "Resumo"
       export_report: "Exportar Relatório"
@@ -526,7 +791,29 @@ pt-BR:
       title: "Gerador de Etiquetas"
       subtitle: "Gere códigos QR e códigos de barras para seus itens de inventário"
       print_labels: "Imprimir Etiquetas"
-      download_pdf: "Baixar PDF"
+      onboarding:
+        step1:
+          title: "Bem-vindo ao Gerador de Etiquetas"
+          description: "Crie etiquetas para seus itens em um só lugar — defina o formato, escolha os produtos e exporte quando estiver pronto."
+        step2:
+          title: "Prepare para imprimir"
+          description: "Imprima as etiquetas selecionadas diretamente quando estiver tudo pronto."
+        step3:
+          title: "Defina o layout da etiqueta"
+          description: "Selecione entre QR, código de barras ou híbrido. Usaremos essa escolha na prévia e no arquivo final."
+        step4:
+          title: "Encontre os itens certos"
+          description: "Use a busca para filtrar por nome ou SKU e manter catálogos grandes sob controle."
+        step5:
+          title: "Selecione itens e cópias"
+          description: "Marque os itens que precisam de etiqueta e ajuste a quantidade de cópias antes de gerar."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
       label_design:
         title: "Design da Etiqueta"
         subtitle: "Escolha seu formato de etiqueta preferido"

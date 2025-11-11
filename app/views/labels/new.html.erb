@@ -1,12 +1,112 @@
-<div class="container mx-auto px-4 py-8">
-  <div class="flex flex-col space-y-8">
+<div class="min-h-screen bg-gray-50"
+     data-controller="onboarding"
+     data-onboarding-storage-key-value="labels_new_onboarding_completed"
+     data-onboarding-list-empty-value="<%= @items.empty? %>">
+  <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
+  <div data-onboarding-target="container" class="fixed inset-0 z-[9998] pointer-events-none hidden">
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-labels-header" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('labels.new.onboarding.step1.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('labels.new.onboarding.step1.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.skip') %></button>
+          <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+            <%= t('labels.new.onboarding.buttons.next') %>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-labels-actions" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('labels.new.onboarding.step2.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('labels.new.onboarding.step2.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.previous') %></button>
+          <div class="flex gap-3">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('labels.new.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-labels-design" class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('labels.new.onboarding.step3.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('labels.new.onboarding.step3.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.previous') %></button>
+          <div class="flex gap-3">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('labels.new.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step"
+         data-onboarding-target-selector="#onboarding-labels-search"
+         data-onboarding-hide-when-empty-value="true"
+         class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('labels.new.onboarding.step4.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('labels.new.onboarding.step4.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.previous') %></button>
+          <div class="flex gap-3">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('labels.new.onboarding.buttons.next') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-onboarding-target="step"
+         data-onboarding-target-selector="#onboarding-labels-table"
+         data-onboarding-hide-when-empty-value="true"
+         class="hidden">
+      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('labels.new.onboarding.step5.title') %></h3>
+        <p class="text-gray-600 mb-4"><%= t('labels.new.onboarding.step5.description') %></p>
+        <div class="flex justify-between items-center">
+          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.previous') %></button>
+          <div class="flex gap-3">
+            <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('labels.new.onboarding.buttons.skip') %></button>
+            <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('labels.new.onboarding.buttons.finish') %>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col space-y-8">
     <%# Header Section %>
-    <div class="flex justify-between items-center bg-white p-6 rounded-lg shadow">
+    <div id="onboarding-labels-header" class="flex justify-between items-center bg-white p-6 rounded-lg shadow">
       <div>
         <h1 class="text-2xl font-bold text-gray-900"><%= t('labels.new.title') %></h1>
         <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.subtitle') %></p>
       </div>
-      <div class="flex space-x-3">
+      <button
+        data-onboarding-target="restartButton"
+        data-action="click->onboarding#restart"
+        class="hidden inline-flex items-center px-3 py-2 border border-purple-200 text-sm font-medium rounded-md text-purple-700 bg-purple-50 hover:bg-purple-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+        title="<%= t('labels.new.onboarding.tutorial_button_title') %>">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9M20 20v-5h-.581m-15.357-2a8.003 8.003 0 0015.357 2"/>
+        </svg>
+        <%= t('labels.new.onboarding.tutorial_button') %>
+      </button>
+      <div id="onboarding-labels-actions" class="flex space-x-3">
         <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, target: '_blank', class: 'inline', id: 'print-form' do %>
           <%= hidden_field_tag :label_type %>
           <%= hidden_field_tag :item_ids %>
@@ -23,27 +123,12 @@
           <% end %>
         <% end %>
 
-        <%= form_tag generate_team_labels_path(@team, format: :pdf), method: :post, class: 'inline', id: 'download-form' do %>
-          <%= hidden_field_tag :label_type %>
-          <%= hidden_field_tag :item_ids %>
-          <%= hidden_field_tag :copies %>
-          <%= button_tag type: 'submit', 
-              class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed", 
-              onclick: "updateAndSubmit('download-form'); return false;",
-              id: 'download-button',
-              disabled: true do %>
-            <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-            </svg>
-            <%= t('labels.new.download_pdf') %>
-          <% end %>
-        <% end %>
       </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <%# Label Design Options %>
-      <div class="bg-white rounded-lg shadow divide-y divide-gray-200">
+      <div id="onboarding-labels-design" class="bg-white rounded-lg shadow divide-y divide-gray-200">
         <div class="p-6">
           <h2 class="text-lg font-medium text-gray-900"><%= t('labels.new.label_design.title') %></h2>
           <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.label_design.subtitle') %></p>
@@ -77,7 +162,7 @@
                 <h2 class="text-lg font-medium text-gray-900"><%= t('labels.new.select_items.title') %></h2>
                 <p class="mt-1 text-sm text-gray-500"><%= t('labels.new.select_items.subtitle') %></p>
               </div>
-              <div class="relative">
+              <div id="onboarding-labels-search" class="relative">
                 <input type="text" 
                        id="item-search" 
                        placeholder="<%= t('labels.new.select_items.search_placeholder') %>" 
@@ -90,7 +175,7 @@
                 </div>
               </div>
             </div>
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+            <div id="onboarding-labels-table" class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
               <table class="min-w-full divide-y divide-gray-300">
                 <thead class="bg-gray-50">
                   <tr>
@@ -129,6 +214,7 @@
     </div>
   </div>
 </div>
+</div>
 
 <script>
 function updatePreview(checkbox) {
@@ -159,10 +245,10 @@ function updatePreview(checkbox) {
 
 function updateButtonStates(enabled) {
   const printButton = document.getElementById('print-button');
-  const downloadButton = document.getElementById('download-button');
   
-  printButton.disabled = !enabled;
-  downloadButton.disabled = !enabled;
+  if (printButton) {
+    printButton.disabled = !enabled;
+  }
 }
 
 function updateAndSubmit(formId) {
