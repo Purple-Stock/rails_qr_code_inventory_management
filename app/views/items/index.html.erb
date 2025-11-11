@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50" data-controller="onboarding" data-onboarding-storage-key-value="items_index_onboarding_completed">
+<div class="min-h-screen bg-gray-50" data-controller="onboarding" data-onboarding-storage-key-value="items_index_onboarding_completed" data-onboarding-items-empty-value="<%= @items.empty? %>" data-onboarding-new-item-url-value="<%= new_team_item_path(@team) %>">
   <!-- Overlay escuro para destacar elementos -->
   <div data-onboarding-target="overlay" class="fixed inset-0 bg-black/60 z-40 pointer-events-none transition-opacity duration-300 hidden"></div>
 
   <!-- Container do onboarding -->
-  <div data-onboarding-target="container" class="fixed inset-0 z-50 pointer-events-none hidden">
+  <div data-onboarding-target="container" class="fixed inset-0 z-[9998] pointer-events-none hidden">
     <!-- Step 1: Título da página -->
     <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-title" class="hidden">
       <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
@@ -70,7 +70,7 @@
     </div>
 
     <!-- Step 5: Adicionar item -->
-    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-add-item" class="hidden">
+    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-add-item" data-onboarding-step-number="5" class="hidden">
       <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
         <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step5.title') %></h3>
         <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step5.description') %></p>
@@ -78,27 +78,35 @@
           <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
           <div class="flex gap-2">
             <button data-action="click->onboarding#skip" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.skip') %></button>
-            <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-              <%= t('items.index.onboarding.buttons.next') %>
-            </button>
+            <% if @items.empty? %>
+              <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                <%= t('items.index.onboarding.buttons.finish') %>
+              </button>
+            <% else %>
+              <button data-action="click->onboarding#next" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+                <%= t('items.index.onboarding.buttons.next') %>
+              </button>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Step 6: Tabela de itens -->
-    <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-table" class="hidden">
-      <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
-        <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step6.title') %></h3>
-        <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step6.description') %></p>
-        <div class="flex justify-between items-center">
-          <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
-          <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
-            <%= t('items.index.onboarding.buttons.finish') %>
-          </button>
+    <!-- Step 6: Tabela de itens (apenas se houver items) -->
+    <% unless @items.empty? %>
+      <div data-onboarding-target="step" data-onboarding-target-selector="#onboarding-items-table" data-onboarding-step-number="6" class="hidden">
+        <div data-onboarding-tooltip class="bg-white rounded-lg shadow-2xl p-6 max-w-sm pointer-events-auto z-50">
+          <h3 class="text-lg font-bold text-gray-900 mb-2"><%= t('items.index.onboarding.step6.title') %></h3>
+          <p class="text-gray-600 mb-4"><%= t('items.index.onboarding.step6.description') %></p>
+          <div class="flex justify-between items-center">
+            <button data-action="click->onboarding#previous" class="text-sm text-gray-500 hover:text-gray-700"><%= t('items.index.onboarding.buttons.previous') %></button>
+            <button data-action="click->onboarding#complete" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+              <%= t('items.index.onboarding.buttons.finish') %>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

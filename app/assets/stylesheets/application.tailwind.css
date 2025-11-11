@@ -51,4 +51,9 @@
       transform: scale(1.02);
     }
   }
+
+  [data-onboarding-tooltip] {
+    @apply border-2 border-purple-500;
+    z-index: 9999 !important;
+  }
 } 

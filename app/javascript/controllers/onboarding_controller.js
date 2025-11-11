@@ -4,13 +4,25 @@ export default class extends Controller {
   static targets = ["step", "overlay", "container", "restartButton"]
   static values = {
     storageKey: { type: String, default: "team_selection_onboarding_completed" },
-    currentStep: { type: Number, default: 0 }
+    currentStep: { type: Number, default: 0 },
+    itemsEmpty: { type: Boolean, default: false },
+    newItemUrl: { type: String, default: "" }
   }
 
   connect() {
     // Adiciona listener para redimensionamento da janela
     this.handleResize = this.handleResize.bind(this)
     window.addEventListener("resize", this.handleResize)
+
+    // Se não houver items, esconde o step da tabela
+    if (this.itemsEmptyValue === true) {
+      const tableStep = this.stepTargets.find(step => {
+        return step.dataset.onboardingTargetSelector === "#onboarding-items-table"
+      })
+      if (tableStep) {
+        tableStep.style.display = "none"
+      }
+    }
 
     // Mostra o botão de revisar tutorial se o onboarding já foi completado
     if (this.isCompleted()) {
@@ -31,7 +43,9 @@ export default class extends Controller {
 
   handleResize() {
     // Reposiciona o tooltip quando a janela é redimensionada
-    const currentStep = this.stepTargets[this.currentStepValue]
+    // Filtra apenas os steps visíveis (não escondidos)
+    const visibleSteps = this.stepTargets.filter(step => step.style.display !== "none")
+    const currentStep = visibleSteps[this.currentStepValue]
     if (currentStep && !currentStep.classList.contains("hidden")) {
       const targetSelector = currentStep.dataset.onboardingTargetSelector
       if (targetSelector) {
@@ -55,7 +69,10 @@ export default class extends Controller {
   }
 
   next() {
-    if (this.currentStepValue < this.stepTargets.length - 1) {
+    // Filtra apenas os steps visíveis (não escondidos)
+    const visibleSteps = this.stepTargets.filter(step => step.style.display !== "none")
+    
+    if (this.currentStepValue < visibleSteps.length - 1) {
       this.currentStepValue++
       this.showStep(this.currentStepValue)
     } else {
@@ -79,9 +96,15 @@ export default class extends Controller {
     this.containerTarget.classList.remove("hidden")
     this.overlayTarget.classList.remove("hidden")
     
+    // Filtra apenas os steps visíveis (não escondidos)
+    const visibleSteps = this.stepTargets.filter(step => step.style.display !== "none")
+    
     // Esconde todos os steps
     this.stepTargets.forEach((step, index) => {
-      if (index === stepIndex) {
+      // Encontra o índice do step no array de steps visíveis
+      const visibleIndex = visibleSteps.indexOf(step)
+      
+      if (visibleIndex === stepIndex && visibleIndex !== -1) {
         step.classList.remove("hidden")
         this.highlightElement(step)
       } else {
@@ -127,6 +150,7 @@ export default class extends Controller {
     tooltip.style.visibility = "hidden"
     tooltip.style.display = "block"
     tooltip.style.position = "fixed"
+    tooltip.style.zIndex = "9999"
     
     const tooltipRect = tooltip.getBoundingClientRect()
     const viewportWidth = window.innerWidth
@@ -160,7 +184,9 @@ export default class extends Controller {
   }
 
   updateOverlay() {
-    const currentStep = this.stepTargets[this.currentStepValue]
+    // Filtra apenas os steps visíveis (não escondidos)
+    const visibleSteps = this.stepTargets.filter(step => step.style.display !== "none")
+    const currentStep = visibleSteps[this.currentStepValue]
     if (!currentStep) return
 
     const targetSelector = currentStep.dataset.onboardingTargetSelector
