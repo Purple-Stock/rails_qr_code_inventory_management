@@ -417,6 +417,32 @@ pt-BR:
       notes_placeholder: "Digite uma observação. Dica) Use '#' para facilitar a busca (ex: #PurpleStock)."
       total_items: "Total de Itens para Ajustar"
       save_button: "Ajustar Estoque"
+      onboarding:
+        step1:
+          title: "Bem-vindo aos Ajustes"
+          description: "Use esta tela para corrigir contagens e manter o inventário alinhado com o mundo real."
+        step2:
+          title: "Selecione o local afetado"
+          description: "Escolha a localização onde o ajuste será aplicado para atualizar apenas aquele estoque."
+        step3:
+          title: "Busque ou escaneie os itens"
+          description: "Procure pelos produtos que precisam de ajuste ou escaneie os códigos para adicioná-los rapidamente."
+        step4:
+          title: "Revise as quantidades"
+          description: "Compare o estoque atual com o desejado e informe quanto deve ser somado ou subtraído."
+        step5:
+          title: "Contextualize"
+          description: "Registre o motivo do ajuste—isso facilita auditorias e consultas futuras."
+        step6:
+          title: "Aplicar ajuste"
+          description: "Confira o impacto total e salve para registrar a correção no inventário."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     report:
       title: "Resumo"
       export_report: "Exportar Relatório"

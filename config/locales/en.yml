@@ -453,6 +453,32 @@ en:
       notes_placeholder: "Enter a memo. Tip) Use '#' for easy search (e.g. #PurpleStock)."
       total_items: "Total Items to Adjust"
       save_button: "Adjust Stock"
+      onboarding:
+        step1:
+          title: "Welcome to Stock Adjustments"
+          description: "Use this page to correct inventory counts and keep your records in sync with reality."
+        step2:
+          title: "Pick where the adjustment applies"
+          description: "Choose the location whose inventory you need to fix so only that stock is updated."
+        step3:
+          title: "Search or scan the items"
+          description: "Look up the products that need adjustment or scan their codes to add them quickly."
+        step4:
+          title: "Review quantities to adjust"
+          description: "Compare current stock with what it should be and type the difference to add or remove."
+        step5:
+          title: "Tell the story"
+          description: "Add notes explaining why you are adjusting the stock—future you will thank you."
+        step6:
+          title: "Apply the adjustment"
+          description: "Confirm the total impact and save to post the correction to your inventory."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     report:
       title: "Summary"
       export_report: "Export Report"
