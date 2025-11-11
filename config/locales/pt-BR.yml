@@ -161,6 +161,30 @@ pt-BR:
           finish: "Finalizar"
         tutorial_button: "Tutorial"
         tutorial_button_title: "Revisar tutorial"
+    new:
+      onboarding:
+        step1:
+          title: "Vamos criar um novo item"
+          description: "Esta página reúne tudo que você precisa para cadastrar um item no inventário. Preencha os campos obrigatórios para começar."
+        step2:
+          title: "Informe o nome do item"
+          description: "Comece preenchendo o nome. Ele será exibido em toda a aplicação e ajuda a identificar o produto rapidamente."
+        step3:
+          title: "Defina ou gere o SKU"
+          description: "Use este campo para informar o SKU. Clique em “Gerar” para criar um código automático com base no nome."
+        step4:
+          title: "Cadastre o código de barras"
+          description: "Adicione o código de barras ou gere um automaticamente. Ele é obrigatório e pode ser usado para imprimir etiquetas."
+        step5:
+          title: "Finalize o cadastro"
+          description: "Revise as informações e clique em “Criar Item”. Se mudar de ideia, use “Cancelar” para voltar à lista sem salvar."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     show:
       back_to_list: "Voltar para Lista"
       overview: "Visão Geral"

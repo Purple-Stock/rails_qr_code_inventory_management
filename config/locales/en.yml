@@ -192,6 +192,30 @@ en:
           finish: "Finish"
         tutorial_button: "Tutorial"
         tutorial_button_title: "Review tutorial"
+    new:
+      onboarding:
+        step1:
+          title: "Let’s create a new item"
+          description: "This page gathers everything you need to register a new inventory item. Fill in the required fields to get started."
+        step2:
+          title: "Provide the item name"
+          description: "Begin by entering the item name. It appears across the app and helps you quickly identify the product."
+        step3:
+          title: "Set or generate the SKU"
+          description: "Use this field to define the SKU. Click “Generate” to create a code automatically based on the name."
+        step4:
+          title: "Add the barcode"
+          description: "Enter the barcode or generate one automatically. It’s required and can be used when printing labels."
+        step5:
+          title: "Finish the creation"
+          description: "Review the details and click “Create Item”. If you change your mind, use “Cancel” to return to the list without saving."
+        buttons:
+          next: "Next"
+          previous: "Previous"
+          skip: "Skip"
+          finish: "Finish"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Review tutorial"
     show:
       back_to_list: "Back to List"
       overview: "Overview"

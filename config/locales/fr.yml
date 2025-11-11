@@ -171,6 +171,30 @@ fr:
           finish: "Terminer"
         tutorial_button: "Tutoriel"
         tutorial_button_title: "Revoir le tutoriel"
+    new:
+      onboarding:
+        step1:
+          title: "Créons un nouvel article"
+          description: "Cette page rassemble tout ce dont vous avez besoin pour enregistrer un article dans l'inventaire. Renseignez les champs obligatoires pour commencer."
+        step2:
+          title: "Saisissez le nom de l'article"
+          description: "Commencez par indiquer le nom de l'article. Il apparaît dans toute l'application et facilite l'identification rapide du produit."
+        step3:
+          title: "Définissez ou générez le SKU"
+          description: "Utilisez ce champ pour définir le SKU. Cliquez sur « Générer » pour obtenir un code automatiquement à partir du nom."
+        step4:
+          title: "Ajoutez le code-barres"
+          description: "Saisissez le code-barres ou générez-en un automatiquement. Il est obligatoire et servira pour l'impression des étiquettes."
+        step5:
+          title: "Terminez la création"
+          description: "Vérifiez les informations puis cliquez sur « Créer l'Article ». Si vous changez d'avis, cliquez sur « Annuler » pour revenir à la liste sans enregistrer."
+        buttons:
+          next: "Suivant"
+          previous: "Précédent"
+          skip: "Passer"
+          finish: "Terminer"
+        tutorial_button: "Tutoriel"
+        tutorial_button_title: "Revoir le tutoriel"
     show:
       back_to_list: "Retour à la Liste"
       overview: "Aperçu"
