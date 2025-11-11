@@ -423,6 +423,29 @@ pt-BR:
           finish: "Finalizar"
         tutorial_button: "Tutorial"
         tutorial_button_title: "Revisar tutorial"
+      scanner_onboarding:
+        step1:
+          title: "Conheça o leitor"
+          description: "Esta modal permite adicionar itens rapidamente usando a câmera ou digitando o código."
+        step2:
+          title: "Inicie a câmera"
+          description: "Clique aqui para ativar o scanner quando estiver pronto para capturar códigos de barras."
+        step3:
+          title: "Envie uma imagem"
+          description: "Prefere usar uma foto salva? Envie-a e faremos a leitura do código para você."
+        step4:
+          title: "Digite manualmente"
+          description: "Informe ou cole o código de barras quando não puder usar a câmera ou já tiver o código."
+        step5:
+          title: "Feche ao terminar"
+          description: "Use o botão de fechar para sair do leitor e retornar ao formulário de movimentação."
+        buttons:
+          next: "Próximo"
+          previous: "Anterior"
+          skip: "Pular"
+          finish: "Finalizar"
+        tutorial_button: "Tutorial"
+        tutorial_button_title: "Revisar tutorial"
     stock_by_location:
       title: "Estoque por Local"
       subtitle: "Visualizar níveis de estoque em todos os locais"
